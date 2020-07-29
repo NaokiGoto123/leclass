@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "leclass"
+    }
+  },
+  "defaultProject": "leclass",
+  "cli": {
+    "analytics": false
+  }
 }
