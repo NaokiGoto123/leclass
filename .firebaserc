@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "leclass-3ef28"
+  },
+  "targets": {
+    "leclass-3ef28": {
+      "hosting": {
+        "leclass": [
+          "leclass-3ef28"
+        ]
+      }
+    }
+  }
+}
