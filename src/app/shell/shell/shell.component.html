@@ -6,6 +6,9 @@
   <mat-form-field class="toolbar__search-bar" appearance="outline">
     <mat-label>Search</mat-label>
     <input matInput type="text" [formControl]="valueControl">
+    <button mat-button matSuffix mat-icon-button>
+      <mat-icon>search</mat-icon>
+    </button>
   </mat-form-field>
   <form [formGroup]="form">
     <mat-form-field class="toolbar__selector" appearance="legacy">
@@ -16,11 +19,13 @@
       </mat-select>
     </mat-form-field>
   </form>
+  <img class="toolbar__account-image" src="{{user?.photoURL}}">
 </mat-toolbar>
 
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav class="sidenav" #sidenav mode="side" [opened]="isShowing">
     <mat-nav-list *ngIf="form.value.course === 'DP'">
+      <div mat-subheader>DP subjects</div>
       <a mat-list-item>
         Literature SL
       </a>
@@ -42,8 +47,16 @@
       <a mat-list-item>
         PHE
       </a>
+      <mat-divider></mat-divider>
+      <a mat-list-item>
+        About
+      </a>
+      <a mat-list-item>
+        Settings
+      </a>
     </mat-nav-list>
     <mat-nav-list *ngIf="form.value.course === 'MYP'">
+      <div mat-subheader>MYP subjects</div>
       <a mat-list-item>
         Literature
       </a>
@@ -61,6 +74,13 @@
       </a>
       <a mat-list-item>
         PHE
+      </a>
+      <mat-divider></mat-divider>
+      <a mat-list-item>
+        About
+      </a>
+      <a mat-list-item>
+        Settings
       </a>
     </mat-nav-list>
   </mat-sidenav>

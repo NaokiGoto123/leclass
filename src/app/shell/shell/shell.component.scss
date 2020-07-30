@@ -10,8 +10,14 @@
   &__selector {
     height: 50px;
     padding: 0;
-    margin: 0;
+    margin: 0 30px 0 0;
     font-size: 15px;
+  }
+
+  &__account-image {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
   }
 }
 

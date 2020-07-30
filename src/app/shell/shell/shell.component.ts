@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
+import { User } from 'src/app/interfaces/user';
 
 @Component({
   selector: 'app-shell',
@@ -7,6 +9,8 @@ import { FormBuilder, Validators, FormControl } from '@angular/forms';
   styleUrls: ['./shell.component.scss']
 })
 export class ShellComponent implements OnInit {
+
+  user: User = this.authService.user;
 
   isShowing = true;
 
@@ -16,7 +20,10 @@ export class ShellComponent implements OnInit {
     course: ['DP', [Validators.required]]
   });
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.form.valueChanges.subscribe((result) => {
