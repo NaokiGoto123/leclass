@@ -1,0 +1,70 @@
+<mat-toolbar class="toolbar">
+  <button mat-icon-button (click)="toggleSidenav()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>Leclass</span>
+  <mat-form-field class="toolbar__search-bar" appearance="outline">
+    <mat-label>Search</mat-label>
+    <input matInput type="text" [formControl]="valueControl">
+  </mat-form-field>
+  <form [formGroup]="form">
+    <mat-form-field class="toolbar__selector" appearance="legacy">
+      <mat-label>Select course</mat-label>
+      <mat-select formControlName="course">
+        <mat-option value="DP">DP</mat-option>
+        <mat-option value="MYP">MYP</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-toolbar>
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav class="sidenav" #sidenav mode="side" [opened]="isShowing">
+    <mat-nav-list *ngIf="form.value.course === 'DP'">
+      <a mat-list-item>
+        Literature SL
+      </a>
+      <a mat-list-item>
+        Japanese SL
+      </a>
+      <a mat-list-item>
+        Math HL
+      </a>
+      <a mat-list-item>
+        Physics HL
+      </a>
+      <a mat-list-item>
+        Compouter science HL
+      </a>
+      <a mat-list-item>
+        Economics SL
+      </a>
+      <a mat-list-item>
+        PHE
+      </a>
+    </mat-nav-list>
+    <mat-nav-list *ngIf="form.value.course === 'MYP'">
+      <a mat-list-item>
+        Literature
+      </a>
+      <a mat-list-item>
+        French
+      </a>
+      <a mat-list-item>
+        Math
+      </a>
+      <a mat-list-item>
+        Humanities
+      </a>
+      <a mat-list-item>
+        Science
+      </a>
+      <a mat-list-item>
+        PHE
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

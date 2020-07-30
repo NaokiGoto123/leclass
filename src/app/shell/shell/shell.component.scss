@@ -1,0 +1,25 @@
+.toolbar {
+  &__search-bar {
+    margin: 0 auto;
+    width: 800px;
+    min-width: 200px;
+    font-size: 12px;
+    margin-bottom: -1.25em;
+  }
+
+  &__selector {
+    height: 50px;
+    padding: 0;
+    margin: 0;
+    font-size: 15px;
+  }
+}
+
+.sidenav-container {
+  width: 100%;
+  height: calc(100% - 64px);
+}
+
+.sidenav {
+  width: 260px;
+}
