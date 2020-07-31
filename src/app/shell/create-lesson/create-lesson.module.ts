@@ -11,7 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import {MatSelectModule} from '@angular/material/select';
-
+import { ImageCropperModule } from 'ngx-image-cropper';
 @NgModule({
   declarations: [CreateLessonComponent],
   imports: [
@@ -25,7 +25,8 @@ import {MatSelectModule} from '@angular/material/select';
     MatButtonModule,
     MatSlideToggleModule,
     MaterialFileInputModule,
-    MatSelectModule
+    MatSelectModule,
+    ImageCropperModule
   ]
 })
 export class CreateLessonModule { }

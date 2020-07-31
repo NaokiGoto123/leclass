@@ -27,6 +27,9 @@ import { LessonService } from 'src/app/services/lesson.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthService } from 'src/app/services/auth.service';
 import { firestore } from 'firebase';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-lesson',
@@ -111,11 +114,17 @@ export class CreateLessonComponent implements OnInit {
     videoInsertButtons: ['videoBack', '|', 'videoByURL', 'videoEmbed']
   };
 
+  imageChangedEvent: any = '';
+
+  croppedImage: any = '';
+
   constructor(
     private fb: FormBuilder,
     private db: AngularFirestore,
+    private storage: AngularFireStorage,
     private authService: AuthService,
-    private lessonService: LessonService
+    private lessonService: LessonService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -129,10 +138,38 @@ export class CreateLessonComponent implements OnInit {
     }
   }
 
-  submit() {
+  fileChangeEvent(event: any): void {
+    this.imageChangedEvent = event;
+  }
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64;
+  }
+  imageLoaded() {
+    // show cropper
+  }
+  cropperReady() {
+    // cropper ready
+  }
+  loadImageFailed() {
+    // show message
+  }
+
+  async upload(path: string, base64: string): Promise<string> {
+    const ref = this.storage.ref(path);
+    const result = await ref.putString(base64, 'data_url');
+    return result.ref.getDownloadURL();
+  }
+
+  async submit() {
     console.log(this.form.value);
+    const id = this.db.createId();
+    const photoURL = await this.upload(
+      `lessons/${id}`,
+      this.croppedImage
+    );
     this.lessonService.createLesson({
-      id: this.db.createId(),
+      id,
+      thumbnail: photoURL,
       videoLink: this.form.value.videoLink,
       content: this.form.value.content,
       createrId: this.authService.user.uid,
@@ -141,5 +178,6 @@ export class CreateLessonComponent implements OnInit {
       isPublic: this.form.value.isPublic
     });
     this.isComplete = true;
+    this.router.navigateByUrl('/');
   }
 }
