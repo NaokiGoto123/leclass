@@ -11,6 +11,7 @@ import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireFunctionsModule, REGION } from '@angular/fire/functions';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 @NgModule({
   declarations: [
     AppComponent
@@ -24,7 +25,9 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
     AngularFireAnalyticsModule,
     AngularFireStorageModule,
     AngularFireFunctionsModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    FroalaEditorModule.forRoot(),
+    FroalaViewModule.forRoot()
   ],
   providers: [{ provide: REGION, useValue: 'asia-northeast1' }],
   bootstrap: [AppComponent]

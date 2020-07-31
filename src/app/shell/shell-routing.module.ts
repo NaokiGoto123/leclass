@@ -10,7 +10,12 @@ const routes: Routes = [
     component: ShellComponent,
     canActivate: [AuthGuard],
     canLoad: [AuthGuard],
-    children: []
+    children: [
+      {
+        path: 'create-lesson',
+        loadChildren: () => import('./create-lesson/create-lesson.module').then((m) => m.CreateLessonModule)
+      }
+    ]
   }
 ];
 
