@@ -1,1 +1,10 @@
-<div [froalaEditor]>Hello, Froala!</div>
+<div class="container">
+  <form class="form" [formGroup]="form">
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input matInput type="text" formControlName="title">
+    </mat-form-field>
+    <div class="editor" [froalaEditor]="options" formControlName="content"></div>
+    <button mat-raised-button (click)="submit()">Submit</button>
+  </form>
+</div>
