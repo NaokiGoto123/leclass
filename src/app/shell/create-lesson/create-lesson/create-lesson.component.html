@@ -4,7 +4,9 @@
       <mat-label>Title</mat-label>
       <input matInput type="text" formControlName="title">
     </mat-form-field>
+    <input type="file" accept="mp4" formControlName="videoLink" />
     <div class="editor" [froalaEditor]="options" formControlName="content"></div>
+    <mat-slide-toggle formControlName="isPublic">Publish</mat-slide-toggle>
     <button mat-raised-button (click)="submit()">Submit</button>
   </form>
 </div>

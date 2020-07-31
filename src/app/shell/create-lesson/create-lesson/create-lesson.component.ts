@@ -33,6 +33,7 @@ export class CreateLessonComponent implements OnInit {
 
   form = this.fb.group({
     title: ['', [Validators.required]],
+    videoLink: [''],
     content: [''],
     isPublic: [true]
   });
@@ -97,8 +98,7 @@ export class CreateLessonComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.form.value.title);
-    console.log(this.form.value.content);
+    console.log(this.form.value);
   }
 
 }
