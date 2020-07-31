@@ -1,4 +1,9 @@
 .toolbar {
+  &__title {
+    color: white;
+    text-decoration: none;
+  }
+
   &__search-bar {
     margin: 0 auto;
     width: 800px;
