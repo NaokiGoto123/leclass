@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import 'froala-editor/js/plugins/char_counter.min.js';
 import 'froala-editor/js/plugins/colors.min.js';
@@ -43,6 +43,8 @@ export class CreateLessonComponent implements OnInit {
     isPublic: [true]
   });
 
+  isComplete = false;
+
   subjects = [
     'Literature',
     'Math',
@@ -55,7 +57,7 @@ export class CreateLessonComponent implements OnInit {
     'Visual art',
     'Drama',
     'PHE'
-  ]
+  ];
 
   public options = {
     placeholderText: 'Edit Your Content Here!',
@@ -119,6 +121,14 @@ export class CreateLessonComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any) {
+    if (this.form.dirty) {
+      $event.preventDefault();
+      $event.returnValue = 'Your work will be lost. Is it okay?';
+    }
+  }
+
   submit() {
     console.log(this.form.value);
     this.lessonService.createLesson({
@@ -130,5 +140,6 @@ export class CreateLessonComponent implements OnInit {
       subject: this.form.value.subject,
       isPublic: this.form.value.isPublic
     });
+    this.isComplete = true;
   }
 }
