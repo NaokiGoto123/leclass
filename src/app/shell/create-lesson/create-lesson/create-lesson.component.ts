@@ -29,6 +29,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { firestore } from 'firebase';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-lesson',
@@ -122,7 +123,8 @@ export class CreateLessonComponent implements OnInit {
     private db: AngularFirestore,
     private storage: AngularFireStorage,
     private authService: AuthService,
-    private lessonService: LessonService
+    private lessonService: LessonService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -176,5 +178,6 @@ export class CreateLessonComponent implements OnInit {
       isPublic: this.form.value.isPublic
     });
     this.isComplete = true;
+    this.router.navigateByUrl('/');
   }
 }
