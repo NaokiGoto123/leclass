@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [CreateLessonComponent],
@@ -23,7 +24,8 @@ import { MaterialFileInputModule } from 'ngx-material-file-input';
     MatFormFieldModule,
     MatButtonModule,
     MatSlideToggleModule,
-    MaterialFileInputModule
+    MaterialFileInputModule,
+    MatSelectModule
   ]
 })
 export class CreateLessonModule { }

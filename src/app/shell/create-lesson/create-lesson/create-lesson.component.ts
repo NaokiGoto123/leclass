@@ -23,6 +23,10 @@ import 'froala-editor/js/plugins/video.min.js';
 import 'froala-editor/js/plugins/word_paste.min.js';
 import 'froala-editor/js/plugins/colors.min.js';
 import 'froala-editor/js/plugins/code_view.min.js';
+import { LessonService } from 'src/app/services/lesson.service';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AuthService } from 'src/app/services/auth.service';
+import { firestore } from 'firebase';
 
 @Component({
   selector: 'app-create-lesson',
@@ -35,8 +39,23 @@ export class CreateLessonComponent implements OnInit {
     title: ['', [Validators.required]],
     videoLink: [''],
     content: [''],
+    subject: ['', [Validators.required]],
     isPublic: [true]
   });
+
+  subjects = [
+    'Literature',
+    'Math',
+    'Physics',
+    'Chemistry',
+    'Biology',
+    'Computer science',
+    'Economics',
+    'Politics',
+    'Visual art',
+    'Drama',
+    'PHE'
+  ]
 
   public options = {
     placeholderText: 'Edit Your Content Here!',
@@ -91,7 +110,10 @@ export class CreateLessonComponent implements OnInit {
   };
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private db: AngularFirestore,
+    private authService: AuthService,
+    private lessonService: LessonService
   ) { }
 
   ngOnInit(): void {
@@ -99,6 +121,14 @@ export class CreateLessonComponent implements OnInit {
 
   submit() {
     console.log(this.form.value);
+    this.lessonService.createLesson({
+      id: this.db.createId(),
+      videoLink: this.form.value.videoLink,
+      content: this.form.value.content,
+      createrId: this.authService.user.uid,
+      date: firestore.Timestamp.now(),
+      subject: this.form.value.subject,
+      isPublic: this.form.value.isPublic
+    });
   }
-
 }
