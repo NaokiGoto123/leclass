@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { SharedRoutingModule } from './shared-routing.module';
-import { SharedComponent } from './shared/shared.component';
+import { LessonCardComponent } from './lesson-card/lesson-card.component';
 
 
 @NgModule({
-  declarations: [SharedComponent],
+  declarations: [LessonCardComponent],
   imports: [
     CommonModule,
     SharedRoutingModule
