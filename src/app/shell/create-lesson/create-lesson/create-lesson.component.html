@@ -2,9 +2,12 @@
   <form class="form" [formGroup]="form">
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
-      <input matInput type="text" formControlName="title">
+      <input matInput type="text" formControlName="title" autocomplete="off">
     </mat-form-field>
-    <input type="file" accept="mp4" formControlName="videoLink" />
+    <mat-form-field appearance="outline">
+      <mat-label>Upload a video</mat-label>
+      <ngx-mat-file-input></ngx-mat-file-input>
+    </mat-form-field>
     <div class="editor" [froalaEditor]="options" formControlName="content"></div>
     <mat-slide-toggle formControlName="isPublic">Publish</mat-slide-toggle>
     <button mat-raised-button (click)="submit()">Submit</button>
