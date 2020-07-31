@@ -9,7 +9,7 @@
       <ngx-mat-file-input></ngx-mat-file-input>
     </mat-form-field>
     <div class="editor" [froalaEditor]="options" formControlName="content"></div>
-    <mat-slide-toggle formControlName="isPublic">Publish</mat-slide-toggle>
+    <mat-slide-toggle class="toggle" formControlName="isPublic">Publish</mat-slide-toggle>
     <button mat-raised-button (click)="submit()">Submit</button>
   </form>
 </div>
