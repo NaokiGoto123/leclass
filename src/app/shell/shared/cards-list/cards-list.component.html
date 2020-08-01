@@ -1,1 +1,3 @@
-<p>cards-list works!</p>
+<div class="cards-container" *ngFor="let lesson of lessons">
+  <app-lesson-card [lesson]="lesson"></app-lesson-card>
+</div>
