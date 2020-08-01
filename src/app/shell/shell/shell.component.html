@@ -19,7 +19,13 @@
       </mat-select>
     </mat-form-field>
   </form>
-  <img class="toolbar__account-image" src="{{user?.photoURL}}">
+  <img class="toolbar__account-image" src="{{user?.photoURL}}" [matMenuTriggerFor]="menu">
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="/account" [queryParams]="{id: user?.uid}">
+      <mat-icon>person</mat-icon>
+      <span>Account</span>
+    </button>
+  </mat-menu>
 </mat-toolbar>
 
 <mat-sidenav-container class="sidenav-container">
