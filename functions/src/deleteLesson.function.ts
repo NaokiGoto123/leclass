@@ -14,7 +14,6 @@ functions
 })
 .region('asia-northeast1')
 .https.onCall(async (id, context) => {
-  // const lesson = (await db.doc(`lessons/${id}`).get()).data();
 
   const pathToLesson = `lessons/${id}`
 
