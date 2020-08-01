@@ -1,3 +1,7 @@
-<img class="thumbnail" src="{{lesson?.thumbnail}}">
-<p class="title">{{lesson?.title}}</p>
-<p class="date">{{lesson?.date.toDate() | date: 'yyyy/MM/dd'}}</p>
+<div class="card">
+  <img class="card__thumbnail" src="{{lesson?.thumbnail}}">
+  <div class="card-content">
+    <p class="card-content__title">{{lesson?.title}}</p>
+    <p class="card-content__date">{{lesson?.date.toDate() | date: 'yyyy/MM/dd'}}</p>
+  </div>
+</div>
