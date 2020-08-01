@@ -1,5 +1,5 @@
 <div class="card">
-  <a routerLink="">
+  <a routerLink="/lesson" [queryParams]="{id: lesson?.id}">
     <img class="card__thumbnail" src="{{lesson?.thumbnail}}">
     <div class="card-content">
       <p class="card-content__title">{{lesson?.title}}</p>
