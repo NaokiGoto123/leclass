@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { User } from 'firebase';
+import { User } from '../interfaces/user';
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,5 +15,9 @@ export class UserService {
 
   getUser(uid: string): Observable<User> {
     return this.db.doc<User>(`users/${uid}`).valueChanges();
+  }
+
+  updateUser(user: Omit<User, 'email'>) {
+    return this.db.doc(`users/${user.uid}`).set(user, { merge: true });
   }
 }
