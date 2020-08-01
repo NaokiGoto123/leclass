@@ -1,0 +1,22 @@
+<div class="toolbar">
+  <button mat-button class="edit-button">
+    <mat-icon class="edit-button__icon">edit</mat-icon>
+    <span class="edit-button__text">Edit profile</span>
+  </button>
+</div>
+
+<div class="header">
+  <img class="header__image" src="{{user?.photoURL}}">
+  <div class="header-content">
+    <p class="header-content__name">{{user?.displayName}}</p>
+    <p class="header-content__email">{{user?.email}}</p>
+  </div>
+</div>
+
+<nav mat-tab-nav-bar>
+  <a mat-tab-link routerLink="profile" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive"
+    [queryParams]="{ id: user?.uid }">
+    Profile
+  </a>
+</nav>
+<router-outlet></router-outlet>

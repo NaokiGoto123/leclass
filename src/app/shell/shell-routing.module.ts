@@ -22,6 +22,10 @@ const routes: Routes = [
       {
         path: 'create-lesson',
         loadChildren: () => import('./create-lesson/create-lesson.module').then((m) => m.CreateLessonModule)
+      },
+      {
+        path: 'account',
+        loadChildren: () => import('./account/account.module').then((m) => m.AccountModule)
       }
     ]
   }
