@@ -1,5 +1,5 @@
 <div class="toolbar">
-  <button mat-button class="edit-button">
+  <button mat-button class="edit-button" routerLink="/profile-settings" [queryParams]="{id: user?.uid}">
     <mat-icon class="edit-button__icon">edit</mat-icon>
     <span class="edit-button__text">Edit profile</span>
   </button>
