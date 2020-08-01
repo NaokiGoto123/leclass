@@ -28,7 +28,7 @@
       <ngx-mat-file-input (change)="fileChangeEvent($event)"></ngx-mat-file-input>
     </mat-form-field>
 
-    <div class="cropper-container" *ngIf="croppedImage">
+    <div class="cropper-container" *ngIf="croppedImage || imageChangedEvent">
       <ng-container *ngIf="imageChangedEvent">
         <image-cropper class="cropper-container__cropper" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="2 / 1"
         format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
