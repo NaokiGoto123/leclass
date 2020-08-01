@@ -34,6 +34,7 @@ export class ProfileSettingsComponent implements OnInit {
       const id = params.get('id');
       this.userSevice.getUser(id).subscribe((user: User) => {
         this.user = user;
+        this.form.patchValue(user);
       });
     });
   }
