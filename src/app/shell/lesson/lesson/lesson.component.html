@@ -1,0 +1,12 @@
+<mat-toolbar>
+  <button mat-icon-button (click)="navigateBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span class="spacer"></span>
+  <button mat-icon-button routerLink="/create-lesson" [queryParams]="{id: lesson?.id}">
+    <mat-icon>edit</mat-icon>
+  </button>
+</mat-toolbar>
+<p>{{lesson?.title}}</p>
+<p>{{creater?.displayName}}</p>
+<div [innerHTML]="lesson?.content"></div>
