@@ -29,7 +29,9 @@ import { AuthService } from 'src/app/services/auth.service';
 import { firestore } from 'firebase';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { LessonGetService } from 'src/app/services/lesson-get.service';
+import { Lesson } from 'src/app/interfaces/lesson';
 
 @Component({
   selector: 'app-create-lesson',
@@ -124,8 +126,19 @@ export class CreateLessonComponent implements OnInit {
     private storage: AngularFireStorage,
     private authService: AuthService,
     private lessonService: LessonService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private lessonGetService: LessonGetService
+  ) {
+    this.activatedRoute.queryParamMap.subscribe((params) => {
+      const id = params.get('id');
+      this.lessonGetService.getLesson(id).subscribe((lesson: Lesson) => {
+        this.form.patchValue(lesson);
+        this.croppedImage = lesson.thumbnail;
+        console.log(this.form.value);
+      });
+    });
+  }
 
   ngOnInit(): void {
   }
@@ -140,6 +153,7 @@ export class CreateLessonComponent implements OnInit {
 
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
+    console.log(this.imageChangedEvent);
   }
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
