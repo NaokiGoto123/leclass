@@ -11,6 +11,10 @@ import { CardsListComponent } from './cards-list/cards-list.component';
   imports: [
     CommonModule,
     SharedRoutingModule
+  ],
+  exports: [
+    LessonCardComponent,
+    CardsListComponent
   ]
 })
 export class SharedModule { }
