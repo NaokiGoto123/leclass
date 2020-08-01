@@ -12,6 +12,10 @@ export class LessonGetService {
     private db: AngularFirestore
   ) { }
 
+  getLesson(id: string): Observable<Lesson> {
+    return this.db.doc<Lesson>(`lessons/${id}`).valueChanges();
+  }
+
   getLessons(): Observable<Lesson[]> {
     return this.db.collection<Lesson>(`lessons`).valueChanges();
   }
