@@ -1,0 +1,25 @@
+<form class="form" [formGroup]="form">
+  <mat-form-field appearance="outline">
+    <mat-label>Name</mat-label>
+    <input matInput type="text" formControlName="displayName" autocomplete="off">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Upload a thumbnail</mat-label>
+    <ngx-mat-file-input (change)="fileChangeEvent($event)"></ngx-mat-file-input>
+  </mat-form-field>
+
+  <div class="cropper-container" *ngIf="croppedImage || imageChangedEvent">
+    <ng-container *ngIf="imageChangedEvent">
+      <image-cropper class="cropper-container__cropper" [imageChangedEvent]="imageChangedEvent"
+        [maintainAspectRatio]="true" [aspectRatio]="1 / 1" [roundCropper]="true" format="png"
+        (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
+        (loadImageFailed)="loadImageFailed()"></image-cropper>
+    </ng-container>
+
+    <img class="cropper-container__cropped-image" [src]="croppedImage" />
+  </div>
+  <button mat-raised-button>
+    Update
+  </button>
+</form>

@@ -55,8 +55,8 @@
       <a mat-list-item>
         About
       </a>
-      <a mat-list-item>
-        Settings
+      <a mat-list-item routerLink="/account" [queryParams]="{id: user?.uid}">
+        Account
       </a>
     </mat-nav-list>
     <mat-nav-list *ngIf="form.value.course === 'MYP'">
@@ -87,8 +87,8 @@
       <a mat-list-item>
         About
       </a>
-      <a mat-list-item>
-        Settings
+      <a mat-list-item routerLink="/account" [queryParams]="{id: user?.uid}">
+        Account
       </a>
     </mat-nav-list>
   </mat-sidenav>
