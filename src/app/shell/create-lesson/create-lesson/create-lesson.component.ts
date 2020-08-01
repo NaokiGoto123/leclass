@@ -169,6 +169,7 @@ export class CreateLessonComponent implements OnInit {
     );
     this.lessonService.createLesson({
       id,
+      title: this.form.value.title,
       thumbnail: photoURL,
       videoLink: this.form.value.videoLink,
       content: this.form.value.content,

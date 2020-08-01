@@ -12,6 +12,10 @@ const routes: Routes = [
     canLoad: [AuthGuard],
     children: [
       {
+        path: '',
+        loadChildren: () => import('./home/home.module').then((m) => m.HomeModule)
+      },
+      {
         path: 'create-lesson',
         loadChildren: () => import('./create-lesson/create-lesson.module').then((m) => m.CreateLessonModule)
       }
