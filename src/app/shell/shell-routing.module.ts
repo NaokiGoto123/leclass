@@ -26,6 +26,11 @@ const routes: Routes = [
         import('./japanese-sl/japanese-sl.module').then((m) => m.JapaneseSlModule)
       },
       {
+        path: 'analysisandapproaches-hl',
+        loadChildren: () =>
+        import('./analysisandapproaches-hl/analysisandapproaches-hl.module').then((m) => m.AnalysisandapproachesHlModule)
+      },
+      {
         path: 'lesson',
         loadChildren: () => import('./lesson/lesson.module').then((m) => m.LessonModule)
       },
