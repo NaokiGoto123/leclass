@@ -19,10 +19,9 @@ import 'froala-editor/js/plugins/quick_insert.min.js';
 import 'froala-editor/js/plugins/quote.min.js';
 import 'froala-editor/js/plugins/table.min.js';
 import 'froala-editor/js/plugins/url.min.js';
-import 'froala-editor/js/plugins/video.min.js';
 import 'froala-editor/js/plugins/word_paste.min.js';
-import 'froala-editor/js/plugins/colors.min.js';
 import 'froala-editor/js/plugins/code_view.min.js';
+import 'froala-editor/js/plugins/font_family.min.js';
 import { LessonService } from 'src/app/services/lesson.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthService } from 'src/app/services/auth.service';
@@ -117,7 +116,7 @@ export class CreateLessonComponent implements OnInit {
     },
     pastePlain: true,
     imageAddNewLine: true,
-    videoInsertButtons: ['videoBack', '|', 'videoByURL', 'videoEmbed']
+    documentReady: false,
   };
 
   imageChangedEvent: any = '';
