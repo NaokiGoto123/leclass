@@ -24,6 +24,10 @@ const routes: Routes = [
         loadChildren: () => import('./create-lesson/create-lesson.module').then((m) => m.CreateLessonModule)
       },
       {
+        path: 'about',
+        loadChildren: () => import('./about/about.module').then((m) => m.AboutModule)
+      },
+      {
         path: 'account',
         loadChildren: () => import('./account/account.module').then((m) => m.AccountModule)
       },
