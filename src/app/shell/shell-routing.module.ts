@@ -41,6 +41,11 @@ const routes: Routes = [
         import('./computerscience-hl/computerscience-hl.module').then((m) => m.ComputerscienceHlModule)
       },
       {
+        path: 'economics-sl',
+        loadChildren: () =>
+        import('./economics-sl/economics-sl.module').then((m) => m.EconomicsSlModule)
+      },
+      {
         path: 'lesson',
         loadChildren: () => import('./lesson/lesson.module').then((m) => m.LessonModule)
       },
