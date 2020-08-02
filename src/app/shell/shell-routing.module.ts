@@ -36,6 +36,11 @@ const routes: Routes = [
         import('./physics-hl/physics-hl.module').then((m) => m.PhysicsHlModule)
       },
       {
+        path: 'computerscience-hl',
+        loadChildren: () =>
+        import('./computerscience-hl/computerscience-hl.module').then((m) => m.ComputerscienceHlModule)
+      },
+      {
         path: 'lesson',
         loadChildren: () => import('./lesson/lesson.module').then((m) => m.LessonModule)
       },
