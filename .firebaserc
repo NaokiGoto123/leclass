@@ -1,6 +1,7 @@
 {
   "projects": {
-    "default": "leclass-3ef28"
+    "dev": "leclass-3ef28",
+    "prod": "leclass-prod"
   },
   "targets": {
     "leclass-3ef28": {
