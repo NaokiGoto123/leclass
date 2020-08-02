@@ -40,6 +40,10 @@ import { Lesson } from 'src/app/interfaces/lesson';
 })
 export class CreateLessonComponent implements OnInit {
 
+  isTarget = false;
+
+  lesson: Lesson;
+
   form = this.fb.group({
     title: ['', [Validators.required]],
     videoLink: [''],
@@ -135,7 +139,8 @@ export class CreateLessonComponent implements OnInit {
       this.lessonGetService.getLesson(id).subscribe((lesson: Lesson) => {
         this.form.patchValue(lesson);
         this.croppedImage = lesson.thumbnail;
-        console.log(this.form.value);
+        this.isTarget = true;
+        this.lesson = lesson;
       });
     });
   }
@@ -194,5 +199,9 @@ export class CreateLessonComponent implements OnInit {
     });
     this.isComplete = true;
     this.router.navigateByUrl('/');
+  }
+
+  deleteLesson() {
+    this.lessonService.deleteLesson(this.lesson.id);
   }
 }
