@@ -46,6 +46,11 @@ const routes: Routes = [
         import('./economics-sl/economics-sl.module').then((m) => m.EconomicsSlModule)
       },
       {
+        path: 'theoryofknowledge',
+        loadChildren: () =>
+        import('./theoryofknowledge/theoryofknowledge.module').then((m) => m.TheoryofknowledgeModule)
+      },
+      {
         path: 'lesson',
         loadChildren: () => import('./lesson/lesson.module').then((m) => m.LessonModule)
       },
