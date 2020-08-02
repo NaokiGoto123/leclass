@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { LessonGetService } from 'src/app/services/lesson-get.service';
+import { Lesson } from 'src/app/interfaces/lesson';
 
 @Component({
   selector: 'app-japanese-sl',
@@ -7,7 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class JapaneseSlComponent implements OnInit {
 
-  constructor() { }
+  lessons: Lesson[];
+
+  constructor(
+    private lessonGetService: LessonGetService
+  ) {
+    this.lessonGetService.getSpecificLessons('Japanese SL').subscribe((lessons: Lesson[]) => {
+      this.lessons = lessons;
+    });
+  }
 
   ngOnInit(): void {
   }

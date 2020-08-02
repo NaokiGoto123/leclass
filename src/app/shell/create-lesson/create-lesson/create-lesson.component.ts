@@ -54,17 +54,13 @@ export class CreateLessonComponent implements OnInit {
   isComplete = false;
 
   subjects = [
-    'Literature',
-    'Math',
-    'Physics',
-    'Chemistry',
-    'Biology',
-    'Computer science',
-    'Economics',
-    'Politics',
-    'Visual art',
-    'Drama',
-    'PHE'
+    'Language & Literature HL',
+    'Analysis & Approaches Hl',
+    'Japanese SL',
+    'Physics HL',
+    'Computer Science HL',
+    'Economics HL',
+    'Theory of Knowledge'
   ];
 
   public options = {
