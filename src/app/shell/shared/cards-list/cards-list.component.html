@@ -1,3 +1,8 @@
-<div class="cards-container">
+<div class="cards-container" *ngIf="lessons?.length">
   <app-lesson-card *ngFor="let lesson of lessons" [lesson]="lesson"></app-lesson-card>
+</div>
+
+<div class="no-lessons-container" *ngIf="!lessons?.length">
+  <p class="no-lessons-container__text">No lessons</p>
+  <img class="no-lessons-container__image" src="/assets/images/classroom.svg"/>
 </div>
