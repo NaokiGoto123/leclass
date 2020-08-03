@@ -14,9 +14,9 @@
 </div>
 
 <nav mat-tab-nav-bar>
-  <a mat-tab-link routerLink="profile" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive"
+  <a mat-tab-link *ngFor="let routerLink of routerLinks" routerLink="{{routerLink.link}}" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive"
     [queryParams]="{ id: user?.uid }">
-    Profile
+    {{routerLink.label}}
   </a>
 </nav>
 <router-outlet></router-outlet>
