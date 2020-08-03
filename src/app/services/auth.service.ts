@@ -45,23 +45,22 @@ export class AuthService {
   async googleSignin() {
     const provider = new auth.GoogleAuthProvider();
     const credential = await this.afAuth.signInWithPopup(provider);
-    return this.updateUserData(credential.user);
+    return this.updateUserData({
+      ...credential.user,
+      profile: `This is ${credential.user.displayName}'s profile.`
+    });
   }
 
-  private updateUserData(firebaseUser: firebase.User) {
-    this.db.doc(`users/${firebaseUser.uid}`).valueChanges().subscribe((user: User) => {
-      if (user) {
-        return;
-      } else {
-        const data = {
-          uid: firebaseUser.uid,
-          displayName: firebaseUser.displayName,
-          email: firebaseUser.email,
-          photoURL: firebaseUser.photoURL,
-        };
-        return this.db.doc(`users/${firebaseUser.uid}`).set(data, { merge: true });
-      }
-    });
+  private updateUserData(user: User) {
+    const data = {
+      uid: user.uid,
+      displayName: user.displayName,
+      email: user.email,
+      photoURL: user.photoURL,
+      profile: user.profile
+    };
+
+    return this.db.doc(`users/${user.uid}`).set(data, { merge: true });
   }
 
   async signOut() {
