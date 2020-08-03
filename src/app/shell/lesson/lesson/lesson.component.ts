@@ -4,8 +4,8 @@ import { LessonGetService } from 'src/app/services/lesson-get.service';
 import { Lesson } from 'src/app/interfaces/lesson';
 import { Location } from '@angular/common';
 import { UserService } from 'src/app/services/user.service';
-import { User } from 'firebase';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { User } from 'src/app/interfaces/user';
 
 @Component({
   selector: 'app-lesson',
