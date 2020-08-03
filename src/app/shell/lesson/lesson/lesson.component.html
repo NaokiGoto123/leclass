@@ -9,4 +9,4 @@
 </mat-toolbar>
 <p>{{lesson?.title}}</p>
 <p>{{creater?.displayName}}</p>
-<div [innerHTML]="lesson?.content"></div>
+<div [innerHTML]="safeHtml"></div>
