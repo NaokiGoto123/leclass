@@ -7,6 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AboutComponent implements OnInit {
 
+  routerLinks = [
+    { label: 'What is this service for?', link: 'purpose' },
+    { label: 'How to use this service', link: 'usage' }
+  ];
+
   constructor() { }
 
   ngOnInit(): void {

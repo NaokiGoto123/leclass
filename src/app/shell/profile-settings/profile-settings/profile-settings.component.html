@@ -22,7 +22,10 @@
         (loadImageFailed)="loadImageFailed()"></image-cropper>
     </ng-container>
   </div>
-  <button mat-raised-button>
+
+  <div class="editor" [froalaEditor]="options" formControlName="profile"></div>
+
+  <button mat-raised-button (click)="updateUser()">
     Update
   </button>
 </form>
