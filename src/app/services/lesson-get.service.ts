@@ -51,4 +51,17 @@ export class LessonGetService {
       })
     );
   }
+
+  getUnpublishedLessons(uid: string): Observable<Lesson[]> {
+    return this.db.collection(`lessons`, (ref) => ref.where('isPublic', '==', 'false')).valueChanges()
+    .pipe(
+      map((unpublishedLessons: Lesson[]) => {
+        if (unpublishedLessons.length) {
+          return unpublishedLessons;
+        } else {
+          return [];
+        }
+      })
+    );
+  }
 }
