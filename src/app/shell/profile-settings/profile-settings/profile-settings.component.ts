@@ -147,16 +147,25 @@ export class ProfileSettingsComponent implements OnInit {
   }
 
   async updateUser() {
-    const photoURL = await this.upload(
-      `users/${this.user.uid}`,
-      this.croppedImage
-    );
-    await this.userSevice.updateUser({
-      uid: this.user.uid,
-      displayName: this.form.value.displayName,
-      photoURL,
-      profile: this.form.value.profile
-    });
+    if (this.croppedImage) {
+      const photoURL = await this.upload(
+        `users/${this.user.uid}`,
+        this.croppedImage
+      );
+      await this.userSevice.updateUser({
+        uid: this.user.uid,
+        displayName: this.form.value.displayName,
+        photoURL,
+        profile: this.form.value.profile
+      });
+    } else {
+      await this.userSevice.updateUser({
+        uid: this.user.uid,
+        displayName: this.form.value.displayName,
+        photoURL: this.user.photoURL,
+        profile: this.form.value.profile
+      });
+    }
   }
 
 }
