@@ -32,26 +32,26 @@
   <mat-sidenav class="sidenav" #sidenav mode="side" [opened]="isShowing">
     <mat-nav-list *ngIf="form.value.course === 'DP'">
       <div mat-subheader>DP subjects</div>
-      <a mat-list-item>
-        Literature SL
+      <a mat-list-item routerLink="/languageandliterature-sl">
+        Language & Literature SL
       </a>
-      <a mat-list-item>
+      <a mat-list-item routerLink="/japanese-sl">
         Japanese SL
       </a>
-      <a mat-list-item>
-        Math HL
+      <a mat-list-item routerLink="/analysisandapproaches-hl">
+        Analysis & Approaches HL
       </a>
-      <a mat-list-item>
+      <a mat-list-item routerLink="/physics-hl">
         Physics HL
       </a>
-      <a mat-list-item>
-        Compouter science HL
+      <a mat-list-item routerLink="/computerscience-hl">
+        Compouter Science HL
       </a>
-      <a mat-list-item>
+      <a mat-list-item routerLink="/economics-sl">
         Economics SL
       </a>
-      <a mat-list-item>
-        PHE
+      <a mat-list-item routerLink="/theoryofknowledge">
+        Theory of Knowledge
       </a>
       <mat-divider></mat-divider>
       <a mat-list-item routerLink="/create-lesson">

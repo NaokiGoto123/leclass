@@ -6,6 +6,19 @@
   width: 80%;
 }
 
+.account-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 40px 0;
+  &__account-image {
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    box-shadow: 0 0 8px gray;
+  }
+}
+
 .cropper-container {
   display: flex;
   flex-direction: column;
@@ -17,9 +30,10 @@
     margin: 0 0 20px 0;
   }
   &__cropped-image {
-    width: 50%;
+    height: 200px;
+    width: 200px;
     border-radius: 50%;
+    box-shadow: 0 0 8px gray;
     margin: 0 0 20px 0;
-    border: 0.1px solid white;
   }
 }
