@@ -31,7 +31,8 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LessonGetService } from 'src/app/services/lesson-get.service';
 import { Lesson } from 'src/app/interfaces/lesson';
-
+import {MatDialog} from '@angular/material/dialog';
+import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 @Component({
   selector: 'app-create-lesson',
   templateUrl: './create-lesson.component.html',
@@ -127,7 +128,8 @@ export class CreateLessonComponent implements OnInit {
     private lessonService: LessonService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private lessonGetService: LessonGetService
+    private lessonGetService: LessonGetService,
+    public dialog: MatDialog
   ) {
     this.activatedRoute.queryParamMap.subscribe((params) => {
       const id = params.get('id');
@@ -193,10 +195,22 @@ export class CreateLessonComponent implements OnInit {
       isPublic: this.form.value.isPublic
     });
     this.isComplete = true;
-    this.router.navigateByUrl('/');
+    if (this.form.value.isPublic) {
+      this.router.navigateByUrl('/');
+    } else {
+      this.router.navigateByUrl('/account/drafts');
+    }
   }
 
-  deleteLesson() {
-    this.lessonService.deleteLesson(this.lesson.id);
+  openDialog() {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: {
+        id: this.lesson.id
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog is closed`);
+    });
   }
 }

@@ -86,7 +86,7 @@
 
     <div class="editor" [froalaEditor]="options" formControlName="content"></div>
     <mat-slide-toggle class="toggle" formControlName="isPublic">Publish</mat-slide-toggle>
-    <button mat-raised-button>Update</button>
-    <button mat-raised-button color="warn">Delete</button>
+    <button mat-raised-button class="update-button">Update</button>
+    <button mat-raised-button color="warn" class="delete-button" (click)="openDialog()">Delete</button>
   </form>
 </div>

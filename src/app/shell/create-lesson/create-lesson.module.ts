@@ -12,8 +12,11 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import {MatSelectModule} from '@angular/material/select';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import {MatDialogModule} from '@angular/material/dialog';
+import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
+
 @NgModule({
-  declarations: [CreateLessonComponent],
+  declarations: [CreateLessonComponent, DeleteDialogComponent],
   imports: [
     CommonModule,
     CreateLessonRoutingModule,
@@ -26,7 +29,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     MatSlideToggleModule,
     MaterialFileInputModule,
     MatSelectModule,
-    ImageCropperModule
+    ImageCropperModule,
+    MatDialogModule
   ]
 })
 export class CreateLessonModule { }
