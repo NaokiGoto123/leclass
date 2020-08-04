@@ -17,7 +17,7 @@ export class UserService {
     return this.db.doc<User>(`users/${uid}`).valueChanges();
   }
 
-  updateUser(user: Omit<User, 'email'>) {
+  updateUser(user: Omit<User, 'email' | 'verified'>) {
     return this.db.doc(`users/${user.uid}`).set(user, { merge: true });
   }
 }

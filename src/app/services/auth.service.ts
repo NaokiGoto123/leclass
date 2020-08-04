@@ -47,7 +47,8 @@ export class AuthService {
     const credential = await this.afAuth.signInWithPopup(provider);
     return this.updateUserData({
       ...credential.user,
-      profile: `This is ${credential.user.displayName}'s profile.`
+      profile: `This is ${credential.user.displayName}'s profile.`,
+      verified: false
     });
   }
 
@@ -57,7 +58,8 @@ export class AuthService {
       displayName: user.displayName,
       email: user.email,
       photoURL: user.photoURL,
-      profile: user.profile
+      profile: user.profile,
+      verified: user.verified
     };
 
     return this.db.doc(`users/${user.uid}`).set(data, { merge: true });
