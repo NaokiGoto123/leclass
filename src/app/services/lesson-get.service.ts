@@ -27,7 +27,7 @@ export class LessonGetService {
   }
 
   getLessons(): Observable<Lesson[]> {
-    return this.db.collection<Lesson>(`lessons`).valueChanges()
+    return this.db.collection<Lesson>(`lessons`, (ref) => ref.where('isPublic', '==', true)).valueChanges()
     .pipe(
       map((lessons: Lesson[]) => {
         if (lessons.length) {
@@ -36,11 +36,11 @@ export class LessonGetService {
           return [];
         }
       })
-    );;
+    );
   }
 
   getSpecificLessons(subject: string): Observable<Lesson[]> {
-    return this.db.collection<Lesson>(`lessons`, (ref) => ref.where('subject', '==', subject)).valueChanges()
+    return this.db.collection<Lesson>(`lessons`, (ref) => ref.where('subject', '==', subject).where('isPublic', '==', true)).valueChanges()
     .pipe(
       map((lessons: Lesson[]) => {
         if (lessons.length) {
@@ -53,9 +53,10 @@ export class LessonGetService {
   }
 
   getUnpublishedLessons(uid: string): Observable<Lesson[]> {
-    return this.db.collection(`lessons`, (ref) => ref.where('isPublic', '==', 'false')).valueChanges()
+    return this.db.collection(`lessons`, (ref) => ref.where('isPublic', '==', false).where('createrId', '==', uid)).valueChanges()
     .pipe(
       map((unpublishedLessons: Lesson[]) => {
+        console.log(unpublishedLessons);
         if (unpublishedLessons.length) {
           return unpublishedLessons;
         } else {
