@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, of, combineLatest } from 'rxjs';
 import { User } from '../interfaces/user';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -26,14 +26,46 @@ export class VerificationGetService {
     );
   }
 
-  getVerificationRequests() {
+  getVerificationRequests(): Observable<string[]> {
     return this.db.collection(`verificationRequests`).valueChanges()
     .pipe(
-      map((requests) => {
+      map((requests: {id: string}[]) => {
         if (requests.length) {
-          return requests;
+          const uids: string[] = [];
+          requests.map((request: {id: string}) => {
+            uids.push(request.id);
+          });
+          return uids;
         } else {
           return [];
+        }
+      })
+    );
+  }
+
+  getRequestingUsers(): Observable<User[]> {
+    return this.db.collection(`verificationRequests`).valueChanges()
+    .pipe(
+      map((requests: {id: string}[]) => {
+        if (requests.length) {
+          const uids: string[] = [];
+          requests.map((request: {id: string}) => {
+            uids.push(request.id);
+          });
+          return uids;
+        } else {
+          return [];
+        }
+      }),
+      switchMap((uids: string[]) => {
+        if (uids.length) {
+          const requestingUsers: Observable<User>[] = [];
+          uids.map((uid: string) => {
+            requestingUsers.push(this.db.doc<User>(`users/${uid}`).valueChanges());
+          });
+          return combineLatest(requestingUsers);
+        } else {
+          return of([]);
         }
       })
     );
