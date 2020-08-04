@@ -1,5 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/interfaces/user';
 import { FormBuilder } from '@angular/forms';
@@ -102,7 +102,8 @@ export class ProfileSettingsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private userSevice: UserService,
     private storage: AngularFireStorage,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {
     this.activatedRoute.queryParamMap.subscribe((params) => {
       const id = params.get('id');
@@ -158,6 +159,7 @@ export class ProfileSettingsComponent implements OnInit {
         photoURL,
         profile: this.form.value.profile,
       });
+      this.router.navigate(['/account'], {queryParams: {id: this.user.uid}});
     } else {
       await this.userSevice.updateUser({
         uid: this.user.uid,
@@ -165,6 +167,7 @@ export class ProfileSettingsComponent implements OnInit {
         photoURL: this.user.photoURL,
         profile: this.form.value.profile
       });
+      this.router.navigate(['/account'], {queryParams: {id: this.user.uid}});
     }
   }
 
