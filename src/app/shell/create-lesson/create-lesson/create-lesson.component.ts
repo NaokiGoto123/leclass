@@ -33,7 +33,6 @@ import { LessonGetService } from 'src/app/services/lesson-get.service';
 import { Lesson } from 'src/app/interfaces/lesson';
 import {MatDialog} from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
-import { userInfo } from 'os';
 @Component({
   selector: 'app-create-lesson',
   templateUrl: './create-lesson.component.html',
