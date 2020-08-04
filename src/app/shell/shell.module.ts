@@ -15,6 +15,7 @@ import {MatInputModule} from '@angular/material/input';
 import { MatDividerModule } from '@angular/material/divider';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatBadgeModule} from '@angular/material/badge';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import {MatBadgeModule} from '@angular/material/badge';
     MatInputModule,
     MatDividerModule,
     MatMenuModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatTooltipModule
   ]
 })
 export class ShellModule { }

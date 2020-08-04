@@ -1,5 +1,5 @@
 <mat-toolbar class="toolbar">
-  <button mat-icon-button (click)="toggleSidenav()">
+  <button mat-icon-button (click)="toggleSidenav()" matTooltip="close or open side bar">
     <mat-icon>menu</mat-icon>
   </button>
   <a class="toolbar__title" routerLink="/">Leclass</a>
@@ -19,7 +19,7 @@
       </mat-select>
     </mat-form-field>
   </form>
-  <p class="toolbar__verified" *ngIf="user?.verified">Verified</p>
+  <p class="toolbar__verified" *ngIf="user?.verified" matTooltip="You are verified">Verified</p>
   <img class="toolbar__account-image" src="{{user?.photoURL}}" [matMenuTriggerFor]="menu">
   <mat-menu #menu="matMenu">
     <button mat-menu-item routerLink="/account" [queryParams]="{id: user?.uid}">

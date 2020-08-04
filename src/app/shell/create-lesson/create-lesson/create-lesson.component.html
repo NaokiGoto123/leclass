@@ -48,7 +48,7 @@
   <p class="container__title">Update content</p>
   <form class="form" [formGroup]="form">
 
-    <img class="thumbnail" [src]="croppedImage" />
+    <img class="thumbnail" [src]="croppedImage" matTooltip="If you want to change thumbnail, you have to delete this lesson and create new one"/>
 
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
@@ -67,6 +67,7 @@
     </div>
 
     <div class="editor" [froalaEditor]="options" formControlName="content"></div>
+
     <mat-slide-toggle class="toggle" formControlName="isPublic">Publish</mat-slide-toggle>
     <button mat-raised-button class="update-button" (click)="update()">Update</button>
     <button mat-raised-button color="warn" class="delete-button" (click)="openDialog()">Delete</button>
