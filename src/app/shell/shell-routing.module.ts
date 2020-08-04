@@ -63,6 +63,10 @@ const routes: Routes = [
         loadChildren: () => import('./verification/verification.module').then((m) => m.VerificationModule)
       },
       {
+        path: 'verification-requests',
+        loadChildren: () => import('./verification-requests/verification-requests.module').then((m) => m.VerificationRequestsModule)
+      },
+      {
         path: 'about',
         loadChildren: () => import('./about/about.module').then((m) => m.AboutModule)
       },
