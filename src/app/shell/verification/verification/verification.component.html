@@ -31,5 +31,7 @@
     </div>
   </div>
 
-  <button mat-raised-button>Ask for verification</button>
+  <button mat-raised-button *ngIf="verificationRequests.includes(user.uid)">Cancel request</button>
+
+  <button mat-raised-button *ngIf="!verificationRequests.includes(user.uid)" (click)="sendVerificationRequest()">Ask for verification</button>
 </div>
