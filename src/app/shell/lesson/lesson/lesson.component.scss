@@ -1,3 +1,38 @@
 .spacer {
   flex: 1 1 auto;
 }
+
+.container {
+  margin: 60px;
+}
+
+.title {
+  font-size: 32px;
+  margin: 32px 0 10px 0;
+}
+
+.date {
+  color: #9B9B9B;
+}
+
+.creater {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 20px 0 20px 0;
+  &__account-image {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    margin: 0 10px 0 0;
+  }
+  &__name {
+    font-size: 20px;
+    margin: 0;
+    text-decoration: none;
+    color: white;
+  }
+  &__name:hover {
+    text-decoration: underline;
+  }
+}
