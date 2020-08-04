@@ -6,9 +6,10 @@ import { AboutComponent } from './about/about.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { PurposeComponent } from './purpose/purpose.component';
 import { UsageComponent } from './usage/usage.component';
+import { SupportersComponent } from './supporters/supporters.component';
 
 @NgModule({
-  declarations: [AboutComponent, PurposeComponent, UsageComponent],
+  declarations: [AboutComponent, PurposeComponent, UsageComponent, SupportersComponent],
   imports: [
     CommonModule,
     AboutRoutingModule,
