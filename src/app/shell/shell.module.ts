@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import { MatDividerModule } from '@angular/material/divider';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatBadgeModule} from '@angular/material/badge';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import {MatMenuModule} from '@angular/material/menu';
     ReactiveFormsModule,
     MatInputModule,
     MatDividerModule,
-    MatMenuModule
+    MatMenuModule,
+    MatBadgeModule
   ]
 })
 export class ShellModule { }
