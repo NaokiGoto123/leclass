@@ -58,10 +58,10 @@
       <a mat-list-item *ngIf="user?.verified" routerLink="/create-lesson">
         Create lesson
       </a>
-      <a mat-list-item *ngIf="user?.verified && verificationRequests.length" routerLink="/verification-requests">
+      <a mat-list-item *ngIf="user?.verified && verificationRequests?.length" routerLink="/verification-requests">
         <span matBadge="{{verificationRequests.length}}" matBadgeOverlap="false">Verification requests</span>
       </a>
-      <a mat-list-item *ngIf="user?.verified && !verificationRequests.length" routerLink="/verification-requests">
+      <a mat-list-item *ngIf="user?.verified && !verificationRequests?.length" routerLink="/verification-requests">
         Verification requests
       </a>
       <a mat-list-item *ngIf="!user?.verified" routerLink="/verification">
