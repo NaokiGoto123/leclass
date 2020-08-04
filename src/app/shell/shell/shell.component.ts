@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/interfaces/user';
+import { VerificationGetService } from 'src/app/services/verification-get.service';
 
 @Component({
   selector: 'app-shell',
@@ -20,10 +21,17 @@ export class ShellComponent implements OnInit {
     course: ['DP', [Validators.required]]
   });
 
+  verificationRequests: string[];
+
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService
-  ) { }
+    private authService: AuthService,
+    private verificationGetService: VerificationGetService
+  ) {
+    this.verificationGetService.getVerificationRequests().subscribe((verificationRequests) => {
+      this.verificationRequests = verificationRequests;
+    });
+  }
 
   ngOnInit(): void {
     this.form.valueChanges.subscribe((result) => {

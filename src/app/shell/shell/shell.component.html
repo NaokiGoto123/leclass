@@ -19,6 +19,7 @@
       </mat-select>
     </mat-form-field>
   </form>
+  <p class="toolbar__verified" *ngIf="user?.verified">Verified</p>
   <img class="toolbar__account-image" src="{{user?.photoURL}}" [matMenuTriggerFor]="menu">
   <mat-menu #menu="matMenu">
     <button mat-menu-item routerLink="/account" [queryParams]="{id: user?.uid}">
@@ -57,7 +58,10 @@
       <a mat-list-item *ngIf="user?.verified" routerLink="/create-lesson">
         Create lesson
       </a>
-      <a mat-list-item *ngIf="user?.verified">
+      <a mat-list-item *ngIf="user?.verified && verificationRequests.length" routerLink="/verification-requests">
+        <span matBadge="{{verificationRequests.length}}" matBadgeOverlap="false">Verification requests</span>
+      </a>
+      <a mat-list-item *ngIf="user?.verified && !verificationRequests.length" routerLink="/verification-requests">
         Verification requests
       </a>
       <a mat-list-item *ngIf="!user?.verified" routerLink="/verification">
