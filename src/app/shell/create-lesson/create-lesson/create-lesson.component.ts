@@ -3,8 +3,6 @@ import { FormBuilder, Validators } from '@angular/forms';
 import 'froala-editor/js/plugins/char_counter.min.js';
 import 'froala-editor/js/plugins/colors.min.js';
 import 'froala-editor/js/plugins/draggable.min.js';
-import 'froala-editor/js/third_party/embedly.min.js';
-import 'froala-editor/js/plugins/emoticons.min.js';
 import 'froala-editor/js/plugins/font_size.min.js';
 import 'froala-editor/js/plugins/fullscreen.min.js';
 import 'froala-editor/js/plugins/image.min.js';
@@ -31,7 +29,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LessonGetService } from 'src/app/services/lesson-get.service';
 import { Lesson } from 'src/app/interfaces/lesson';
-import {MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 @Component({
   selector: 'app-create-lesson',
@@ -71,7 +69,6 @@ export class CreateLessonComponent implements OnInit {
     toolbarInline: false,
     height: '500',
     attribution: false,
-    language: 'en',
     embedlyScriptPath: '',
     toolbarButtonsSM: {
       moreText: {
@@ -114,6 +111,24 @@ export class CreateLessonComponent implements OnInit {
     pastePlain: true,
     imageAddNewLine: true,
     documentReady: false,
+    events: {
+      'image.beforePasteUpload'(image) {
+        console.log('before paste triggered');
+        console.log(image);
+      },
+      'image.beforeUpload'(image) {
+        console.log('triggered');
+        console.log(image);
+      },
+      'image.inserted'($img, response) {
+        console.log('inserted');
+        console.log($img);
+        console.log(response);
+      },
+      'image.loaded'($img) {
+        console.log($img);
+      }
+    }
   };
 
   imageChangedEvent: any = '';
@@ -201,6 +216,7 @@ export class CreateLessonComponent implements OnInit {
   }
 
   async update() {
+    console.log(this.form.value);
     this.lessonService.updateLesson({
       id: this.lesson.id,
       title: this.form.value.title,
@@ -209,11 +225,7 @@ export class CreateLessonComponent implements OnInit {
       isPublic: this.form.value.isPublic
     });
     this.isComplete = true;
-    if (this.form.value.isPublic) {
-      this.router.navigateByUrl('/');
-    } else {
-      this.router.navigate(['/account/drafts'], {queryParams: {id: this.authService.user.uid}});
-    }
+    this.router.navigateByUrl('/');
   }
 
   openDialog() {
