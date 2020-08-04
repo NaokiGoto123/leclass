@@ -18,6 +18,13 @@ export class VerificationService {
   }
 
   verifyUser(uid: string) {
-    return this.db.doc(`users/${uid}`).update({verified: true});
+    this.db.doc(`users/${uid}`).update({verified: true})
+    .then(() => {
+      this.db.doc(`verificationRequests/${uid}`).delete();
+    });
+  }
+
+  cancelRequest(uid: string) {
+    this.db.doc(`verificationRequests/${uid}`).delete();
   }
 }
