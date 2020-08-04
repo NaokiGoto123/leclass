@@ -54,8 +54,14 @@
         Theory of Knowledge
       </a>
       <mat-divider></mat-divider>
-      <a mat-list-item routerLink="/create-lesson">
-        Create
+      <a mat-list-item *ngIf="user?.verified" routerLink="/create-lesson">
+        Create lesson
+      </a>
+      <a mat-list-item *ngIf="user?.verified">
+        Verification requests
+      </a>
+      <a mat-list-item *ngIf="!user?.verified" routerLink="/verification">
+        Verification
       </a>
       <mat-divider></mat-divider>
       <a mat-list-item routerLink="/about">
@@ -86,8 +92,14 @@
         PHE
       </a>
       <mat-divider></mat-divider>
-      <a mat-list-item routerLink="/create-lesson">
-        Create
+      <a mat-list-item *ngIf="user?.verified" routerLink="/create-lesson">
+        Create lesson
+      </a>
+      <a mat-list-item *ngIf="user?.verified">
+        Verification requests
+      </a>
+      <a mat-list-item *ngIf="!user?.verified" routerLink="/verification">
+        Verification
       </a>
       <mat-divider></mat-divider>
       <a mat-list-item routerLink="/about">

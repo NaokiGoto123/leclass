@@ -1,0 +1,35 @@
+<div class="container">
+  <p class="container__title">Verification</p>
+
+  <p class="container__sub-title">What you can do when you are verified</p>
+
+  <div class="list">
+    <div class="list-item">
+      <div class="list-item-left">
+        <img class="list-item-left__image" src="/assets/images/reading.svg">
+      </div>
+      <div class="list-item-right">
+        <p class="list-item-right__text">You will be able to edit explanations, add contents and create lessons.</p>
+      </div>
+    </div>
+
+    <div class="list-item">
+      <div class="list-item-left">
+        <img class="list-item-left__image" src="/assets/images/experts.svg">
+      </div>
+      <div class="list-item-right">
+        <p class="list-item-right__text">You will be a verified members and you will work with teachers to develop the service.</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="verified-users-title">Verified users</p>
+  <div class="verified-users">
+    <div *ngFor="let verifiedUser of verifiedUsers" class="verified-user">
+      <img class="verified-user__image" src="{{verifiedUser.photoURL}}">
+      <p class="verified-user__name">{{verifiedUser.displayName}}</p>
+    </div>
+  </div>
+
+  <button mat-raised-button>Ask for verification</button>
+</div>

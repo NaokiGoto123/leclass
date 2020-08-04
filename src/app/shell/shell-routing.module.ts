@@ -59,6 +59,10 @@ const routes: Routes = [
         loadChildren: () => import('./create-lesson/create-lesson.module').then((m) => m.CreateLessonModule)
       },
       {
+        path: 'verification',
+        loadChildren: () => import('./verification/verification.module').then((m) => m.VerificationModule)
+      },
+      {
         path: 'about',
         loadChildren: () => import('./about/about.module').then((m) => m.AboutModule)
       },
