@@ -1,9 +1,9 @@
 <div class="card">
   <a routerLink="/lesson" [queryParams]="{id: lesson?.id}">
     <img class="card__thumbnail" src="{{lesson?.thumbnail}}">
-    <div class="card-content">
-      <p class="card-content__title">{{lesson?.title}}</p>
-      <p class="card-content__date">{{lesson?.date.toDate() | date: 'yyyy/MM/dd'}}</p>
-    </div>
   </a>
+    <div class="card-content">
+      <a class="card-content__title" routerLink="/lesson" [queryParams]="{id: lesson?.id}">{{lesson?.title}}</a>
+      <a class="card-content__date" routerLink="/lesson" [queryParams]="{id: lesson?.id}">{{lesson?.date.toDate() | date: 'yyyy/MM/dd'}}</a>
+    </div>
 </div>
