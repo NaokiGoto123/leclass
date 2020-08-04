@@ -17,6 +17,10 @@ export class LessonService {
     this.db.doc(`lessons/${lesson.id}`).set(lesson);
   }
 
+  updateLesson(lesson: Omit<Lesson, 'createrId' | 'date' | 'thumbnail' | 'videoLink'>) {
+    this.db.doc(`lessons/${lesson.id}`).set(lesson, {merge: true});
+  }
+
   async deleteLesson(id: string) {
     const deleteLesson = this.fns.httpsCallable('deleteLesson');
     const result = await deleteLesson(id).toPromise();
