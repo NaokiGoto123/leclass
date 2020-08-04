@@ -48,6 +48,8 @@
   <p class="container__title">Update content</p>
   <form class="form" [formGroup]="form">
 
+    <img class="thumbnail" [src]="croppedImage" />
+
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
       <input matInput type="text" formControlName="title" autocomplete="off">
@@ -62,31 +64,11 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-
-      <mat-form-field class="fields-container__video" appearance="outline">
-        <mat-label>Upload a video</mat-label>
-        <ngx-mat-file-input></ngx-mat-file-input>
-      </mat-form-field>
-    </div>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Upload a thumbnail</mat-label>
-      <ngx-mat-file-input (change)="fileChangeEvent($event)"></ngx-mat-file-input>
-    </mat-form-field>
-
-    <div class="cropper-container" *ngIf="croppedImage || imageChangedEvent">
-      <ng-container *ngIf="imageChangedEvent">
-        <image-cropper class="cropper-container__cropper" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="2 / 1"
-        format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
-        (loadImageFailed)="loadImageFailed()"></image-cropper>
-      </ng-container>
-
-      <img class="cropper-container__cropped-image" [src]="croppedImage" />
     </div>
 
     <div class="editor" [froalaEditor]="options" formControlName="content"></div>
     <mat-slide-toggle class="toggle" formControlName="isPublic">Publish</mat-slide-toggle>
-    <button mat-raised-button class="update-button">Update</button>
+    <button mat-raised-button class="update-button" (click)="update()">Update</button>
     <button mat-raised-button color="warn" class="delete-button" (click)="openDialog()">Delete</button>
   </form>
 </div>

@@ -33,6 +33,7 @@ import { LessonGetService } from 'src/app/services/lesson-get.service';
 import { Lesson } from 'src/app/interfaces/lesson';
 import {MatDialog} from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
+import { userInfo } from 'os';
 @Component({
   selector: 'app-create-lesson',
   templateUrl: './create-lesson.component.html',
@@ -199,6 +200,22 @@ export class CreateLessonComponent implements OnInit {
       this.router.navigateByUrl('/');
     } else {
       this.router.navigateByUrl('/account/drafts');
+    }
+  }
+
+  async update() {
+    this.lessonService.updateLesson({
+      id: this.lesson.id,
+      title: this.form.value.title,
+      content: this.form.value.content,
+      subject: this.form.value.subject,
+      isPublic: this.form.value.isPublic
+    });
+    this.isComplete = true;
+    if (this.form.value.isPublic) {
+      this.router.navigateByUrl('/');
+    } else {
+      this.router.navigate(['/account/drafts'], {queryParams: {id: this.authService.user.uid}});
     }
   }
 
