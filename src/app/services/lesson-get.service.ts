@@ -56,7 +56,6 @@ export class LessonGetService {
     return this.db.collection(`lessons`, (ref) => ref.where('isPublic', '==', false).where('createrId', '==', uid)).valueChanges()
     .pipe(
       map((unpublishedLessons: Lesson[]) => {
-        console.log(unpublishedLessons);
         if (unpublishedLessons.length) {
           return unpublishedLessons;
         } else {

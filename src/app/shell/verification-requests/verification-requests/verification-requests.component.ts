@@ -22,7 +22,6 @@ export class VerificationRequestsComponent implements OnInit {
   ) {
     this.verificationGetService.getRequestingUsers().subscribe((requestingUsers: User[]) => {
       this.requestingUsers = requestingUsers;
-      console.log(requestingUsers);
     });
   }
 
@@ -30,12 +29,10 @@ export class VerificationRequestsComponent implements OnInit {
   }
 
   verifyUser(uid: string) {
-    console.log('bb');
     this.verificationService.verifyUser(uid);
   }
 
   cancelRequest(uid: string) {
-    console.log('aa');
     this.verificationService.cancelRequest(uid);
   }
 

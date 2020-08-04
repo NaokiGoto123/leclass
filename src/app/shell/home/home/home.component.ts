@@ -16,7 +16,6 @@ export class HomeComponent implements OnInit {
   ) {
     this.lessonGetService.getLessons().subscribe((lessons: Lesson[]) => {
       this.lessons = lessons;
-      console.log(lessons);
     });
   }
 

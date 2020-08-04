@@ -155,7 +155,6 @@ export class CreateLessonComponent implements OnInit {
 
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
-    console.log(this.imageChangedEvent);
   }
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
@@ -177,7 +176,6 @@ export class CreateLessonComponent implements OnInit {
   }
 
   async submit() {
-    console.log(this.form.value);
     const id = this.db.createId();
     const photoURL = await this.upload(
       `lessons/${id}`,
@@ -226,7 +224,6 @@ export class CreateLessonComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog is closed`);
     });
   }
 }

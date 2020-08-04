@@ -35,10 +35,8 @@ export class ShellComponent implements OnInit {
 
   ngOnInit(): void {
     this.form.valueChanges.subscribe((result) => {
-      console.log(result.course);
     });
     this.valueControl.valueChanges.subscribe((value) => {
-      console.log(value);
     });
   }
 
