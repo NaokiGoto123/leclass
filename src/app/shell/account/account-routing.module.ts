@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AccountComponent } from './account/account.component';
 import { ProfileComponent } from './profile/profile.component';
 import { DraftsComponent } from './drafts/drafts.component';
+import { DraftsGuard } from 'src/app/guards/drafts.guard';
 
 
 const routes: Routes = [
@@ -21,7 +22,9 @@ const routes: Routes = [
       },
       {
         path: 'drafts',
-        component: DraftsComponent
+        component: DraftsComponent,
+        canActivate: [DraftsGuard],
+        canLoad: [DraftsGuard]
       }
     ]
   }
