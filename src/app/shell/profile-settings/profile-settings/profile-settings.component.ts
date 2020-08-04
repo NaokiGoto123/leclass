@@ -156,7 +156,7 @@ export class ProfileSettingsComponent implements OnInit {
         uid: this.user.uid,
         displayName: this.form.value.displayName,
         photoURL,
-        profile: this.form.value.profile
+        profile: this.form.value.profile,
       });
     } else {
       await this.userSevice.updateUser({
