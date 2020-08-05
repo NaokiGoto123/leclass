@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Lesson } from '../interfaces/lesson';
 import { AngularFireFunctions } from '@angular/fire/functions';
+import { firestore } from 'firebase';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +14,15 @@ export class LessonService {
     private fns: AngularFireFunctions
   ) { }
 
-  createLesson(lesson: Lesson) {
-    this.db.doc(`lessons/${lesson.id}`).set(lesson);
+  createLesson(lesson: Omit<Lesson, 'date'>) {
+    this.db.doc(`lessons/${lesson.id}`).set({
+      ...lesson,
+      date: firestore.Timestamp.now()
+    });
   }
 
-  updateLesson(lesson: Omit<Lesson, 'createrId' | 'date' | 'thumbnail' | 'videoLink'>) {
-    this.db.doc(`lessons/${lesson.id}`).set(lesson, {merge: true});
+  updateLesson(lesson: Lesson) {
+    this.db.doc<Lesson>(`lessons/${lesson.id}`).update(lesson);
   }
 
   async deleteLesson(id: string) {

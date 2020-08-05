@@ -8,8 +8,6 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 import 'froala-editor/js/plugins/char_counter.min.js';
 import 'froala-editor/js/plugins/colors.min.js';
 import 'froala-editor/js/plugins/draggable.min.js';
-import 'froala-editor/js/third_party/embedly.min.js';
-import 'froala-editor/js/plugins/emoticons.min.js';
 import 'froala-editor/js/plugins/font_size.min.js';
 import 'froala-editor/js/plugins/fullscreen.min.js';
 import 'froala-editor/js/plugins/image.min.js';

@@ -1,20 +1,18 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, NgZone } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import 'froala-editor/js/plugins/char_counter.min.js';
 import 'froala-editor/js/plugins/colors.min.js';
 import 'froala-editor/js/plugins/draggable.min.js';
-import 'froala-editor/js/third_party/embedly.min.js';
-import 'froala-editor/js/plugins/emoticons.min.js';
 import 'froala-editor/js/plugins/font_size.min.js';
 import 'froala-editor/js/plugins/fullscreen.min.js';
 import 'froala-editor/js/plugins/image.min.js';
 import 'froala-editor/js/plugins/image_manager.min.js';
-import 'froala-editor/js/plugins/inline_style.min.js';
+// import 'froala-editor/js/plugins/inline_style.min.js';
 import 'froala-editor/js/plugins/line_breaker.min.js';
 import 'froala-editor/js/plugins/link.min.js';
 import 'froala-editor/js/plugins/lists.min.js';
-import 'froala-editor/js/plugins/paragraph_style.min.js';
-import 'froala-editor/js/plugins/paragraph_format.min.js';
+// import 'froala-editor/js/plugins/paragraph_style.min.js';
+// import 'froala-editor/js/plugins/paragraph_format.min.js';
 import 'froala-editor/js/plugins/quick_insert.min.js';
 import 'froala-editor/js/plugins/quote.min.js';
 import 'froala-editor/js/plugins/table.min.js';
@@ -31,8 +29,10 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LessonGetService } from 'src/app/services/lesson-get.service';
 import { Lesson } from 'src/app/interfaces/lesson';
-import {MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
+import { ImageService } from 'src/app/services/image.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-create-lesson',
   templateUrl: './create-lesson.component.html',
@@ -41,6 +41,8 @@ import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component'
 export class CreateLessonComponent implements OnInit {
 
   isTarget = false;
+
+  uniqueId = this.db.createId();
 
   lesson: Lesson;
 
@@ -71,7 +73,6 @@ export class CreateLessonComponent implements OnInit {
     toolbarInline: false,
     height: '500',
     attribution: false,
-    language: 'en',
     embedlyScriptPath: '',
     toolbarButtonsSM: {
       moreText: {
@@ -114,7 +115,39 @@ export class CreateLessonComponent implements OnInit {
     pastePlain: true,
     imageAddNewLine: true,
     documentReady: false,
+    events: {
+      initialized: (editor) => {
+        this.froalaEditor = editor;
+      },
+      'image.beforeUpload': (images) => {
+        const file = images[0];
+        const fileSizeLimit = 3000000;
+        if ((file.size < fileSizeLimit)) {
+          if (this.lesson) {
+            const downloadURLPromise = this.imageService.uploadImage(this.lesson.id, file);
+            downloadURLPromise.then((downloadURL) => {
+              this.froalaEditor._editor.image.insert(downloadURL, null, null, this.froalaEditor._editor.image.get());
+            });
+            return null;
+          } else {
+            const downloadURLPromise = this.imageService.uploadImage(this.uniqueId, file);
+            downloadURLPromise.then((downloadURL) => {
+              this.froalaEditor._editor.image.insert(downloadURL, null, null, this.froalaEditor._editor.image.get());
+            });
+            return null;
+          }
+        } else {
+          this.ngZone.run(() => {
+            const msg = 'The image size is more thatn 3GB byte. Compress the image or use other images.';
+            this.snackBar.open(msg, 'Close', { duration: 5000 });
+          });
+          return false;
+        }
+      },
+    }
   };
+
+  froalaEditor;
 
   imageChangedEvent: any = '';
 
@@ -129,15 +162,20 @@ export class CreateLessonComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private lessonGetService: LessonGetService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private imageService: ImageService,
+    private ngZone: NgZone,
+    private snackBar: MatSnackBar
   ) {
     this.activatedRoute.queryParamMap.subscribe((params) => {
       const id = params.get('id');
       this.lessonGetService.getLesson(id).subscribe((lesson: Lesson) => {
-        this.form.patchValue(lesson);
-        this.croppedImage = lesson.thumbnail;
-        this.isTarget = true;
-        this.lesson = lesson;
+        if (lesson) {
+          this.form.patchValue(lesson);
+          this.croppedImage = lesson.thumbnail;
+          this.isTarget = true;
+          this.lesson = lesson;
+        }
       });
     });
   }
@@ -169,51 +207,51 @@ export class CreateLessonComponent implements OnInit {
     // show message
   }
 
-  async upload(path: string, base64: string): Promise<string> {
-    const ref = this.storage.ref(path);
+  async upload(id: string, base64: string): Promise<string> {
+    const time: number = new Date().getTime();
+    const ref = this.storage.ref(`lessons/${this.uniqueId}/images/${time}`);
     const result = await ref.putString(base64, 'data_url');
     return result.ref.getDownloadURL();
   }
 
   async submit() {
-    const id = this.db.createId();
-    const photoURL = await this.upload(
-      `lessons/${id}`,
-      this.croppedImage
-    );
-    this.lessonService.createLesson({
-      id,
-      title: this.form.value.title,
-      thumbnail: photoURL,
-      videoLink: this.form.value.videoLink,
-      content: this.form.value.content,
-      createrId: this.authService.user.uid,
-      date: firestore.Timestamp.now(),
-      subject: this.form.value.subject,
-      isPublic: this.form.value.isPublic
-    });
-    this.isComplete = true;
-    if (this.form.value.isPublic) {
-      this.router.navigateByUrl('/');
+    if (this.lesson) {
+      this.update();
     } else {
-      this.router.navigateByUrl('/account/drafts');
+      const photoURL = await this.upload(
+        this.uniqueId,
+        this.croppedImage
+      );
+      this.lessonService.createLesson({
+        id: this.uniqueId,
+        title: this.form.value.title,
+        thumbnail: photoURL,
+        videoLink: this.form.value.videoLink,
+        content: this.form.value.content,
+        createrId: this.authService.user.uid,
+        subject: this.form.value.subject,
+        isPublic: this.form.value.isPublic
+      });
+      this.isComplete = true;
+      if (this.form.value.isPublic) {
+        this.router.navigateByUrl('/');
+      } else {
+        this.router.navigateByUrl('/account/drafts');
+      }
     }
   }
 
-  async update() {
+  private async update() {
+    console.log(this.form.value);
     this.lessonService.updateLesson({
-      id: this.lesson.id,
+      ...this.lesson,
       title: this.form.value.title,
       content: this.form.value.content,
       subject: this.form.value.subject,
       isPublic: this.form.value.isPublic
     });
     this.isComplete = true;
-    if (this.form.value.isPublic) {
-      this.router.navigateByUrl('/');
-    } else {
-      this.router.navigate(['/account/drafts'], {queryParams: {id: this.authService.user.uid}});
-    }
+    this.router.navigateByUrl('/');
   }
 
   openDialog() {

@@ -14,6 +14,8 @@ import {MatSelectModule} from '@angular/material/select';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import {MatDialogModule} from '@angular/material/dialog';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [CreateLessonComponent, DeleteDialogComponent],
@@ -30,7 +32,9 @@ import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
     MaterialFileInputModule,
     MatSelectModule,
     ImageCropperModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTooltipModule,
+    MatSnackBarModule
   ]
 })
 export class CreateLessonModule { }
