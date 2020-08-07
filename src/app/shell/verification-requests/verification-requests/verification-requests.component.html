@@ -1,6 +1,5 @@
-<div class="container">
-  <p class="container__title" *ngIf="requestingUsers?.length">Requesting users</p>
-  <p class="container__title" *ngIf="!requestingUsers?.length">No requesting users</p>
+<div class="container" *ngIf="requestingUsers?.length">
+  <p class="container__title">Requesting users</p>
   <div class="requesting-users">
     <div *ngFor="let requestingUser of requestingUsers" class="requesting-user">
       <img class="requesting-user__image" src="{{requestingUser.photoURL}}" routerLink="/account"
@@ -13,4 +12,9 @@
         (click)="cancelRequest(requestingUser.uid)">Remove</button>
     </div>
   </div>
+</div>
+
+<div class="no-requests-container" *ngIf="!requestingUsers?.length">
+  <p class="no-requests-container__title">No requesting users</p>
+  <img class="no-requests-container__image" src="/assets/images/queue.svg">
 </div>
