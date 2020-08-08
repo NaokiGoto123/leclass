@@ -23,9 +23,17 @@
 
       <mat-form-field class="fields-container__video" appearance="outline" *ngIf="!lesson">
         <mat-label>Upload a video</mat-label>
-        <ngx-mat-file-input></ngx-mat-file-input>
+        <ngx-mat-file-input type="file" accept="video/mp4,video/x-m4v,video/*" (change)="createVideo($event)">
+        </ngx-mat-file-input>
       </mat-form-field>
     </div>
+
+    <button *ngIf="this.endpoint" (click)="uploadVideo()">Upload video</button>
+    <p *ngIf="percentage">{{ percentage }}</p>
+    <a *ngIf="isComplete" [href]="videoUrl" target="_blank">アップロード完了。動画URL</a>
+
+    <iframe *ngIf="playerUrl && isUploadingComplete" [src]="playerUrl" width="400" height="200" frameborder="0"
+      webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 
     <ng-container *ngIf="!lesson">
       <mat-form-field appearance="outline">
@@ -35,9 +43,10 @@
 
       <div class="cropper-container" *ngIf="croppedImage || imageChangedEvent">
         <ng-container *ngIf="imageChangedEvent">
-          <image-cropper class="cropper-container__cropper" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="2 / 1"
-          format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
-          (loadImageFailed)="loadImageFailed()"></image-cropper>
+          <image-cropper class="cropper-container__cropper" [imageChangedEvent]="imageChangedEvent"
+            [maintainAspectRatio]="true" [aspectRatio]="2 / 1" format="png" (imageCropped)="imageCropped($event)"
+            (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()">
+          </image-cropper>
         </ng-container>
 
         <img class="cropper-container__cropped-image" [src]="croppedImage" />
