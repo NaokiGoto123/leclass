@@ -1,4 +1,4 @@
-<div class="container" *ngIf="requestingUsers?.length">
+<div class="container" *ngIf="requestingUsers?.length && !initialLoading">
   <p class="container__title">Requesting users</p>
   <div class="requesting-users">
     <div *ngFor="let requestingUser of requestingUsers" class="requesting-user">
@@ -14,7 +14,11 @@
   </div>
 </div>
 
-<div class="no-requests-container" *ngIf="!requestingUsers?.length">
+<div class="no-requests-container" *ngIf="!requestingUsers?.length && !initialLoading">
   <p class="no-requests-container__title">No requesting users</p>
   <img class="no-requests-container__image" src="/assets/images/queue.svg">
+</div>
+
+<div class="spinner-container" *ngIf="initialLoading">
+  <mat-spinner></mat-spinner>
 </div>
