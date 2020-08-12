@@ -25,6 +25,7 @@ import 'froala-editor/js/plugins/url.min.js';
 import 'froala-editor/js/plugins/word_paste.min.js';
 import 'froala-editor/js/plugins/code_view.min.js';
 import 'froala-editor/js/plugins/font_family.min.js';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-profile-settings',
@@ -101,7 +102,8 @@ export class ProfileSettingsComponent implements OnInit {
     private userSevice: UserService,
     private storage: AngularFireStorage,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
     this.activatedRoute.queryParamMap.subscribe((params) => {
       const id = params.get('id');
@@ -157,7 +159,8 @@ export class ProfileSettingsComponent implements OnInit {
         photoURL,
         profile: this.form.value.profile,
       });
-      this.router.navigate(['/account'], {queryParams: {id: this.user.uid}});
+      this.snackBar.open('Successfully saved', 'Close');
+      this.router.navigate(['/account'], { queryParams: { id: this.user.uid } });
     } else {
       await this.userSevice.updateUser({
         uid: this.user.uid,
@@ -165,7 +168,8 @@ export class ProfileSettingsComponent implements OnInit {
         photoURL: this.user.photoURL,
         profile: this.form.value.profile
       });
-      this.router.navigate(['/account'], {queryParams: {id: this.user.uid}});
+      this.snackBar.open('Successfully saved', 'Close');
+      this.router.navigate(['/account'], { queryParams: { id: this.user.uid } });
     }
   }
 
