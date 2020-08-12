@@ -11,9 +11,11 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class AccountComponent implements OnInit {
 
+  user = this.authService.user;
+
   routerLinks: {label: string, link: string}[];
 
-  user: User;
+  targetUser: User;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -22,9 +24,9 @@ export class AccountComponent implements OnInit {
   ) {
     this.activatedRoute.queryParamMap.subscribe((params) => {
       const id = params.get('id');
-      this.userService.getUser(id).subscribe((user: User) => {
-        this.user = user;
-        if (user.uid === this.authService.user.uid) {
+      this.userService.getUser(id).subscribe((targetUser: User) => {
+        this.targetUser = targetUser;
+        if (targetUser.uid === this.authService.user.uid) {
           this.routerLinks = [
             {
               label: 'Profile',
