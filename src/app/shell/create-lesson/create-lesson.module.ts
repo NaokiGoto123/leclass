@@ -16,6 +16,9 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+
 @NgModule({
   declarations: [CreateLessonComponent, DeleteDialogComponent],
   imports: [
@@ -34,6 +37,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatDialogModule,
     MatTooltipModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule
   ]
 })
 export class CreateLessonModule { }

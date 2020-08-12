@@ -23,7 +23,6 @@ import 'froala-editor/js/plugins/font_family.min.js';
 import { LessonService } from 'src/app/services/lesson.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthService } from 'src/app/services/auth.service';
-import { firestore } from 'firebase';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -56,7 +55,7 @@ export class CreateLessonComponent implements OnInit {
     isPublic: [true]
   });
 
-  isComplete = false;
+  isComplete: boolean;
 
   subjects = [
     'Language & Literature HL',
@@ -140,7 +139,7 @@ export class CreateLessonComponent implements OnInit {
           }
         } else {
           this.ngZone.run(() => {
-            const msg = 'The image size is more thatn 3GB byte. Compress the image or use other images.';
+            const msg = 'The image size is more thatn 3MB byte. Compress the image or use other images.';
             this.snackBar.open(msg, 'Close', { duration: 5000 });
           });
           return false;
@@ -155,14 +154,14 @@ export class CreateLessonComponent implements OnInit {
 
   croppedImage: any = '';
 
-  token = 'XXXXXXXXXX7a33';
+  token = '4b11c36a691bebcefec15bd334b9fa0e';
   percentage: string;
   file: File;
   endpoint: string;
   videoUrl: string;
   isUploadingComplete: boolean;
   videoId: number;
-  playerUrl: SafeResourceUrl;
+  playerUrl: string;
 
   constructor(
     private fb: FormBuilder,
@@ -204,6 +203,22 @@ export class CreateLessonComponent implements OnInit {
     }
   }
 
+  fileChangeEvent(event: any): void {
+    this.imageChangedEvent = event;
+  }
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64;
+  }
+  imageLoaded() {
+    console.log('image is loaded');
+  }
+  cropperReady() {
+    console.log('cropper is ready');
+  }
+  loadImageFailed() {
+    console.log('error occured');
+  }
+
   // Vimeo上に動画を作成（アップロードの前処理）
   createVideo(event) {
     this.file = event.target.files[0];
@@ -240,14 +255,16 @@ export class CreateLessonComponent implements OnInit {
         );
 
         // 埋め込み再生用のURLを生成
-        this.playerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-          `https://player.vimeo.com/video/${this.videoId}`
-        );
+        // this.playerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+        //   `https://player.vimeo.com/video/${this.videoId}`
+        // );
+
+        this.playerUrl = `https://player.vimeo.com/video/${this.videoId}`;
       });
   }
 
-  // アップロード
   uploadVideo() {
+    this.isUploadingComplete = false;
     // アップロードタスクの定義
     const upload = new tus.Upload(this.file, {
       uploadUrl: this.endpoint,
@@ -262,27 +279,11 @@ export class CreateLessonComponent implements OnInit {
       },
       onSuccess: () => {
         this.isUploadingComplete = true;
+        this.snackBar.open('Video is successfully uploaded!', 'Close', { duration: 5000 });
       },
     });
 
-    // アップロード開始
     upload.start();
-  }
-
-  fileChangeEvent(event: any): void {
-    this.imageChangedEvent = event;
-  }
-  imageCropped(event: ImageCroppedEvent) {
-    this.croppedImage = event.base64;
-  }
-  imageLoaded() {
-    console.log('image is loaded');
-  }
-  cropperReady() {
-    console.log('cropper is ready');
-  }
-  loadImageFailed() {
-    console.log('error occured');
   }
 
   async upload(id: string, base64: string): Promise<string> {
@@ -294,8 +295,14 @@ export class CreateLessonComponent implements OnInit {
 
   async submit() {
     if (this.lesson) {
+      this.snackBar.open('Saving in process', 'Close', { duration: 5000 });
       this.update();
+    } else if (!this.endpoint) {
+      console.log('video is not ready yet');
     } else {
+      this.snackBar.open('Saving in process', 'Close', { duration: 5000 });
+      console.log(this.videoUrl);
+      console.log(this.playerUrl);
       const photoURL = await this.upload(
         this.uniqueId,
         this.croppedImage
@@ -304,18 +311,16 @@ export class CreateLessonComponent implements OnInit {
         id: this.uniqueId,
         title: this.form.value.title,
         thumbnail: photoURL,
-        videoLink: this.form.value.videoLink,
+        playerUrl: this.playerUrl,
+        videoUrl: this.videoUrl,
         content: this.form.value.content,
         createrId: this.authService.user.uid,
         subject: this.form.value.subject,
         isPublic: this.form.value.isPublic
       });
       this.isComplete = true;
-      if (this.form.value.isPublic) {
-        this.router.navigateByUrl('/');
-      } else {
-        this.router.navigateByUrl('/account/drafts');
-      }
+      this.snackBar.open('Successfully saved', 'Close', { duration: 5000 });
+      this.router.navigateByUrl('/');
     }
   }
 

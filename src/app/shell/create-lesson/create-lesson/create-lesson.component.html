@@ -9,31 +9,25 @@
       <input matInput type="text" formControlName="title" autocomplete="off">
     </mat-form-field>
 
-    <div class="fields-container">
-      <mat-form-field class="fields-container__subject" appearance="outline">
-        <mat-label>Choose subject</mat-label>
-        <mat-select formControlName="subject">
-          <mat-option *ngFor="let subject of subjects" [value]="subject">
-            {{subject}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Choose subject</mat-label>
+      <mat-select formControlName="subject">
+        <mat-option *ngFor="let subject of subjects" [value]="subject">
+          {{subject}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-      <span class="fields-container__spacer" *ngIf="!lesson"></span>
+    <mat-form-field appearance="outline" *ngIf="!lesson">
+      <mat-label>Upload a mp4 video</mat-label>
+      <ngx-mat-file-input type="file" accept="video/mp4" (change)="createVideo($event)">
+      </ngx-mat-file-input>
+    </mat-form-field>
 
-      <mat-form-field class="fields-container__video" appearance="outline" *ngIf="!lesson">
-        <mat-label>Upload a video</mat-label>
-        <ngx-mat-file-input type="file" accept="video/mp4,video/x-m4v,video/*" (change)="createVideo($event)">
-        </ngx-mat-file-input>
-      </mat-form-field>
-    </div>
+    <button mat-raised-button class="upload-video-button" *ngIf="this.endpoint && !this.isUploadingComplete"
+      (click)="uploadVideo()">Upload video</button>
 
-    <button *ngIf="this.endpoint" (click)="uploadVideo()">Upload video</button>
-    <p *ngIf="percentage">{{ percentage }}</p>
-    <a *ngIf="isComplete" [href]="videoUrl" target="_blank">アップロード完了。動画URL</a>
-
-    <iframe *ngIf="playerUrl && isUploadingComplete" [src]="playerUrl" width="400" height="200" frameborder="0"
-      webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+    <mat-progress-spinner class="uploading-spinner" *ngIf="!isUploadingComplete && this.percentage && this.percentage !== '100'" mode="determinate" value={{this.percentage}}></mat-progress-spinner>
 
     <ng-container *ngIf="!lesson">
       <mat-form-field appearance="outline">
