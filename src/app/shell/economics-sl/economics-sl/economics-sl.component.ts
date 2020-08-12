@@ -11,11 +11,17 @@ export class EconomicsSlComponent implements OnInit {
 
   lessons: Lesson[];
 
+  initialLoading: boolean;
+
   constructor(
     private lessonGetService: LessonGetService
   ) {
+    this.initialLoading = true;
     this.lessonGetService.getSpecificLessons('Economics HL').subscribe((lessons: Lesson[]) => {
       this.lessons = lessons;
+      setTimeout(() => {
+        this.initialLoading = false;
+      }, 500);
     });
   }
 

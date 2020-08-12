@@ -11,11 +11,17 @@ export class PhysicsHlComponent implements OnInit {
 
   lessons: Lesson[];
 
+  initialLoading: boolean;
+
   constructor(
     private lessonGetService: LessonGetService
   ) {
+    this.initialLoading = true;
     this.lessonGetService.getSpecificLessons('Physics HL').subscribe((lessons: Lesson[]) => {
       this.lessons = lessons;
+      setTimeout(() => {
+        this.initialLoading = false;
+      }, 500);
     });
   }
 
