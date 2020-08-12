@@ -1,0 +1,11 @@
+<form class="form" [formGroup]="form">
+  <p class="form__title">Report</p>
+  <mat-form-field class="field"appearance="outline">
+    <mat-label>Write message</mat-label>
+    <textarea class="field__area" matInput type="text" formControlName="message" autocomplete="off" required></textarea>
+    <mat-error *ngIf="!form.hasError('required')">
+      Message is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <button mat-raised-button (click)="sendReport()">Send</button>
+</form>

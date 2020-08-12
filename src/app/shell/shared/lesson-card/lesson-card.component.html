@@ -1,9 +1,10 @@
-<div class="card">
-  <a routerLink="/lesson" [queryParams]="{id: lesson?.id}">
-    <img class="card__thumbnail" src="{{lesson?.thumbnail}}">
-  </a>
-    <div class="card-content">
-      <a class="card-content__title" routerLink="/lesson" [queryParams]="{id: lesson?.id}">{{lesson?.title}}</a>
-      <a class="card-content__date" routerLink="/lesson" [queryParams]="{id: lesson?.id}">{{lesson?.date.toDate() | date: 'yyyy/MM/dd'}}</a>
+<mat-card class="card" routerLink="/lesson" [queryParams]="{id: lesson?.id}">
+  <img mat-card-image src="{{lesson?.thumbnail}}">
+  <mat-card-content class="card-content">
+    <img class="card-content__image" src="{{creater?.photoURL}}">
+    <div class="card-info">
+      <h3 class="card-info__title">{{lesson?.title}}</h3>
+      <span class="card-info__date">Published on {{lesson?.date.toDate() | date: 'yyyy/MM/dd'}}</span>
     </div>
-</div>
+  </mat-card-content>
+</mat-card>

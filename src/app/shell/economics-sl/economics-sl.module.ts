@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { EconomicsSlRoutingModule } from './economics-sl-routing.module';
 import { EconomicsSlComponent } from './economics-sl/economics-sl.component';
 import { SharedModule } from '../shared/shared.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     CommonModule,
     EconomicsSlRoutingModule,
-    SharedModule
+    SharedModule,
+    MatProgressSpinnerModule
   ]
 })
 export class EconomicsSlModule { }

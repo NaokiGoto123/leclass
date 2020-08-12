@@ -1,4 +1,8 @@
 .toolbar {
+  &__menu-button {
+    margin: 0 25px 0 0;
+  }
+
   &__title {
     color: white;
     text-decoration: none;
@@ -6,7 +10,7 @@
 
   &__search-bar {
     margin: 0 auto;
-    width: 800px;
+    width: 700px;
     min-width: 200px;
     font-size: 12px;
     margin-bottom: -1.25em;
@@ -32,6 +36,7 @@
     width: 45px;
     height: 45px;
     border-radius: 50%;
+    cursor: pointer;
   }
 }
 

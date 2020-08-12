@@ -11,11 +11,17 @@ export class TheoryofknowledgeComponent implements OnInit {
 
   lessons: Lesson[];
 
+  initialLoading: boolean;
+
   constructor(
     private lessonGetService: LessonGetService
   ) {
+    this.initialLoading = true;
     this.lessonGetService.getSpecificLessons('Theory of Knowledge').subscribe((lessons: Lesson[]) => {
       this.lessons = lessons;
+      setTimeout(() => {
+        this.initialLoading = false;
+      }, 500);
     });
   }
 

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { JapaneseSlRoutingModule } from './japanese-sl-routing.module';
 import { JapaneseSlComponent } from './japanese-sl/japanese-sl.component';
 import { SharedModule } from '../shared/shared.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     CommonModule,
     JapaneseSlRoutingModule,
-    SharedModule
+    SharedModule,
+    MatProgressSpinnerModule
   ]
 })
 export class JapaneseSlModule { }

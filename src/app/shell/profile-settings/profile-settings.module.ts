@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { FroalaEditorModule } from 'angular-froala-wysiwyg';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { FroalaEditorModule } from 'angular-froala-wysiwyg';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    FroalaEditorModule
+    FroalaEditorModule,
+    MatSnackBarModule
   ]
 })
 export class ProfileSettingsModule { }

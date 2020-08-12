@@ -23,7 +23,6 @@ import 'froala-editor/js/plugins/font_family.min.js';
 import { LessonService } from 'src/app/services/lesson.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthService } from 'src/app/services/auth.service';
-import { firestore } from 'firebase';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -33,6 +32,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 import { ImageService } from 'src/app/services/image.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import * as tus from 'tus-js-client';
+import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Component({
   selector: 'app-create-lesson',
   templateUrl: './create-lesson.component.html',
@@ -48,13 +50,12 @@ export class CreateLessonComponent implements OnInit {
 
   form = this.fb.group({
     title: ['', [Validators.required]],
-    videoLink: [''],
     content: [''],
     subject: ['', [Validators.required]],
     isPublic: [true]
   });
 
-  isComplete = false;
+  isComplete: boolean;
 
   subjects = [
     'Language & Literature HL',
@@ -138,7 +139,7 @@ export class CreateLessonComponent implements OnInit {
           }
         } else {
           this.ngZone.run(() => {
-            const msg = 'The image size is more thatn 3GB byte. Compress the image or use other images.';
+            const msg = 'The image size is more thatn 3MB byte. Compress the image or use other images.';
             this.snackBar.open(msg, 'Close', { duration: 5000 });
           });
           return false;
@@ -153,6 +154,15 @@ export class CreateLessonComponent implements OnInit {
 
   croppedImage: any = '';
 
+  token = '4b11c36a691bebcefec15bd334b9fa0e';
+  percentage: string;
+  file: File;
+  endpoint: string;
+  videoUrl: string;
+  isUploadingComplete: boolean;
+  videoId: number;
+  playerUrl: string;
+
   constructor(
     private fb: FormBuilder,
     private db: AngularFirestore,
@@ -165,7 +175,9 @@ export class CreateLessonComponent implements OnInit {
     public dialog: MatDialog,
     private imageService: ImageService,
     private ngZone: NgZone,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private http: HttpClient,
+    private sanitizer: DomSanitizer
   ) {
     this.activatedRoute.queryParamMap.subscribe((params) => {
       const id = params.get('id');
@@ -198,13 +210,80 @@ export class CreateLessonComponent implements OnInit {
     this.croppedImage = event.base64;
   }
   imageLoaded() {
-    // show cropper
+    console.log('image is loaded');
   }
   cropperReady() {
-    // cropper ready
+    console.log('cropper is ready');
   }
   loadImageFailed() {
-    // show message
+    console.log('error occured');
+  }
+
+  // Vimeo上に動画を作成（アップロードの前処理）
+  createVideo(event) {
+    this.file = event.target.files[0];
+    console.log(event.target.files[0]);
+
+    this.http
+      .post(
+        'https://api.vimeo.com/me/videos',
+        {
+          upload: {
+            approach: 'tus',
+            size: this.file.size,
+          },
+        },
+        {
+          headers: new HttpHeaders({
+            Authorization: `bearer ${this.token}`,
+            'Content-Type': 'application/json',
+            Accept: 'application/vnd.vimeo.*+json;version=3.4',
+          }),
+        }
+      )
+      .subscribe((res: any) => {
+        console.log(res);
+        // アップロード用URL
+        this.endpoint = res.upload.upload_link;
+
+        // Vimeo上の動画URL
+        this.videoUrl = res.link;
+
+        // 動画URLから動画IDを抽出
+        this.videoId = +this.videoUrl.substring(
+          this.videoUrl.lastIndexOf('/') + 1
+        );
+
+        // 埋め込み再生用のURLを生成
+        // this.playerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+        //   `https://player.vimeo.com/video/${this.videoId}`
+        // );
+
+        this.playerUrl = `https://player.vimeo.com/video/${this.videoId}`;
+      });
+  }
+
+  uploadVideo() {
+    this.isUploadingComplete = false;
+    // アップロードタスクの定義
+    const upload = new tus.Upload(this.file, {
+      uploadUrl: this.endpoint,
+      // アップロードの刻み粒度（バイト単位）
+      retryDelays: [0, 3000, 5000, 10000, 20000],
+      onError: (error) => {
+        console.log('Failed because: ' + error);
+      },
+      onProgress: (bytesUploaded, bytesTotal) => {
+        // 進捗パーセントを更新
+        this.percentage = ((bytesUploaded / bytesTotal) * 100).toFixed(2);
+      },
+      onSuccess: () => {
+        this.isUploadingComplete = true;
+        this.snackBar.open('Video is successfully uploaded!', 'Close', { duration: 5000 });
+      },
+    });
+
+    upload.start();
   }
 
   async upload(id: string, base64: string): Promise<string> {
@@ -216,8 +295,14 @@ export class CreateLessonComponent implements OnInit {
 
   async submit() {
     if (this.lesson) {
+      this.snackBar.open('Saving in process', 'Close', { duration: 5000 });
       this.update();
+    } else if (!this.endpoint) {
+      console.log('video is not ready yet');
     } else {
+      this.snackBar.open('Saving in process', 'Close', { duration: 5000 });
+      console.log(this.videoUrl);
+      console.log(this.playerUrl);
       const photoURL = await this.upload(
         this.uniqueId,
         this.croppedImage
@@ -226,18 +311,16 @@ export class CreateLessonComponent implements OnInit {
         id: this.uniqueId,
         title: this.form.value.title,
         thumbnail: photoURL,
-        videoLink: this.form.value.videoLink,
+        playerUrl: this.playerUrl,
+        videoUrl: this.videoUrl,
         content: this.form.value.content,
         createrId: this.authService.user.uid,
         subject: this.form.value.subject,
         isPublic: this.form.value.isPublic
       });
       this.isComplete = true;
-      if (this.form.value.isPublic) {
-        this.router.navigateByUrl('/');
-      } else {
-        this.router.navigateByUrl('/account/drafts');
-      }
+      this.snackBar.open('Successfully saved', 'Close', { duration: 5000 });
+      this.router.navigateByUrl('/');
     }
   }
 
@@ -260,7 +343,6 @@ export class CreateLessonComponent implements OnInit {
         id: this.lesson.id
       }
     });
-
     dialogRef.afterClosed().subscribe(result => {
     });
   }

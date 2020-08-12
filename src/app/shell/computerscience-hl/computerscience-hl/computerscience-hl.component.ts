@@ -11,11 +11,17 @@ export class ComputerscienceHlComponent implements OnInit {
 
   lessons: Lesson[];
 
+  initialLoading: boolean;
+
   constructor(
     private lessonGetService: LessonGetService
   ) {
+    this.initialLoading = true;
     this.lessonGetService.getSpecificLessons('Computer Science HL').subscribe((lessons: Lesson[]) => {
       this.lessons = lessons;
+      setTimeout(() => {
+        this.initialLoading = false;
+      }, 500);
     });
   }
 

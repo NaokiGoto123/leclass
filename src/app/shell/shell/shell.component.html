@@ -1,5 +1,5 @@
 <mat-toolbar class="toolbar">
-  <button mat-icon-button (click)="toggleSidenav()" matTooltip="close or open side bar">
+  <button mat-icon-button class="toolbar__menu-button" (click)="toggleSidenav()" matTooltip="close or open side bar">
     <mat-icon>menu</mat-icon>
   </button>
   <a class="toolbar__title" routerLink="/">Leclass</a>
@@ -10,7 +10,7 @@
       <mat-icon>search</mat-icon>
     </button>
   </mat-form-field>
-  <form [formGroup]="form">
+  <!-- <form [formGroup]="form">
     <mat-form-field class="toolbar__selector" appearance="legacy">
       <mat-label>Select course</mat-label>
       <mat-select formControlName="course">
@@ -18,7 +18,7 @@
         <mat-option value="MYP">MYP</mat-option>
       </mat-select>
     </mat-form-field>
-  </form>
+  </form> -->
   <p class="toolbar__verified" *ngIf="user?.verified" matTooltip="You are verified">Verified</p>
   <img class="toolbar__account-image" src="{{user?.photoURL}}" [matMenuTriggerFor]="menu">
   <mat-menu #menu="matMenu">
@@ -72,7 +72,7 @@
       </a>
       <mat-divider></mat-divider>
       <a mat-list-item class="sidenav-item" *ngIf="user?.verified && verificationRequests?.length" routerLink="/verification-requests">
-        <mat-icon class="sidenav-item__icon"></mat-icon>
+        <mat-icon class="sidenav-item__icon">group_add</mat-icon>
         <span matBadge="{{verificationRequests.length}}" matBadgeOverlap="false">Verification requests</span>
       </a>
       <a mat-list-item class="sidenav-item" *ngIf="user?.verified && !verificationRequests?.length" routerLink="/verification-requests">
@@ -88,7 +88,7 @@
         <mat-icon class="sidenav-item__icon">info</mat-icon>
         <span>About</span>
       </a>
-      <a mat-list-item class="sidenav-item" routerLink="/about">
+      <a mat-list-item class="sidenav-item" routerLink="/report">
         <mat-icon class="sidenav-item__icon">report</mat-icon>
         <span>Report</span>
       </a>

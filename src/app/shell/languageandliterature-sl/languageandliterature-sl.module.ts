@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { LanguageandliteratureSlRoutingModule } from './languageandliterature-sl-routing.module';
 import { LanguageandliteratureSlComponent } from './languageandliterature-sl/languageandliterature-sl.component';
 import { SharedModule } from '../shared/shared.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     CommonModule,
     LanguageandliteratureSlRoutingModule,
-    SharedModule
+    SharedModule,
+    MatProgressSpinnerModule
   ]
 })
 export class LanguageandliteratureSlModule { }

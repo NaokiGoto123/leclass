@@ -10,7 +10,7 @@ export class AboutComponent implements OnInit {
   routerLinks = [
     { label: 'What is this service for?', link: 'purpose' },
     { label: 'How to use this service', link: 'usage' },
-    { label: 'Supporters', link: 'supporters'}
+    { label: 'Contributers', link: 'supporters'}
   ];
 
   constructor() { }

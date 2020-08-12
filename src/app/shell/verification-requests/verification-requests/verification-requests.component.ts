@@ -15,13 +15,19 @@ export class VerificationRequestsComponent implements OnInit {
 
   requestingUsers: User[];
 
+  initialLoading: boolean;
+
   constructor(
     private verificationGetService: VerificationGetService,
     private verificationService: VerificationService,
     private authService: AuthService
   ) {
+    this.initialLoading = true;
     this.verificationGetService.getRequestingUsers().subscribe((requestingUsers: User[]) => {
       this.requestingUsers = requestingUsers;
+      setTimeout(() => {
+        this.initialLoading = false;
+      }, 500);
     });
   }
 

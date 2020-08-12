@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/interfaces/user';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import 'froala-editor/js/plugins/char_counter.min.js';
@@ -25,6 +25,7 @@ import 'froala-editor/js/plugins/url.min.js';
 import 'froala-editor/js/plugins/word_paste.min.js';
 import 'froala-editor/js/plugins/code_view.min.js';
 import 'froala-editor/js/plugins/font_family.min.js';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-profile-settings',
@@ -36,7 +37,7 @@ export class ProfileSettingsComponent implements OnInit {
   user: User;
 
   form = this.fb.group({
-    displayName: [''],
+    displayName: ['', Validators.required],
     profile: ['']
   });
 
@@ -101,7 +102,8 @@ export class ProfileSettingsComponent implements OnInit {
     private userSevice: UserService,
     private storage: AngularFireStorage,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
     this.activatedRoute.queryParamMap.subscribe((params) => {
       const id = params.get('id');
@@ -146,26 +148,30 @@ export class ProfileSettingsComponent implements OnInit {
   }
 
   async updateUser() {
-    if (this.croppedImage) {
-      const photoURL = await this.upload(
-        `users/${this.user.uid}`,
-        this.croppedImage
-      );
-      await this.userSevice.updateUser({
-        uid: this.user.uid,
-        displayName: this.form.value.displayName,
-        photoURL,
-        profile: this.form.value.profile,
-      });
-      this.router.navigate(['/account'], {queryParams: {id: this.user.uid}});
-    } else {
-      await this.userSevice.updateUser({
-        uid: this.user.uid,
-        displayName: this.form.value.displayName,
-        photoURL: this.user.photoURL,
-        profile: this.form.value.profile
-      });
-      this.router.navigate(['/account'], {queryParams: {id: this.user.uid}});
+    if (this.form.valid) {
+      if (this.croppedImage) {
+        const photoURL = await this.upload(
+          `users/${this.user.uid}`,
+          this.croppedImage
+        );
+        await this.userSevice.updateUser({
+          uid: this.user.uid,
+          displayName: this.form.value.displayName,
+          photoURL,
+          profile: this.form.value.profile,
+        });
+        this.snackBar.open('Successfully saved', 'Close');
+        this.router.navigate(['/account'], { queryParams: { id: this.user.uid } });
+      } else {
+        await this.userSevice.updateUser({
+          uid: this.user.uid,
+          displayName: this.form.value.displayName,
+          photoURL: this.user.photoURL,
+          profile: this.form.value.profile
+        });
+        this.snackBar.open('Successfully saved', 'Close');
+        this.router.navigate(['/account'], { queryParams: { id: this.user.uid } });
+      }
     }
   }
 
