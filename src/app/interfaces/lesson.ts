@@ -1,5 +1,4 @@
 import { firestore } from 'firebase';
-import { SafeResourceUrl } from '@angular/platform-browser';
 
 export interface Lesson {
   id: string;
