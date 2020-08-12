@@ -46,29 +46,3 @@
     font-size: 28px;
   }
 }
-
-.verified-users-title {
-  font-size: 32px;
-  text-align: start;
-}
-
-.verified-user {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 80px;
-  margin: 0 0 20px 0;
-  &__image {
-    height: 100%;
-    border-radius: 50%;
-    margin: 0 20px 0 0;
-  }
-  &__name {
-    font-size: 24px;
-    text-decoration: none;
-    color: white;
-  }
-  &__name:hover {
-    text-decoration: underline;
-  }
-}

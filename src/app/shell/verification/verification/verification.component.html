@@ -24,16 +24,6 @@
     </div>
   </div>
 
-  <p class="verified-users-title">Verified users</p>
-  <div class="verified-users">
-    <div *ngFor="let verifiedUser of verifiedUsers" class="verified-user">
-      <img class="verified-user__image" src="{{verifiedUser.photoURL}}" routerLink="/account"
-        [queryParams]="{id: verifiedUser.uid}">
-      <a class="verified-user__name" routerLink="/account"
-        [queryParams]="{id: verifiedUser.uid}">{{verifiedUser.displayName}}</a>
-    </div>
-  </div>
-
   <button mat-raised-button *ngIf="verificationRequests?.includes(user.uid) && !user?.verified" color="warn">Cancel
     request</button>
 

@@ -13,8 +13,6 @@ export class VerificationComponent implements OnInit {
 
   user: User;
 
-  verifiedUsers: User[];
-
   verificationRequests: string[];
 
   constructor(
@@ -23,9 +21,6 @@ export class VerificationComponent implements OnInit {
     private authService: AuthService
   ) {
     this.user = this.authService.user;
-    this.verificationGetService.getVerifiedUsers().subscribe((verifiedUsers: User[]) => {
-      this.verifiedUsers = verifiedUsers;
-    });
     this.verificationGetService.getVerificationRequests().subscribe((requests: string[]) => {
       this.verificationRequests = requests;
     });
