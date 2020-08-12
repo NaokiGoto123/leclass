@@ -2,14 +2,19 @@
   <p class="container__title">Requesting users</p>
   <div class="requesting-users">
     <div *ngFor="let requestingUser of requestingUsers" class="requesting-user">
+
       <img class="requesting-user__image" src="{{requestingUser.photoURL}}" routerLink="/account"
         [queryParams]="{id: requestingUser.uid}">
+
       <a class="requesting-user__name" routerLink="/account"
         [queryParams]="{id: requestingUser.uid}">{{requestingUser.displayName}}</a>
-      <button mat-stroked-button class="requesting-user__update-button" *ngIf="user.verified" color="primary"
-        (click)="verifyUser(requestingUser.uid)">Verify</button>
-      <button mat-stroked-button *ngIf="user.verified" color="warn"
-        (click)="cancelRequest(requestingUser.uid)">Remove</button>
+
+      <ng-container *ngIf="user.verified">
+        <button mat-stroked-button class="requesting-user__update-button" color="primary"
+          (click)="verifyUser(requestingUser.uid)">Verify</button>
+        <button mat-stroked-button color="warn" (click)="cancelRequest(requestingUser.uid)">Remove</button>
+      </ng-container>
+
     </div>
   </div>
 </div>

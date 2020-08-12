@@ -17,13 +17,20 @@
   &__image {
     height: 100%;
     border-radius: 50%;
+    cursor: pointer;
     margin: 0 20px 0 0;
+  }
+  &__image:focus{
+    outline: unset;
   }
   &__name {
     font-size: 24px;
     margin: 0 20px 0 0;
     text-decoration: none;
     color: white;
+  }
+  &__name:hover{
+    text-decoration: underline;
   }
   &__update-button {
     margin: 0 20px 0 0;
