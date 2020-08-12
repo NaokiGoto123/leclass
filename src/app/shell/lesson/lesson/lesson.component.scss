@@ -6,6 +6,22 @@
   margin: 60px;
 }
 
+.vimeo{
+  position:relative;
+  width:100%;
+  padding-top:55%;
+  background: black;
+  border-radius: 5px;
+}
+.vimeo iframe{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  margin: 0;
+}
+
 .title {
   font-size: 32px;
   margin: 32px 0 10px 0;

@@ -8,11 +8,17 @@
   </button>
 </mat-toolbar>
 <div class="container">
+  <div class="vimeo">
+    <iframe [src]="safePlayerUrl" frameborder="0"
+    webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+  </div>
+
   <p class="title">{{lesson?.title}}</p>
   <p class="date">Published on {{lesson?.date.toDate() | date: 'yyyy/MM/dd'}}</p>
   <mat-divider></mat-divider>
   <div class="creater">
-    <img class="creater__account-image" src="{{ creater?.photoURL }}" routerLink="/account" [queryParams]="{ id: creater?.uid }">
+    <img class="creater__account-image" src="{{ creater?.photoURL }}" routerLink="/account"
+      [queryParams]="{ id: creater?.uid }">
     <a class="creater__name" routerLink="/account" [queryParams]="{ id: creater?.uid }">{{creater?.displayName}}</a>
   </div>
   <mat-divider></mat-divider>
