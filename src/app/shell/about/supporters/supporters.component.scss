@@ -16,6 +16,10 @@
     height: 100%;
     border-radius: 50%;
     margin: 0 20px 0 0;
+    cursor: pointer;
+  }
+  &__image:focus{
+    outline: unset;
   }
   &__name {
     font-size: 24px;
