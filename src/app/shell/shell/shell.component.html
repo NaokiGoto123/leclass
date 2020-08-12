@@ -72,7 +72,7 @@
       </a>
       <mat-divider></mat-divider>
       <a mat-list-item class="sidenav-item" *ngIf="user?.verified && verificationRequests?.length" routerLink="/verification-requests">
-        <mat-icon class="sidenav-item__icon"></mat-icon>
+        <mat-icon class="sidenav-item__icon">group_add</mat-icon>
         <span matBadge="{{verificationRequests.length}}" matBadgeOverlap="false">Verification requests</span>
       </a>
       <a mat-list-item class="sidenav-item" *ngIf="user?.verified && !verificationRequests?.length" routerLink="/verification-requests">
