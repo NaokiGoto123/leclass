@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
 import { UserService } from 'src/app/services/user.service';
 import { DomSanitizer, SafeHtml, SafeResourceUrl } from '@angular/platform-browser';
 import { User } from 'src/app/interfaces/user';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-lesson',
@@ -13,6 +14,8 @@ import { User } from 'src/app/interfaces/user';
   styleUrls: ['./lesson.component.scss']
 })
 export class LessonComponent implements OnInit {
+
+  user = this.authService.user;
 
   lesson: Lesson;
 
@@ -27,7 +30,8 @@ export class LessonComponent implements OnInit {
     private location: Location,
     private lessonGetService: LessonGetService,
     private userService: UserService,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private authService: AuthService
   ) {
     this.activatedRoute.queryParamMap.subscribe((params) => {
       const id = params.get('id');

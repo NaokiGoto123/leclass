@@ -3,7 +3,7 @@
     <mat-icon>arrow_back</mat-icon>
   </button>
   <span class="spacer"></span>
-  <button mat-icon-button routerLink="/create-lesson" [queryParams]="{id: lesson?.id}">
+  <button mat-icon-button routerLink="/create-lesson" [queryParams]="{id: lesson?.id}" *ngIf="user.verified">
     <mat-icon>edit</mat-icon>
   </button>
 </mat-toolbar>
