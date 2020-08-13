@@ -1,12 +1,12 @@
-<div *ngIf="!initialLoading">
+<ng-container *ngIf="!initialLoading">
   <mat-toolbar class="toolbar">
     <span class="toolbar__spacer"></span>
-    <button mat-raised-button>
+    <button mat-raised-button (click)="removeAll()">
       Remove all
     </button>
   </mat-toolbar>
   <app-cards-list class="cards-list" [lessons]="listItems"></app-cards-list>
-</div>
+</ng-container>
 
 <div class="spinner-container" *ngIf="initialLoading">
   <mat-spinner></mat-spinner>

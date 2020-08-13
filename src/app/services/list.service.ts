@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { map, switchMap } from 'rxjs/operators';
 import { Observable, combineLatest, of } from 'rxjs';
 import { Lesson } from '../interfaces/lesson';
+import { AngularFireFunctions } from '@angular/fire/functions';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,8 @@ import { Lesson } from '../interfaces/lesson';
 export class ListService {
 
   constructor(
-    private db: AngularFirestore
+    private db: AngularFirestore,
+    private fns: AngularFireFunctions
   ) { }
 
   addToList(uid: string, id: string) {
@@ -21,8 +23,9 @@ export class ListService {
     this.db.doc(`users/${uid}/list/${id}`).delete();
   }
 
-  removeAll(uid: string) {
-
+  async removeAll(uid: string) {
+    const deleteList = this.fns.httpsCallable('deleteList');
+    const result = await deleteList(uid).toPromise();
   }
 
   getListItemIds(uid: string): Observable<string[]> {

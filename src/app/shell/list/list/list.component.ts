@@ -31,4 +31,8 @@ export class ListComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  removeAll() {
+    this.listService.removeAll(this.authService.user.uid)
+  }
+
 }
