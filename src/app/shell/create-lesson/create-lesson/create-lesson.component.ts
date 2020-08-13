@@ -154,7 +154,7 @@ export class CreateLessonComponent implements OnInit {
 
   croppedImage: any = '';
 
-  token = '4b11c36a691bebcefec15bd334b9fa0e';
+  token = '131de8827dca0fa95e1fadae192e3bf7';
   percentage: string;
   file: File;
   endpoint: string;
