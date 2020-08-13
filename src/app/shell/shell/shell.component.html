@@ -93,6 +93,10 @@
         <mat-icon class="sidenav-item__icon">list</mat-icon>
         <span>List</span>
       </a>
+      <a mat-list-item class="sidenav-item" routerLink="/drafts">
+        <mat-icon class="sidenav-item__icon">edit</mat-icon>
+        <span>Drafts</span>
+      </a>
       <a mat-list-item class="sidenav-item" routerLink="/account" [queryParams]="{id: user?.uid}">
         <mat-icon class="sidenav-item__icon">person</mat-icon>
         <span>Account</span>
