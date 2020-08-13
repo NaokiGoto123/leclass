@@ -88,6 +88,11 @@
         <mat-icon class="sidenav-item__icon">group_add</mat-icon>
         <span>Verification requests</span>
       </a>
+      <mat-divider></mat-divider>
+      <a mat-list-item class="sidenav-item" routerLink="/list" [queryParams]="{id: user?.uid}">
+        <mat-icon class="sidenav-item__icon">list</mat-icon>
+        <span>List</span>
+      </a>
       <a mat-list-item class="sidenav-item" routerLink="/account" [queryParams]="{id: user?.uid}">
         <mat-icon class="sidenav-item__icon">person</mat-icon>
         <span>Account</span>
