@@ -8,14 +8,6 @@
     text-decoration: none;
   }
 
-  &__search-bar {
-    margin: 0 auto;
-    width: 700px;
-    min-width: 200px;
-    font-size: 12px;
-    margin-bottom: -1.25em;
-  }
-
   &__selector {
     height: 50px;
     padding: 0;
@@ -37,6 +29,17 @@
     height: 45px;
     border-radius: 50%;
     cursor: pointer;
+  }
+}
+
+.search-bar {
+  margin: 0 auto;
+  width: 700px;
+  min-width: 200px;
+  font-size: 12px;
+  margin-bottom: -1.25em;
+  &__field {
+    width: 100%;
   }
 }
 
