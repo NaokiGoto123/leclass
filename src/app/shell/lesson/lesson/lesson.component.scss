@@ -3,7 +3,30 @@
 }
 
 .container {
-  margin: 60px;
+  margin: 40px 60px 80px 60px;
+
+  &__title {
+    font-size: 32px;
+    margin: 32px 0 15px 0;
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0 0 10px 0;
+  &__date {
+    color: #9b9b9b;
+    margin: 0 40px 0 0;
+  }
+  &__spacer {
+    flex: 1 1 auto;
+  }
 }
 
 .vimeo {
@@ -20,19 +43,6 @@
   width: 100%;
   height: 100%;
   margin: 0;
-}
-
-.title {
-  font-size: 32px;
-  margin: 32px 0 10px 0;
-  width: 100%;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.date {
-  color: #9b9b9b;
 }
 
 .creater {
