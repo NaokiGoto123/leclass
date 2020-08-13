@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
+import { ListService } from 'src/app/services/list.service';
+import { Lesson } from 'src/app/interfaces/lesson';
 
 @Component({
   selector: 'app-list',
@@ -7,7 +10,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListComponent implements OnInit {
 
-  constructor() { }
+  listItems: Lesson[];
+
+  initialLoading: boolean;
+
+  constructor(
+    private authService: AuthService,
+    private listService: ListService
+  ) {
+    this.initialLoading = true;
+    this.listService.getListItems(this.authService.user.uid).subscribe((listItems) => {
+      console.log(listItems);
+      this.listItems = listItems;
+      setTimeout(() => {
+        this.initialLoading = false;
+      }, 500);
+    });
+  }
 
   ngOnInit(): void {
   }
