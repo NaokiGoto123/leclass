@@ -6,29 +6,33 @@
   margin: 60px;
 }
 
-.vimeo{
-  position:relative;
-  width:100%;
-  padding-top:55%;
+.vimeo {
+  position: relative;
+  width: 100%;
+  padding-top: 55%;
   background: black;
   border-radius: 5px;
 }
-.vimeo iframe{
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
+.vimeo iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   margin: 0;
 }
 
 .title {
   font-size: 32px;
   margin: 32px 0 10px 0;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .date {
-  color: #9B9B9B;
+  color: #9b9b9b;
 }
 
 .creater {
@@ -43,7 +47,7 @@
     cursor: pointer;
     margin: 0 10px 0 0;
   }
-  &__account-image:focus{
+  &__account-image:focus {
     outline: unset;
   }
   &__name {
