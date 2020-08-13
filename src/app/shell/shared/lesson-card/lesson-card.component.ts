@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Lesson } from 'src/app/interfaces/lesson';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/interfaces/user';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-lesson-card',
@@ -13,6 +14,8 @@ export class LessonCardComponent implements OnInit {
   @Input() lesson: Lesson;
 
   creater: User;
+
+  publishedDate: moment.Moment = moment(this.lesson?.date);
 
   constructor(
     private userService: UserService
