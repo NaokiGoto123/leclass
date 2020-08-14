@@ -312,7 +312,7 @@ export class CreateLessonComponent implements OnInit {
         title: this.form.value.title,
         thumbnail: photoURL,
         playerUrl: this.playerUrl,
-        videoUrl: this.videoUrl,
+        videoId: this.videoId.toString(),
         content: this.form.value.content,
         createrId: this.authService.user.uid,
         subject: this.form.value.subject,
@@ -340,7 +340,8 @@ export class CreateLessonComponent implements OnInit {
   openDialog() {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: {
-        id: this.lesson.id
+        id: this.lesson.id,
+        videoId: this.lesson.videoId
       }
     });
     dialogRef.afterClosed().subscribe(result => {

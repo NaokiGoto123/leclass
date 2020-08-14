@@ -4,7 +4,7 @@ export interface Lesson {
   id: string;
   title: string;
   thumbnail: string;
-  videoUrl: string;
+  videoId: string;
   playerUrl: string;
   content: string;
   createrId: string;
