@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  private index: SearchIndex = this.searchService.index.lessons;
+  private index: SearchIndex = this.searchService.index.lessons_date;
 
   lessons: Lesson[];
 
