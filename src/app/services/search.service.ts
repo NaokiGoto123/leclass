@@ -13,7 +13,7 @@ const searchClient = algoliasearch(
 export class SearchService {
 
   index = {
-    lessons: searchClient.initIndex('lessons'),
+    lessons_date: searchClient.initIndex('lessons_date'),
   };
 
   constructor() { }

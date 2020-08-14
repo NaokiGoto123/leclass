@@ -5,6 +5,7 @@ import { User } from 'src/app/interfaces/user';
 import { VerificationGetService } from 'src/app/services/verification-get.service';
 import { Router } from '@angular/router';
 import { SearchService } from 'src/app/services/search.service';
+import { SearchIndex } from 'algoliasearch/lite';
 
 @Component({
   selector: 'app-shell',
@@ -13,7 +14,7 @@ import { SearchService } from 'src/app/services/search.service';
 })
 export class ShellComponent implements OnInit {
 
-  index = this.searchService.index.lessons;
+  index: SearchIndex = this.searchService.index.lessons_date;
 
   options = [];
 
