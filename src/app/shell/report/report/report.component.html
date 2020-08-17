@@ -1,7 +1,14 @@
 <form class="form" [formGroup]="form">
   <p class="form__title">Report</p>
+  <mat-form-field appearance="outline">
+    <mat-label>Title</mat-label>
+    <input matInput type="text" formControlName="title" autocomplete="off" required>
+    <mat-error *ngIf="!form.hasError('required')">
+      Title is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
   <mat-form-field class="field"appearance="outline">
-    <mat-label>Write message</mat-label>
+    <mat-label>Message</mat-label>
     <textarea class="field__area" matInput type="text" formControlName="message" autocomplete="off" required></textarea>
     <mat-error *ngIf="!form.hasError('required')">
       Message is <strong>required</strong>

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Report } from '../interfaces/report';
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +11,15 @@ export class ReportService {
     private db: AngularFirestore
   ) { }
 
-  sendReport(reporterId: string, message: string) {
+  sendReport(report: Omit<Report, 'id' | 'date'>) {
     const now = new Date();
     console.log(now);
     this.db.doc(`reports/${now.getTime()}`).set({
-      reporterId,
+      id: this.db.createId(),
+      reporterId: report.reporterId,
+      title: report.title,
       date: now,
-      message
+      message: report.message
     });
   }
 }

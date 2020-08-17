@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class ReportComponent implements OnInit {
 
   form = this.fb.group({
+    title: ['', Validators.required],
     message: ['', Validators.required]
   });
 
@@ -38,7 +39,11 @@ export class ReportComponent implements OnInit {
   sendReport() {
     if (this.form.valid) {
       console.log(this.form.value.message);
-      this.reportService.sendReport(this.authService.user.uid, this.form.value.message);
+      this.reportService.sendReport({
+        reporterId: this.authService.user.uid,
+        title: this.form.value.title,
+        message: this.form.value.message
+      });
     } else {
       console.log('false');
     }
