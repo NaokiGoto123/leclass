@@ -1,0 +1,12 @@
+<mat-list role="list">
+  <div mat-subheader>Reports</div>
+  <ng-container *ngFor="let report of reports">
+    <mat-list-item role="listitem">
+      {{report.title}}・{{report.date.toDate() | date: 'yyyy/MM/dd'}}
+      <button mat-icon-button>
+        <mat-icon>launch</mat-icon>
+      </button>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+  </ng-container>
+</mat-list>
