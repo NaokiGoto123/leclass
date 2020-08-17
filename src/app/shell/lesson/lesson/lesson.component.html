@@ -9,12 +9,23 @@
 </mat-toolbar>
 <div class="container">
   <div class="vimeo">
-    <iframe [src]="safePlayerUrl" frameborder="0"
-    webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+    <iframe [src]="safePlayerUrl" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
   </div>
 
-  <p class="title">{{lesson?.title}}</p>
-  <p class="date">Published on {{lesson?.date.toDate() | date: 'yyyy/MM/dd'}}</p>
+  <p class="container__title">{{lesson?.title}}</p>
+  <div class="row">
+    <p class="row__date">Published on {{lesson?.date.toDate() | date: 'yyyy/MM/dd'}}</p>
+    <span class="row__spacer"></span>
+    <button mat-button class="row__button" *ngIf="!listItemIds.includes(lesson.id)" (click)="addToList()">
+      <mat-icon>add</mat-icon>
+      <span>Add to list</span>
+    </button>
+    <button mat-button class="row__button" *ngIf="listItemIds.includes(lesson.id)" (click)="removeFromList()">
+      <mat-icon>remove</mat-icon>
+      <span>Remove from list</span>
+    </button>
+  </div>
+
   <mat-divider></mat-divider>
   <div class="creater">
     <img class="creater__account-image" src="{{ creater?.photoURL }}" routerLink="/account"

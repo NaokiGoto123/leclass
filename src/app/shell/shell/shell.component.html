@@ -3,13 +3,20 @@
     <mat-icon>menu</mat-icon>
   </button>
   <a class="toolbar__title" routerLink="/">Leclass</a>
-  <mat-form-field class="toolbar__search-bar" appearance="outline">
-    <mat-label>Search</mat-label>
-    <input matInput type="text" [formControl]="valueControl" autocomplete="off">
-    <button mat-button matSuffix mat-icon-button>
-      <mat-icon>search</mat-icon>
-    </button>
-  </mat-form-field>
+  <form class="search-bar" (ngSubmit)="routeSearch(valueControl.value)">
+    <mat-form-field class="search-bar__field" appearance="outline">
+      <mat-label>Search</mat-label>
+      <input matInput type="text" [formControl]="valueControl" autocomplete="off" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="directSearch($event.option?.value)">
+        <mat-option *ngFor="let option of options" [value]="option.id">
+          {{option.title}}
+        </mat-option>
+      </mat-autocomplete>
+      <button mat-button matSuffix mat-icon-button (click)="routeSearch(valueControl.value)">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </form>
   <!-- <form [formGroup]="form">
     <mat-form-field class="toolbar__selector" appearance="legacy">
       <mat-label>Select course</mat-label>
@@ -71,13 +78,24 @@
         <span>Verification</span>
       </a>
       <mat-divider></mat-divider>
-      <a mat-list-item class="sidenav-item" *ngIf="user?.verified && verificationRequests?.length" routerLink="/verification-requests">
+      <a mat-list-item class="sidenav-item" *ngIf="user?.verified && verificationRequests?.length"
+        routerLink="/verification-requests">
         <mat-icon class="sidenav-item__icon">group_add</mat-icon>
         <span matBadge="{{verificationRequests.length}}" matBadgeOverlap="false">Verification requests</span>
       </a>
-      <a mat-list-item class="sidenav-item" *ngIf="user?.verified && !verificationRequests?.length" routerLink="/verification-requests">
+      <a mat-list-item class="sidenav-item" *ngIf="user?.verified && !verificationRequests?.length"
+        routerLink="/verification-requests">
         <mat-icon class="sidenav-item__icon">group_add</mat-icon>
         <span>Verification requests</span>
+      </a>
+      <mat-divider></mat-divider>
+      <a mat-list-item class="sidenav-item" routerLink="/list">
+        <mat-icon class="sidenav-item__icon">list</mat-icon>
+        <span>List</span>
+      </a>
+      <a mat-list-item class="sidenav-item" *ngIf="user?.verified" routerLink="/drafts">
+        <mat-icon class="sidenav-item__icon">edit</mat-icon>
+        <span>Drafts</span>
       </a>
       <a mat-list-item class="sidenav-item" routerLink="/account" [queryParams]="{id: user?.uid}">
         <mat-icon class="sidenav-item__icon">person</mat-icon>
@@ -91,44 +109,6 @@
       <a mat-list-item class="sidenav-item" routerLink="/report">
         <mat-icon class="sidenav-item__icon">report</mat-icon>
         <span>Report</span>
-      </a>
-    </mat-nav-list>
-    <mat-nav-list *ngIf="form.value.course === 'MYP'">
-      <div mat-subheader>MYP subjects</div>
-      <a mat-list-item>
-        Literature
-      </a>
-      <a mat-list-item>
-        French
-      </a>
-      <a mat-list-item>
-        Math
-      </a>
-      <a mat-list-item>
-        Humanities
-      </a>
-      <a mat-list-item>
-        Science
-      </a>
-      <a mat-list-item>
-        PHE
-      </a>
-      <mat-divider></mat-divider>
-      <a mat-list-item *ngIf="user?.verified" routerLink="/create-lesson">
-        Create lesson
-      </a>
-      <a mat-list-item *ngIf="user?.verified">
-        Verification requests
-      </a>
-      <a mat-list-item *ngIf="!user?.verified" routerLink="/verification">
-        Verification
-      </a>
-      <mat-divider></mat-divider>
-      <a mat-list-item routerLink="/about">
-        About
-      </a>
-      <a mat-list-item routerLink="/account" [queryParams]="{id: user?.uid}">
-        Account
       </a>
     </mat-nav-list>
   </mat-sidenav>

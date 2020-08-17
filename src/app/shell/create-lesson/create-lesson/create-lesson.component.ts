@@ -154,7 +154,7 @@ export class CreateLessonComponent implements OnInit {
 
   croppedImage: any = '';
 
-  token = '4b11c36a691bebcefec15bd334b9fa0e';
+  token = '131de8827dca0fa95e1fadae192e3bf7';
   percentage: string;
   file: File;
   endpoint: string;
@@ -312,7 +312,7 @@ export class CreateLessonComponent implements OnInit {
         title: this.form.value.title,
         thumbnail: photoURL,
         playerUrl: this.playerUrl,
-        videoUrl: this.videoUrl,
+        videoId: this.videoId.toString(),
         content: this.form.value.content,
         createrId: this.authService.user.uid,
         subject: this.form.value.subject,
@@ -340,7 +340,8 @@ export class CreateLessonComponent implements OnInit {
   openDialog() {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: {
-        id: this.lesson.id
+        id: this.lesson.id,
+        videoId: this.lesson.videoId
       }
     });
     dialogRef.afterClosed().subscribe(result => {

@@ -7,6 +7,7 @@ import { UserService } from 'src/app/services/user.service';
 import { DomSanitizer, SafeHtml, SafeResourceUrl } from '@angular/platform-browser';
 import { User } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
+import { ListService } from 'src/app/services/list.service';
 
 @Component({
   selector: 'app-lesson',
@@ -25,13 +26,16 @@ export class LessonComponent implements OnInit {
 
   creater: User;
 
+  listItemIds: string[];
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private location: Location,
     private lessonGetService: LessonGetService,
     private userService: UserService,
     private domSanitizer: DomSanitizer,
-    private authService: AuthService
+    private authService: AuthService,
+    private listService: ListService
   ) {
     this.activatedRoute.queryParamMap.subscribe((params) => {
       const id = params.get('id');
@@ -45,6 +49,9 @@ export class LessonComponent implements OnInit {
         });
       });
     });
+    this.listService.getListItemIds(this.authService.user.uid).subscribe((listItemIds: string[]) => {
+      this.listItemIds = listItemIds;
+    });
   }
 
   ngOnInit(): void {
@@ -52,6 +59,14 @@ export class LessonComponent implements OnInit {
 
   navigateBack() {
     this.location.back();
+  }
+
+  addToList() {
+    this.listService.addToList(this.authService.user.uid, this.lesson.id);
+  }
+
+  removeFromList() {
+    this.listService.removeFromList(this.authService.user.uid, this.lesson.id);
   }
 
 }
