@@ -42,7 +42,8 @@ export class ReportComponent implements OnInit {
       this.reportService.sendReport({
         reporterId: this.authService.user.uid,
         title: this.form.value.title,
-        message: this.form.value.message
+        message: this.form.value.message,
+        isSolved: false
       });
     } else {
       console.log('false');

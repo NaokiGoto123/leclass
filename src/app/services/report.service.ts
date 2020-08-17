@@ -23,4 +23,12 @@ export class ReportService {
       message: report.message
     });
   }
+
+  fixReport(id: string) {
+    this.db.doc(`reports/${id}`).update({isSolved: true});
+  }
+
+  unfixReport(id: string) {
+    this.db.doc(`reports/${id}`).update({isSolved: false});
+  }
 }

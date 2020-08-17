@@ -6,4 +6,5 @@ export interface Report {
   title: string;
   date: firestore.Timestamp;
   message: string;
+  isSolved: boolean;
 }
