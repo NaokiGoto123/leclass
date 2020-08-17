@@ -33,4 +33,8 @@ export class VerificationComponent implements OnInit {
     this.verificationService.sendVerificationRequests(this.authService.user.uid);
   }
 
+  cancelRequest() {
+    this.verificationService.cancelRequest(this.authService.user.uid);
+  }
+
 }

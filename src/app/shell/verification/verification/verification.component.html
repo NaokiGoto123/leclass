@@ -24,8 +24,8 @@
     </div>
   </div>
 
-  <button mat-raised-button *ngIf="verificationRequests?.includes(user.uid) && !user?.verified" color="warn">Cancel
-    request</button>
+  <button mat-raised-button *ngIf="verificationRequests?.includes(user.uid) && !user?.verified" color="warn"
+  (click)="cancelRequest()">Cancel request</button>
 
   <button mat-raised-button *ngIf="!verificationRequests?.includes(user.uid) && !user?.verified"
     (click)="sendVerificationRequest()">Ask for verification</button>
