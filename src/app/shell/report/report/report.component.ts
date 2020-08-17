@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { ReportService } from 'src/app/services/report.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-report',
@@ -14,13 +15,24 @@ export class ReportComponent implements OnInit {
     message: ['', Validators.required]
   });
 
+  isComplete: boolean;
+
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private reportService: ReportService
+    private reportService: ReportService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any) {
+    if (this.form.dirty) {
+      $event.preventDefault();
+      $event.returnValue = 'Your work will be lost. Is it okay?';
+    }
   }
 
   sendReport() {
@@ -30,6 +42,8 @@ export class ReportComponent implements OnInit {
     } else {
       console.log('false');
     }
+    this.isComplete = true;
+    this.router.navigateByUrl('/');
   }
 
 }
