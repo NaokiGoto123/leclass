@@ -1,9 +1,10 @@
 <mat-list role="list">
   <div mat-subheader>Reports</div>
   <ng-container *ngFor="let report of reports">
-    <mat-list-item role="listitem">
-      {{report.title}}・{{report.date.toDate() | date: 'yyyy/MM/dd'}}
-      <button mat-icon-button>
+    <mat-list-item role="listitem" class="item">
+      <mat-icon class="item__icon" *ngIf="report.isSolved">done_outline</mat-icon>
+      <span class="item__content">{{report.title}}・{{report.date.toDate() | date: 'yyyy/MM/dd'}}</span>
+      <button mat-icon-button routerLink='/report-detail' [queryParams]='{id: report.id}'>
         <mat-icon>launch</mat-icon>
       </button>
     </mat-list-item>
