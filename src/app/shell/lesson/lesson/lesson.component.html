@@ -16,11 +16,11 @@
   <div class="row">
     <p class="row__date">Published on {{lesson?.date.toDate() | date: 'yyyy/MM/dd'}}</p>
     <span class="row__spacer"></span>
-    <button mat-button class="row__button" *ngIf="!listItemIds.includes(lesson.id)" (click)="addToList()">
+    <button mat-button class="row__button" *ngIf="!listItemIds?.includes(lesson.id)" (click)="addToList()">
       <mat-icon>add</mat-icon>
       <span>Add to list</span>
     </button>
-    <button mat-button class="row__button" *ngIf="listItemIds.includes(lesson.id)" (click)="removeFromList()">
+    <button mat-button class="row__button" *ngIf="listItemIds?.includes(lesson.id)" (click)="removeFromList()">
       <mat-icon>remove</mat-icon>
       <span>Remove from list</span>
     </button>
