@@ -35,6 +35,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import * as tus from 'tus-js-client';
 import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-create-lesson',
   templateUrl: './create-lesson.component.html',
@@ -154,7 +155,7 @@ export class CreateLessonComponent implements OnInit {
 
   croppedImage: any = '';
 
-  token = '131de8827dca0fa95e1fadae192e3bf7';
+  token = environment.vimeo.token;
   percentage: string;
   file: File;
   endpoint: string;

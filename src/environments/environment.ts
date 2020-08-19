@@ -13,5 +13,8 @@ export const environment = {
   algolia: {
     appId: '5XXQXHCD4W',
     searchKey: '8d8dd1c99c197cc850465ff019a59530',
+  },
+  vimeo: {
+    token: '131de8827dca0fa95e1fadae192e3bf7'
   }
 };
