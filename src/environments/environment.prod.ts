@@ -15,6 +15,6 @@ export const environment = {
     searchKey: 'c2b2eb3f95b28e4a834ad103c6e2ed4e',
   },
   vimeo: {
-    token: '131de8827dca0fa95e1fadae192e3bf7'
+    token: '369ddbc482b0bee416c9e79044e558cf'
   }
 };
