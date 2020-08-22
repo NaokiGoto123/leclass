@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ShellComponent } from './shell/shell.component';
 import { AuthGuard } from '../guards/auth.guard';
+import { IbDpModule } from './ib-dp/ib-dp.module';
 
 
 const routes: Routes = [
@@ -49,6 +50,10 @@ const routes: Routes = [
         path: 'theoryofknowledge',
         loadChildren: () =>
         import('./theoryofknowledge/theoryofknowledge.module').then((m) => m.TheoryofknowledgeModule)
+      },
+      {
+        path: 'ib-dp',
+        loadChildren: () => import('./ib-dp/ib-dp.module').then((m) => m.IbDpModule)
       },
       {
         path: 'lesson',
