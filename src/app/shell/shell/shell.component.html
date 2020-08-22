@@ -26,7 +26,10 @@
       </mat-select>
     </mat-form-field>
   </form> -->
-  <p class="toolbar__verified" *ngIf="user?.verified" matTooltip="You are verified">Verified</p>
+  <p class="verified-label" *ngIf="user?.verified" matTooltip="You are verified">
+    <span class="verified-label__text">Verified</span>
+    <mat-icon class="verified-label__icon">verified</mat-icon>
+  </p>
   <img class="toolbar__account-image" src="{{user?.photoURL}}" [matMenuTriggerFor]="menu">
   <mat-menu #menu="matMenu">
     <button mat-menu-item routerLink="/account" [queryParams]="{id: user?.uid}">

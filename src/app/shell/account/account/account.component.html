@@ -8,7 +8,10 @@
 <div class="header">
   <img class="header__image" src="{{targetUser?.photoURL}}">
   <div class="header-content">
-    <p class="header-content__name">{{targetUser?.displayName}}</p>
+    <div class="header-content-row">
+      <p class="header-content-row__name">{{targetUser?.displayName}}</p>
+      <mat-icon class="header-content-row__icon" *ngIf="targetUser?.verified">verified</mat-icon>
+    </div>
     <p class="header-content__email">{{targetUser?.email}}</p>
   </div>
 </div>
