@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LessonGetService } from 'src/app/services/lesson-get.service';
 import { Lesson } from 'src/app/interfaces/lesson';
 import { timeout } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-analysisandapproaches-hl',
@@ -10,7 +11,7 @@ import { timeout } from 'rxjs/operators';
 })
 export class AnalysisandapproachesHlComponent implements OnInit {
 
-  lessons: Lesson[];
+  lessons: Observable<Lesson[]>;
 
   initialLoading: boolean;
 
@@ -18,12 +19,10 @@ export class AnalysisandapproachesHlComponent implements OnInit {
     private lessonGetService: LessonGetService
   ) {
     this.initialLoading = true;
-    this.lessonGetService.getSpecificLessons('Analysis & Approaches Hl').subscribe((lessons: Lesson[]) => {
-      this.lessons = lessons;
-      setTimeout(() => {
-        this.initialLoading = false;
-      }, 500);
-    });
+    this.lessons = this.lessonGetService.getSpecificLessons('Analysis & Approaches Hl');
+    setTimeout(() => {
+      this.initialLoading = false;
+    }, 500);
   }
 
   ngOnInit(): void {

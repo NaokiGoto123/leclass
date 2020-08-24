@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Lesson } from 'src/app/interfaces/lesson';
 import { LessonGetService } from 'src/app/services/lesson-get.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-computerscience-hl',
@@ -9,7 +10,7 @@ import { LessonGetService } from 'src/app/services/lesson-get.service';
 })
 export class ComputerscienceHlComponent implements OnInit {
 
-  lessons: Lesson[];
+  lessons: Observable<Lesson[]>;
 
   initialLoading: boolean;
 
@@ -17,12 +18,10 @@ export class ComputerscienceHlComponent implements OnInit {
     private lessonGetService: LessonGetService
   ) {
     this.initialLoading = true;
-    this.lessonGetService.getSpecificLessons('Computer Science HL').subscribe((lessons: Lesson[]) => {
-      this.lessons = lessons;
-      setTimeout(() => {
-        this.initialLoading = false;
-      }, 500);
-    });
+    this.lessons = this.lessonGetService.getSpecificLessons('Computer Science HL');
+    setTimeout(() => {
+      this.initialLoading = false;
+    }, 500);
   }
 
   ngOnInit(): void {
