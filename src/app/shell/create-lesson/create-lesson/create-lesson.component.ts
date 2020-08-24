@@ -65,7 +65,8 @@ export class CreateLessonComponent implements OnInit {
     'Physics HL',
     'Computer Science HL',
     'Economics HL',
-    'Theory of Knowledge'
+    'Theory of Knowledge',
+    'IB DP'
   ];
 
   public options = {
