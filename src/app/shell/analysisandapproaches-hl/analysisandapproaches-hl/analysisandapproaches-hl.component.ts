@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LessonGetService } from 'src/app/services/lesson-get.service';
 import { Lesson } from 'src/app/interfaces/lesson';
-import { timeout } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-analysisandapproaches-hl',
@@ -16,8 +16,19 @@ export class AnalysisandapproachesHlComponent implements OnInit {
   initialLoading: boolean;
 
   constructor(
-    private lessonGetService: LessonGetService
+    private lessonGetService: LessonGetService,
+    private titleService: Title,
+    private meta: Meta
   ) {
+    this.titleService.setTitle('Leclass');
+
+    this.meta.addTags([
+      { name: 'description', content: 'Analytics and approaches' },
+      { property: 'og:title', content: 'Analytics and approaches' },
+      { property: 'og:description', content: 'Analytics and approaches'},
+      { property: 'og:url', content: location.href },
+    ]);
+
     this.initialLoading = true;
     this.lessons = this.lessonGetService.getSpecificLessons('Analysis & Approaches Hl');
     setTimeout(() => {
