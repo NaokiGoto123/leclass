@@ -11,7 +11,6 @@ import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireFunctionsModule, REGION } from '@angular/fire/functions';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -28,8 +27,6 @@ import { HttpClientModule } from '@angular/common/http';
     AngularFireStorageModule,
     AngularFireFunctionsModule,
     AngularFireAuthModule,
-    FroalaEditorModule.forRoot(),
-    FroalaViewModule.forRoot(),
     HttpClientModule,
     BrowserAnimationsModule
   ],
