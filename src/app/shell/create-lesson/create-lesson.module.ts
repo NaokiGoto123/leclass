@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { CreateLessonRoutingModule } from './create-lesson-routing.module';
 import { CreateLessonComponent } from './create-lesson/create-lesson.component';
-import { FroalaEditorModule } from 'angular-froala-wysiwyg';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -19,13 +18,13 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { HttpClientModule } from '@angular/common/http';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   declarations: [CreateLessonComponent, DeleteDialogComponent],
   imports: [
     CommonModule,
     CreateLessonRoutingModule,
-    FroalaEditorModule,
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,
@@ -40,7 +39,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatSnackBarModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
-    HttpClientModule
+    HttpClientModule,
+    QuillModule.forRoot()
   ]
 })
 export class CreateLessonModule { }
