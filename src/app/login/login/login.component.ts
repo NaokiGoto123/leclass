@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { User } from 'src/app/interfaces/user';
 
 @Component({
   selector: 'app-login',
@@ -9,14 +11,16 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  user$ = this.authService.user$;
+  user$: Observable<User>;
 
   constructor(
     private authService: AuthService,
     private router: Router
   ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.user$ = this.authService.user$;
+  }
 
   async login() {
     await this.authService.googleSignin();
