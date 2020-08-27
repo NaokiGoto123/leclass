@@ -16,6 +16,10 @@ const routes: Routes = [
         loadChildren: () => import('./home/home.module').then((m) => m.HomeModule)
       },
       {
+        path: 'subject',
+        loadChildren: () => import('./subject/subject.module').then((m) => m.SubjectModule)
+      },
+      {
         path: 'languageandliterature-sl',
         loadChildren: () =>
         import('./languageandliterature-sl/languageandliterature-sl.module').then((m) => m.LanguageandliteratureSlModule)
