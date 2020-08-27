@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="!initialLoading">
   <mat-toolbar class="container__toolbar">
     <span>Leclass</span>
     <span class="container__spacer"></span>
@@ -11,4 +11,9 @@
   <button class="login" (click)="goHome()" *ngIf="(user$ | async)">
     Already logged in
   </button>
+</div>
+
+
+<div class="spinner-container" *ngIf="initialLoading">
+  <mat-spinner></mat-spinner>
 </div>

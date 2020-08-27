@@ -13,13 +13,20 @@ export class LoginComponent implements OnInit {
 
   user$: Observable<User>;
 
+  initialLoading: boolean;
+
   constructor(
     private authService: AuthService,
     private router: Router
-  ) { }
+  ) {
+    this.initialLoading = true;
+  }
 
   ngOnInit(): void {
     this.user$ = this.authService.user$;
+    setTimeout(() => {
+      this.initialLoading = false;
+    }, 1000);
   }
 
   async login() {
