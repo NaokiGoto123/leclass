@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
+  user$ = this.authService.user$;
+
   constructor(
     private authService: AuthService,
     private router: Router
@@ -18,6 +20,10 @@ export class LoginComponent implements OnInit {
 
   async login() {
     await this.authService.googleSignin();
+    this.router.navigateByUrl('/');
+  }
+
+  goHome() {
     this.router.navigateByUrl('/');
   }
 
