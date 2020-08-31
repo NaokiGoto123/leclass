@@ -5,3 +5,4 @@ admin.initializeApp(functions.config().firebase);
 export * from './deleteLesson.function'
 export * from './deleteList.function'
 export * from './algolia/lesson.function'
+export * from './render.function'
