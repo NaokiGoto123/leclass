@@ -5,10 +5,10 @@
     <button mat-flat-button>About</button>
   </mat-toolbar>
   <h1 class="container__title">Leclass</h1>
-  <button class="login" (click)="login()" *ngIf="!(user$ | async)">
+  <button class="login" (click)="login()" *ngIf="!user">
     Login with Google
   </button>
-  <button class="login" (click)="goHome()" *ngIf="(user$ | async)">
+  <button class="login" (click)="goHome()" *ngIf="user">
     Already logged in
   </button>
 </div>

@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/interfaces/user';
+import { tap, map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import { User } from 'src/app/interfaces/user';
 })
 export class LoginComponent implements OnInit {
 
-  user$: Observable<User>;
+  user: User;
 
   initialLoading: boolean;
 
@@ -23,10 +24,15 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.user$ = this.authService.user$;
-    setTimeout(() => {
-      this.initialLoading = false;
-    }, 1000);
+    this.authService.user$.pipe(
+      take(1))
+      .subscribe((user: User) => {
+        if (user) {
+          this.user = user;
+          this.initialLoading = false;
+        }
+      }
+      );
   }
 
   async login() {
