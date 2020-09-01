@@ -10,8 +10,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { FroalaEditorModule } from 'angular-froala-wysiwyg';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { QuillModule } from 'ngx-quill';
 
 
 @NgModule({
@@ -27,8 +27,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    FroalaEditorModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    QuillModule.forRoot(),
   ]
 })
 export class ProfileSettingsModule { }

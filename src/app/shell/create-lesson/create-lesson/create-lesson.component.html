@@ -46,7 +46,9 @@
       </div>
     </ng-container>
 
-    <div class="editor" [froalaEditor]="options" formControlName="content"></div>
+    <div class="editor-container">
+      <quill-editor [styles]="{height: '500px'}" formControlName='content'></quill-editor>
+    </div>
 
     <mat-slide-toggle class="toggle" formControlName="isPublic">Publish</mat-slide-toggle>
     <button mat-raised-button class="submit-button" (click)="submit()">Save</button>
