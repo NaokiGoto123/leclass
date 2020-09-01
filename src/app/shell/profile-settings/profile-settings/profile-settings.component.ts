@@ -6,6 +6,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { switchMap, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile-settings',
@@ -33,13 +34,15 @@ export class ProfileSettingsComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar
   ) {
-    this.activatedRoute.queryParamMap.subscribe((params) => {
-      const id = params.get('id');
-      this.userSevice.getUser(id).subscribe((user: User) => {
+    this.activatedRoute.queryParamMap.pipe(
+      take(1),
+      switchMap((params) => {
+        return this.userSevice.getUser(params.get('id'));
+      }))
+      .subscribe((user: User) => {
         this.user = user;
         this.form.patchValue(user);
       });
-    });
   }
 
   ngOnInit(): void {

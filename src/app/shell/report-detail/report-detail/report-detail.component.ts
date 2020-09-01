@@ -5,6 +5,7 @@ import { Report } from 'src/app/interfaces/report';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/interfaces/user';
 import { ReportService } from 'src/app/services/report.service';
+import { switchMap, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-report-detail',
@@ -23,15 +24,18 @@ export class ReportDetailComponent implements OnInit {
     private userService: UserService,
     private reportService: ReportService
   ) {
-    this.activatedRoute.queryParamMap.subscribe((params) => {
-      const id = params.get('id');
-      this.reportGetService.getReport(id).subscribe((report: Report) => {
+    this.activatedRoute.queryParamMap.pipe(
+      take(1),
+      switchMap((params) => {
+        return this.reportGetService.getReport(params.get('id'));
+      }),
+      switchMap((report: Report) => {
         this.report = report;
-        this.userService.getUser(report.reporterId).subscribe((reporter: User) => {
-          this.reporter = reporter;
-        });
+        return this.userService.getUser(report.reporterId);
+      }))
+      .subscribe((reporter: User) => {
+        this.reporter = reporter;
       });
-    });
   }
 
   ngOnInit(): void {

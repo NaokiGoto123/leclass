@@ -8,6 +8,7 @@ import { DomSanitizer, SafeHtml, SafeResourceUrl } from '@angular/platform-brows
 import { User } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { ListService } from 'src/app/services/list.service';
+import { switchMap, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-lesson',
@@ -37,9 +38,12 @@ export class LessonComponent implements OnInit {
     private authService: AuthService,
     private listService: ListService
   ) {
-    this.activatedRoute.queryParamMap.subscribe((params) => {
-      const id = params.get('id');
-      this.lessonGetService.getLesson(id).subscribe((lesson: Lesson) => {
+    this.activatedRoute.queryParamMap.pipe(
+      take(1),
+      switchMap((params) => {
+        return this.lessonGetService.getLesson(params.get('id'));
+      }))
+      .subscribe((lesson: Lesson) => {
         this.lesson = lesson;
         this.safeHtml = this.domSanitizer.bypassSecurityTrustHtml(lesson.content);
         console.log(lesson.playerUrl);
@@ -48,8 +52,8 @@ export class LessonComponent implements OnInit {
           this.creater = creater;
         });
       });
-    });
-    this.listService.getListItemIds(this.authService.user.uid).subscribe((listItemIds: string[]) => {
+
+    this.listService.getListItemIds(this.authService.user.uid).pipe(take(1)).subscribe((listItemIds: string[]) => {
       this.listItemIds = listItemIds;
     });
   }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { ListService } from 'src/app/services/list.service';
 import { Lesson } from 'src/app/interfaces/lesson';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list',
@@ -19,8 +20,7 @@ export class ListComponent implements OnInit {
     private listService: ListService
   ) {
     this.initialLoading = true;
-    this.listService.getListItems(this.authService.user.uid).subscribe((listItems) => {
-      console.log(listItems);
+    this.listService.getListItems(this.authService.user.uid).pipe(take(1)).subscribe((listItems) => {
       this.listItems = listItems;
       setTimeout(() => {
         this.initialLoading = false;

@@ -14,6 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import * as tus from 'tus-js-client';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { switchMap, take } from 'rxjs/operators';
 @Component({
   selector: 'app-create-lesson',
   templateUrl: './create-lesson.component.html',
@@ -71,16 +72,18 @@ export class CreateLessonComponent implements OnInit {
     private snackBar: MatSnackBar,
     private http: HttpClient
   ) {
-    this.activatedRoute.queryParamMap.subscribe((params) => {
-      const id = params.get('id');
-      this.lessonGetService.getLesson(id).subscribe((lesson: Lesson) => {
+    this.activatedRoute.queryParamMap.pipe(
+      take(1),
+      switchMap((params) => {
+        return this.lessonGetService.getLesson(params.get('id'));
+      }))
+      .subscribe((lesson: Lesson) => {
         if (lesson) {
           this.form.patchValue(lesson);
           this.croppedImage = lesson.thumbnail;
           this.lesson = lesson;
         }
       });
-    });
   }
 
   ngOnInit(): void {
@@ -116,20 +119,20 @@ export class CreateLessonComponent implements OnInit {
     console.log(event.target.files[0]);
 
     this.http.post('https://api.vimeo.com/me/videos',
-        {
-          upload: {
-            approach: 'tus',
-            size: this.file.size,
-          }
-        },
-        {
-          headers: new HttpHeaders({
-            Authorization: `bearer ${this.token}`,
-            'Content-Type': 'application/json',
-            Accept: 'application/vnd.vimeo.*+json;version=3.4',
-          }),
+      {
+        upload: {
+          approach: 'tus',
+          size: this.file.size,
         }
-      )
+      },
+      {
+        headers: new HttpHeaders({
+          Authorization: `bearer ${this.token}`,
+          'Content-Type': 'application/json',
+          Accept: 'application/vnd.vimeo.*+json;version=3.4',
+        }),
+      }
+    )
       .subscribe((res: any) => {
         console.log(res);
         // アップロード用URL

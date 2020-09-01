@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
         this.initialLoading = false;
       }, 500);
     });
-    this.activatedRoute.queryParamMap.subscribe((params) => {
+    this.activatedRoute.queryParamMap.pipe(take(1)).subscribe((params) => {
       this.query = params.get('searchQuery') || '';
       this.search();
     });

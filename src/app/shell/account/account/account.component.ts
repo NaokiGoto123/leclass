@@ -3,6 +3,7 @@ import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/interfaces/user';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { switchMap, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-account',
@@ -13,7 +14,7 @@ export class AccountComponent implements OnInit {
 
   user = this.authService.user;
 
-  routerLinks: {label: string, link: string}[];
+  routerLinks: { label: string, link: string }[];
 
   targetUser: User;
 
@@ -22,9 +23,12 @@ export class AccountComponent implements OnInit {
     private userService: UserService,
     private authService: AuthService
   ) {
-    this.activatedRoute.queryParamMap.subscribe((params) => {
-      const id = params.get('id');
-      this.userService.getUser(id).subscribe((targetUser: User) => {
+    this.activatedRoute.queryParamMap.pipe(
+      take(1),
+      switchMap((params) => {
+        return this.userService.getUser(params.get('id'));
+      }))
+      .subscribe((targetUser: User) => {
         this.targetUser = targetUser;
         if (targetUser.uid === this.authService.user.uid) {
           this.routerLinks = [
@@ -46,7 +50,6 @@ export class AccountComponent implements OnInit {
           ];
         }
       });
-    });
   }
 
   ngOnInit(): void {
