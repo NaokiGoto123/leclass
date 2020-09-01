@@ -19,7 +19,7 @@ export class ShellComponent implements OnInit {
 
   options = [];
 
-  user: User = this.authService.user;
+  user: User;
 
   isShowing = true;
 
@@ -38,6 +38,9 @@ export class ShellComponent implements OnInit {
     private router: Router,
     private searchService: SearchService
   ) {
+    this.authService.user$.subscribe((user: User) => {
+      this.user = user;
+    });
     this.verificationGetService.getVerificationRequests().pipe(take(1)).subscribe((verificationRequests) => {
       this.verificationRequests = verificationRequests;
     });
