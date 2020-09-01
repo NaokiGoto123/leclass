@@ -21,7 +21,6 @@ export class SubjectComponent implements OnInit {
   ) {
     this.initialLoading = true;
     this.activatedRoute.queryParamMap.pipe(
-      take(1),
       switchMap((params) => {
         const subject = params.get('subject');
         return this.lessonGetService.getSpecificLessons(subject);
