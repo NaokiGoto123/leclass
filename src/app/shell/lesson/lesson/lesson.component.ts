@@ -46,7 +46,6 @@ export class LessonComponent implements OnInit {
       .subscribe((lesson: Lesson) => {
         this.lesson = lesson;
         this.safeHtml = this.domSanitizer.bypassSecurityTrustHtml(lesson.content);
-        console.log(lesson.playerUrl);
         this.safePlayerUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(lesson.playerUrl);
         this.userService.getUser(lesson.createrId).subscribe((creater: User) => {
           this.creater = creater;

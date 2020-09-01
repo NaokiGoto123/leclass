@@ -26,7 +26,6 @@ export class DraftsGuard implements CanActivate, CanLoad {
   canLoad(
     route: Route,
     segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
-    console.log(route);
     return true;
   }
 }

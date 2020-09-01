@@ -116,7 +116,6 @@ export class CreateLessonComponent implements OnInit {
   // Vimeo上に動画を作成（アップロードの前処理）
   createVideo(event) {
     this.file = event.target.files[0];
-    console.log(event.target.files[0]);
 
     this.http.post('https://api.vimeo.com/me/videos',
       {
@@ -134,7 +133,6 @@ export class CreateLessonComponent implements OnInit {
       }
     )
       .subscribe((res: any) => {
-        console.log(res);
         // アップロード用URL
         this.endpoint = res.upload.upload_link;
         // Vimeo上の動画URL
@@ -181,8 +179,6 @@ export class CreateLessonComponent implements OnInit {
       this.snackBar.open('Video is not readt', 'Close', { duration: 5000 });
     } else {
       this.snackBar.open('Saving in process', 'Close', { duration: 5000 });
-      console.log(this.videoUrl);
-      console.log(this.playerUrl);
       const photoURL = await this.upload(
         this.uniqueId,
         this.croppedImage
@@ -205,7 +201,6 @@ export class CreateLessonComponent implements OnInit {
   }
 
   private async update() {
-    console.log(this.form.value);
     this.lessonService.updateLesson({
       ...this.lesson,
       title: this.form.value.title,

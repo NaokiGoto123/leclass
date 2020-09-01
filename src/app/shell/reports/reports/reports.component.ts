@@ -16,7 +16,6 @@ export class ReportsComponent implements OnInit {
     private reportGetService: ReportGetService
   ) {
     this.reportGetService.getReports().pipe(take(1)).subscribe((reports: Report[]) => {
-      console.log(reports);
       this.reports = reports;
     });
   }

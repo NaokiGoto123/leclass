@@ -38,15 +38,12 @@ export class ReportComponent implements OnInit {
 
   sendReport() {
     if (this.form.valid) {
-      console.log(this.form.value.message);
       this.reportService.sendReport({
         reporterId: this.authService.user.uid,
         title: this.form.value.title,
         message: this.form.value.message,
         isSolved: false
       });
-    } else {
-      console.log('false');
     }
     this.isComplete = true;
     this.router.navigateByUrl('/');

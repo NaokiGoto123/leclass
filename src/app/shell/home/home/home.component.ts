@@ -54,7 +54,6 @@ export class HomeComponent implements OnInit {
         facetFilters: `isPublic:true`
       })
       .then((result) => {
-        console.log(result);
         this.result = result;
         this.initialLoading = false;
       });

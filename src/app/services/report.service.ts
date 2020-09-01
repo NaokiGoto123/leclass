@@ -14,7 +14,6 @@ export class ReportService {
   sendReport(report: Omit<Report, 'id' | 'date'>) {
     const id = this.db.createId();
     const now = new Date();
-    console.log(now);
     this.db.doc(`reports/${id}`).set({
       id,
       reporterId: report.reporterId,
