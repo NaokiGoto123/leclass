@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { DraftsComponent } from './drafts/drafts.component';
 import { SharedModule } from '../shared/shared.module';
+import { QuillModule } from 'ngx-quill';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { SharedModule } from '../shared/shared.module';
     SharedModule,
     MatTabsModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    QuillModule.forRoot()
   ]
 })
 export class AccountModule { }

@@ -7,6 +7,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
+import { QuillModule } from 'ngx-quill';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
-    MatDividerModule
+    MatDividerModule,
+    QuillModule.forRoot()
   ]
 })
 export class LessonModule { }

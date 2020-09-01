@@ -5,26 +5,6 @@ import { User } from 'src/app/interfaces/user';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
-import 'froala-editor/js/plugins/char_counter.min.js';
-import 'froala-editor/js/plugins/colors.min.js';
-import 'froala-editor/js/plugins/draggable.min.js';
-import 'froala-editor/js/plugins/font_size.min.js';
-import 'froala-editor/js/plugins/fullscreen.min.js';
-import 'froala-editor/js/plugins/image.min.js';
-import 'froala-editor/js/plugins/image_manager.min.js';
-import 'froala-editor/js/plugins/inline_style.min.js';
-import 'froala-editor/js/plugins/line_breaker.min.js';
-import 'froala-editor/js/plugins/link.min.js';
-import 'froala-editor/js/plugins/lists.min.js';
-import 'froala-editor/js/plugins/paragraph_style.min.js';
-import 'froala-editor/js/plugins/paragraph_format.min.js';
-import 'froala-editor/js/plugins/quick_insert.min.js';
-import 'froala-editor/js/plugins/quote.min.js';
-import 'froala-editor/js/plugins/table.min.js';
-import 'froala-editor/js/plugins/url.min.js';
-import 'froala-editor/js/plugins/word_paste.min.js';
-import 'froala-editor/js/plugins/code_view.min.js';
-import 'froala-editor/js/plugins/font_family.min.js';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -44,58 +24,6 @@ export class ProfileSettingsComponent implements OnInit {
   imageChangedEvent: any = '';
 
   croppedImage: any = '';
-
-  public options = {
-    placeholderText: 'Edit your profile here!',
-    charCounterCount: true,
-    toolbarSticky: false,
-    toolbarInline: false,
-    height: '500',
-    attribution: false,
-    language: 'en',
-    embedlyScriptPath: '',
-    toolbarButtonsSM: {
-      moreText: {
-        buttons: ['bold', 'italic', 'underline', 'strikeThrough', 'textColor', 'clearFormatting'],
-        buttonsVisible: 3
-      },
-      moreParagraph: {
-        buttons: ['formatOL', 'formatUL', 'paragraphFormat', 'paragraphStyle', 'quote'],
-        buttonsVisible: 3
-      },
-      moreRich: {
-        buttons: ['insertLink', 'insertImage', 'insertVideo', 'embedly', 'insertTable', 'emoticons'],
-        buttonsVisible: 3
-      },
-      moreMisc: {
-        buttons: ['undo', 'redo', 'fullscreen'],
-        align: 'right',
-        buttonsVisible: 3
-      }
-    },
-    toolbarButtonsXS: {
-      moreText: {
-        buttons: ['bold', 'italic', 'underline', 'strikeThrough', 'textColor', 'clearFormatting'],
-        buttonsVisible: 0
-      },
-      moreParagraph: {
-        buttons: ['formatOL', 'formatUL', 'paragraphFormat', 'paragraphStyle', 'quote'],
-        buttonsVisible: 0
-      },
-      moreRich: {
-        buttons: ['insertLink', 'insertImage', 'insertVideo', 'embedly', 'insertTable', 'emoticons'],
-        buttonsVisible: 0
-      },
-      moreMisc: {
-        buttons: ['undo', 'redo', 'fullscreen'],
-        align: 'right',
-        buttonsVisible: 3
-      }
-    },
-    pastePlain: true,
-    imageAddNewLine: true,
-    documentReady: false,
-  };
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -131,15 +59,9 @@ export class ProfileSettingsComponent implements OnInit {
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
   }
-  imageLoaded() {
-    // show cropper
-  }
-  cropperReady() {
-    // cropper ready
-  }
-  loadImageFailed() {
-    // show message
-  }
+  imageLoaded() { }
+  cropperReady() { }
+  loadImageFailed() { }
 
   async upload(path: string, base64: string): Promise<string> {
     const ref = this.storage.ref(path);
