@@ -30,12 +30,23 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  &__name {
-    font-size: 30px;
-    margin: 0 0 15px 0;
-  }
   &__email {
     font-size: 26px;
     margin: 0;
+  }
+}
+
+.header-content-row {
+  display: flex;
+  flex-direction: row;
+  margin: 0 0 15px 0;
+  &__name {
+    font-size: 30px;
+    margin: 0 15px 0 0;
+  }
+  &__icon {
+    font-size: 35px;
+    height: 35px;
+    width: 35px;
   }
 }
