@@ -17,39 +17,8 @@ const routes: Routes = [
         loadChildren: () => import('./home/home.module').then((m) => m.HomeModule)
       },
       {
-        path: 'languageandliterature-sl',
-        loadChildren: () =>
-        import('./languageandliterature-sl/languageandliterature-sl.module').then((m) => m.LanguageandliteratureSlModule)
-      },
-      {
-        path: 'japanese-sl',
-        loadChildren: () =>
-        import('./japanese-sl/japanese-sl.module').then((m) => m.JapaneseSlModule)
-      },
-      {
-        path: 'analysisandapproaches-hl',
-        loadChildren: () =>
-        import('./analysisandapproaches-hl/analysisandapproaches-hl.module').then((m) => m.AnalysisandapproachesHlModule)
-      },
-      {
-        path: 'physics-hl',
-        loadChildren: () =>
-        import('./physics-hl/physics-hl.module').then((m) => m.PhysicsHlModule)
-      },
-      {
-        path: 'computerscience-hl',
-        loadChildren: () =>
-        import('./computerscience-hl/computerscience-hl.module').then((m) => m.ComputerscienceHlModule)
-      },
-      {
-        path: 'economics-sl',
-        loadChildren: () =>
-        import('./economics-sl/economics-sl.module').then((m) => m.EconomicsSlModule)
-      },
-      {
-        path: 'theoryofknowledge',
-        loadChildren: () =>
-        import('./theoryofknowledge/theoryofknowledge.module').then((m) => m.TheoryofknowledgeModule)
+        path: 'subject',
+        loadChildren: () => import('./subject/subject.module').then((m) => m.SubjectModule)
       },
       {
         path: 'ib-dp',
@@ -102,6 +71,10 @@ const routes: Routes = [
       {
         path: 'profile-settings',
         loadChildren: () => import('./profile-settings/profile-settings.module').then((m) => m.ProfileSettingsModule)
+      },
+      {
+        path: '**',
+        loadChildren: () => import('./unknown/unknown.module').then((m) => m.UnknownModule)
       }
     ]
   }

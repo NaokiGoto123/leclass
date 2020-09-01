@@ -23,7 +23,9 @@
     </ng-container>
   </div>
 
-  <div class="editor" [froalaEditor]="options" formControlName="profile"></div>
+  <div class="editor">
+    <quill-editor [styles]="{height: '500px'}" formControlName='profile'></quill-editor>
+  </div>
 
   <button mat-raised-button (click)="updateUser()">
     Update

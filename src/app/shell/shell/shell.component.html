@@ -43,31 +43,31 @@
   <mat-sidenav class="sidenav" #sidenav mode="side" [opened]="isShowing">
     <mat-nav-list *ngIf="form.value.course === 'DP'">
       <div mat-subheader>DP subjects</div>
-      <a mat-list-item class="sidenav-item" routerLink="/languageandliterature-sl">
+      <a mat-list-item class="sidenav-item" routerLink="/subject" [queryParams]='{subject: "Language & Literature HL"}'>
         <img class="sidenav-item__image" src="/assets/icons/english.svg">
         <span>Language & Literature SL</span>
       </a>
-      <a mat-list-item class="sidenav-item" class="sidenav-item" routerLink="/japanese-sl">
+      <a mat-list-item class="sidenav-item" class="sidenav-item" routerLink="/subject" [queryParams]='{subject: "Japanese SL"}'>
         <img class="sidenav-item__image" src="/assets/icons/japanese.svg">
         <span>Japanese SL</span>
       </a>
-      <a mat-list-item class="sidenav-item" routerLink="/analysisandapproaches-hl">
+      <a mat-list-item class="sidenav-item" routerLink="/subject" [queryParams]='{subject: "Analysis & Approaches Hl"}'>
         <img class="sidenav-item__image" src="/assets/icons/math.svg">
         <span>Analysis & Approaches HL</span>
       </a>
-      <a mat-list-item class="sidenav-item" routerLink="/physics-hl">
+      <a mat-list-item class="sidenav-item" routerLink="/subject" [queryParams]='{subject: "Physics HL"}'>
         <img class="sidenav-item__image" src="/assets/icons/science.svg">
         <span>Physics HL</span>
       </a>
-      <a mat-list-item class="sidenav-item" routerLink="/computerscience-hl">
+      <a mat-list-item class="sidenav-item" routerLink="/subject" [queryParams]='{subject: "Computer Science HL"}'>
         <img class="sidenav-item__image" src="/assets/icons/cs.svg">
         <span>Compouter Science HL</span>
       </a>
-      <a mat-list-item class="sidenav-item" routerLink="/economics-sl">
+      <a mat-list-item class="sidenav-item" routerLink="/subject" [queryParams]='{subject: "Economics HL"}'>
         <img class="sidenav-item__image" src="/assets/icons/economics.svg">
         <span>Economics SL</span>
       </a>
-      <a mat-list-item class="sidenav-item" routerLink="/theoryofknowledge">
+      <a mat-list-item class="sidenav-item" routerLink="/subject" [queryParams]='{subject: "Theory of Knowledge"}'>
         <img class="sidenav-item__image" src="/assets/icons/tok.svg">
         <span>Theory of Knowledge</span>
       </a>
