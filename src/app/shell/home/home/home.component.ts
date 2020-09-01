@@ -51,6 +51,8 @@ export class HomeComponent implements OnInit {
     this.initialLoading = true;
     this.index
       .search(this.query, {
+        page: 0,
+        hitsPerPage: 20,
         facetFilters: `isPublic:true`
       })
       .then((result) => {
