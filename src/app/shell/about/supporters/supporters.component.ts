@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { VerificationGetService } from 'src/app/services/verification-get.service';
 import { User } from 'src/app/interfaces/user';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-supporters',
@@ -14,7 +15,7 @@ export class SupportersComponent implements OnInit {
   constructor(
     private verificationGetService: VerificationGetService
   ) {
-    this.verificationGetService.getVerifiedUsers().subscribe((verifiedUsers: User[]) => {
+    this.verificationGetService.getVerifiedUsers().pipe(take(1)).subscribe((verifiedUsers: User[]) => {
       this.verifiedUsers = verifiedUsers;
     });
   }

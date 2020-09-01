@@ -4,6 +4,7 @@ import { Lesson } from 'src/app/interfaces/lesson';
 import { SearchService } from 'src/app/services/search.service';
 import { SearchIndex } from 'algoliasearch/lite';
 import { ActivatedRoute } from '@angular/router';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -31,7 +32,7 @@ export class HomeComponent implements OnInit {
     private activatedRoute: ActivatedRoute
   ) {
     this.initialLoading = true;
-    this.lessonGetService.getLessons().subscribe((lessons: Lesson[]) => {
+    this.lessonGetService.getLessons().pipe(take(1)).subscribe((lessons: Lesson[]) => {
       this.lessons = lessons;
       setTimeout(() => {
         this.initialLoading = false;

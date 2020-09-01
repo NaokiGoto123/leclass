@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReportGetService } from 'src/app/services/report-get.service';
 import { Report } from 'src/app/interfaces/report';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-reports',
@@ -14,7 +15,7 @@ export class ReportsComponent implements OnInit {
   constructor(
     private reportGetService: ReportGetService
   ) {
-    this.reportGetService.getReports().subscribe((reports: Report[]) => {
+    this.reportGetService.getReports().pipe(take(1)).subscribe((reports: Report[]) => {
       console.log(reports);
       this.reports = reports;
     });

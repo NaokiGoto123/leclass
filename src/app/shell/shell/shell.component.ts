@@ -6,6 +6,7 @@ import { VerificationGetService } from 'src/app/services/verification-get.servic
 import { Router } from '@angular/router';
 import { SearchService } from 'src/app/services/search.service';
 import { SearchIndex } from 'algoliasearch/lite';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-shell',
@@ -37,7 +38,7 @@ export class ShellComponent implements OnInit {
     private router: Router,
     private searchService: SearchService
   ) {
-    this.verificationGetService.getVerificationRequests().subscribe((verificationRequests) => {
+    this.verificationGetService.getVerificationRequests().pipe(take(1)).subscribe((verificationRequests) => {
       this.verificationRequests = verificationRequests;
     });
     this.index
