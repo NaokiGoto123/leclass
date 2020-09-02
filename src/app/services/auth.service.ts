@@ -4,7 +4,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { User } from '../interfaces/user';
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -45,11 +45,18 @@ export class AuthService {
   async googleSignin() {
     const provider = new auth.GoogleAuthProvider();
     const credential = await this.afAuth.signInWithPopup(provider);
-    return this.updateUserData({
-      ...credential.user,
-      profile: `This is ${credential.user.displayName}'s profile.`,
-      verified: false
-    });
+    const doc: User = await this.db.doc<User>(`users/${credential.user.uid}`).valueChanges().pipe(
+      take(1)
+    ).toPromise();
+    if (doc) {
+      this.router.navigateByUrl('/');
+    } else {
+      return this.updateUserData({
+        ...credential.user,
+        profile: `This is ${credential.user.displayName}'s profile.`,
+        verified: false
+      });
+    }
   }
 
   private updateUserData(user: User) {
