@@ -29,7 +29,7 @@ export class SubjectComponent implements OnInit {
         this.lessons = lessons;
         setTimeout(() => {
           this.initialLoading = false;
-        }, 500);
+        }, 1000);
       });
   }
 
