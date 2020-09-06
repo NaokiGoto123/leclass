@@ -4,7 +4,7 @@ import { LessonGetService } from 'src/app/services/lesson-get.service';
 import { Lesson } from 'src/app/interfaces/lesson';
 import { Location } from '@angular/common';
 import { UserService } from 'src/app/services/user.service';
-import { DomSanitizer, SafeHtml, SafeResourceUrl } from '@angular/platform-browser';
+import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 import { User } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { ListService } from 'src/app/services/list.service';
@@ -21,8 +21,6 @@ export class LessonComponent implements OnInit {
 
   lesson: Lesson;
 
-  safeHtml: SafeHtml;
-
   safePlayerUrl: SafeResourceUrl;
 
   creater: User;
@@ -34,9 +32,9 @@ export class LessonComponent implements OnInit {
     private location: Location,
     private lessonGetService: LessonGetService,
     private userService: UserService,
-    private domSanitizer: DomSanitizer,
     private authService: AuthService,
-    private listService: ListService
+    private listService: ListService,
+    private domSanitizer: DomSanitizer
   ) {
     this.activatedRoute.queryParamMap.pipe(
       take(1),
@@ -45,7 +43,6 @@ export class LessonComponent implements OnInit {
       }))
       .subscribe((lesson: Lesson) => {
         this.lesson = lesson;
-        this.safeHtml = this.domSanitizer.bypassSecurityTrustHtml(lesson.content);
         this.safePlayerUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(lesson.playerUrl);
         this.userService.getUser(lesson.createrId).subscribe((creater: User) => {
           this.creater = creater;

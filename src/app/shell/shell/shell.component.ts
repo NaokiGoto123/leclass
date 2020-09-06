@@ -45,7 +45,11 @@ export class ShellComponent implements OnInit {
       this.verificationRequests = verificationRequests;
     });
     this.index
-      .search('', { facetFilters: ['isPublic:true'] })
+      .search('', {
+        page: 0,
+        hitsPerPage: 5,
+        facetFilters: ['isPublic:true']
+      })
       .then((result) => {
         this.options = result.hits;
       });
@@ -53,7 +57,12 @@ export class ShellComponent implements OnInit {
 
   ngOnInit(): void {
     this.valueControl.valueChanges.subscribe((query) => {
-      this.index.search(query, { facetFilters: ['isPublic:true'] }).then((result) => {
+      this.index.search(query, {
+        page: 0,
+        hitsPerPage: 5,
+        facetFilters: ['isPublic:true']
+      })
+      .then((result) => {
         this.options = result.hits;
       });
     });

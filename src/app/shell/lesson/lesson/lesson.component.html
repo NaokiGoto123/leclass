@@ -33,5 +33,5 @@
     <a class="creater__name" routerLink="/account" [queryParams]="{ id: creater?.uid }">{{creater?.displayName}}</a>
   </div>
   <mat-divider></mat-divider>
-  <quill-view-html [content]="safeHtml" theme="snow"></quill-view-html>
+  <quill-view-html [content]="lesson?.content" theme="snow"></quill-view-html>
 </div>
