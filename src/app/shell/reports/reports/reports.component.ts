@@ -12,11 +12,17 @@ export class ReportsComponent implements OnInit {
 
   reports: Report[];
 
+  initialLoading: boolean;
+
   constructor(
     private reportGetService: ReportGetService
   ) {
+    this.initialLoading = true;
     this.reportGetService.getReports().pipe(take(1)).subscribe((reports: Report[]) => {
       this.reports = reports;
+      setTimeout(() => {
+        this.initialLoading = false;
+      }, 500);
     });
   }
 
