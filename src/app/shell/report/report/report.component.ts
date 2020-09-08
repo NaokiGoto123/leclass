@@ -11,8 +11,10 @@ import { Router } from '@angular/router';
 })
 export class ReportComponent implements OnInit {
 
+  titleMaxLength = 20;
+
   form = this.fb.group({
-    title: ['', Validators.required],
+    title: ['', [Validators.required, Validators.maxLength(this.titleMaxLength)]],
     message: ['', Validators.required]
   });
 
@@ -36,6 +38,10 @@ export class ReportComponent implements OnInit {
     }
   }
 
+  get titleControl() {
+    return this.form.get('title');
+  }
+
   sendReport() {
     if (this.form.valid) {
       this.reportService.sendReport({
@@ -44,9 +50,9 @@ export class ReportComponent implements OnInit {
         message: this.form.value.message,
         isSolved: false
       });
+      this.isComplete = true;
+      this.router.navigateByUrl('/');
     }
-    this.isComplete = true;
-    this.router.navigateByUrl('/');
   }
 
 }
