@@ -27,10 +27,8 @@ export class LoginComponent implements OnInit {
     this.authService.user$.pipe(
       take(1))
       .subscribe((user: User) => {
-        if (user) {
-          this.user = user;
-          this.initialLoading = false;
-        }
+        this.user = user;
+        this.initialLoading = false;
       }
       );
   }
