@@ -7,6 +7,7 @@
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
       <input matInput type="text" formControlName="title" autocomplete="off" required>
+      <mat-error *ngIf="titleControl.hasError('maxlength')">Title has be less than {{ titleMaxLength }} letters</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
