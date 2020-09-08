@@ -4,7 +4,8 @@
   </div>
   <mat-form-field appearance="outline">
     <mat-label>Name</mat-label>
-    <input matInput type="text" formControlName="displayName" autocomplete="off" required>
+    <input matInput type="text" formControlName="displayName" autocomplete="off" #displayNameInput required>
+    <mat-hint align="end">{{ displayNameInput.value?.length || 0 }}/{{displayNameMaxLength}}</mat-hint>
     <mat-error *ngIf="displayNameControl.hasError('maxlength')">User name has be less than {{ displayNameMaxLength }} letters</mat-error>
   </mat-form-field>
 
