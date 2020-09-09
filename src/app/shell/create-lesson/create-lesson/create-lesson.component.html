@@ -1,5 +1,6 @@
 <div class="container">
-  <p class="container__title">{{lesson? 'Update':'Create'}} contetnt</p>
+  <p class="container__create-title" *ngIf="!lesson">Create contetnt</p>
+  <p class="container__update-title" *ngIf="lesson">Update contetnt</p>
   <form class="form" [formGroup]="form">
 
     <img class="thumbnail" *ngIf="lesson" [src]="croppedImage" />
