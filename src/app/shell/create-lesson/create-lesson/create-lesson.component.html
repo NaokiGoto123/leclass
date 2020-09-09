@@ -23,11 +23,6 @@
       <ngx-mat-file-input type="file" accept="video/mp4" (change)="createVideo($event)" required></ngx-mat-file-input>
     </mat-form-field>
 
-    <button mat-raised-button class="upload-video-button" *ngIf="this.endpoint && !this.isUploadingComplete"
-      (click)="uploadVideo()">Upload video</button>
-
-    <mat-progress-spinner class="uploading-spinner" *ngIf="!isUploadingComplete && this.percentage && this.percentage !== '100'" mode="determinate" value={{this.percentage}}></mat-progress-spinner>
-
     <ng-container *ngIf="!lesson">
       <mat-form-field appearance="outline">
         <mat-label>Upload a thumbnail</mat-label>
@@ -51,7 +46,7 @@
     </div>
 
     <mat-slide-toggle class="toggle" formControlName="isPublic">Publish</mat-slide-toggle>
-    <button mat-raised-button class="submit-button" (click)="submit()">Save</button>
+    <button mat-raised-button class="submit-button" [disabled]="!uploadUrl && !croppedImage && !lesson" (click)="submit()">Save</button>
     <button mat-raised-button *ngIf="lesson" color="warn" class="delete-button" (click)="openDialog()">Delete</button>
   </form>
 </div>
