@@ -117,20 +117,10 @@ export class CreateLessonComponent implements OnInit {
   createVideo(event) {
     this.file = event.target.files[0];
 
-    this.http.post('https://api.vimeo.com/me/videos',
-      {
-        upload: {
-          approach: 'tus',
-          size: this.file.size,
-        }
-      },
-      {
-        headers: new HttpHeaders({
-          Authorization: `bearer ${this.token}`,
-          'Content-Type': 'application/json',
-          Accept: 'application/vnd.vimeo.*+json;version=3.4',
-        }),
-      }
+    this.http.post(
+      'https://api.vimeo.com/me/videos',
+      { upload: { approach: 'tus', size: this.file.size } },
+      { headers: new HttpHeaders({ Authorization: `bearer ${this.token}`, 'Content-Type': 'application/json', Accept: 'application/vnd.vimeo.*+json;version=3.4' }) }
     )
       .subscribe((res: any) => {
         // アップロード用URL
@@ -138,9 +128,7 @@ export class CreateLessonComponent implements OnInit {
         // Vimeo上の動画URL
         this.videoUrl = res.link;
         // 動画URLから動画IDを抽出
-        this.videoId = +this.videoUrl.substring(
-          this.videoUrl.lastIndexOf('/') + 1
-        );
+        this.videoId = +this.videoUrl.substring(this.videoUrl.lastIndexOf('/') + 1);
         this.playerUrl = `https://player.vimeo.com/video/${this.videoId}`;
       });
   }
@@ -164,43 +152,44 @@ export class CreateLessonComponent implements OnInit {
     upload.start();
   }
 
-  async upload(id: string, base64: string): Promise<string> {
-    const time: number = new Date().getTime();
-    const ref = this.storage.ref(`lessons/${this.uniqueId}/images/${time}`);
-    const result = await ref.putString(base64, 'data_url');
-    return result.ref.getDownloadURL();
-  }
-
   async submit() {
-    if (this.lesson) {
-      this.snackBar.open('Saving in process', 'Close', { duration: 5000 });
-      this.update();
-    } else if (!this.endpoint) {
-      this.snackBar.open('Video is not readt', 'Close', { duration: 5000 });
-    } else {
-      this.snackBar.open('Saving in process', 'Close', { duration: 5000 });
-      const photoURL = await this.upload(
-        this.uniqueId,
-        this.croppedImage
-      );
-      this.lessonService.createLesson({
-        id: this.uniqueId,
-        title: this.form.value.title,
-        thumbnail: photoURL,
-        playerUrl: this.playerUrl,
-        videoId: this.videoId.toString(),
-        content: this.form.value.content,
-        createrId: this.authService.user.uid,
-        subject: this.form.value.subject,
-        isPublic: this.form.value.isPublic
-      });
-      this.isComplete = true;
-      this.snackBar.open('Successfully saved', 'Close', { duration: 5000 });
-      this.router.navigateByUrl('/');
+    if (!this.endpoint) {
+      this.snackBar.open('Video is not ready', 'Close', { duration: 5000 });
+      return;
     }
+
+    this.snackBar.open('Saving in process', 'Close', { duration: 5000 });
+
+
+    if (this.lesson) {
+      await this.updateLesson();
+    } else {
+      await this.createLesson();
+    }
+
+    this.isComplete = true;
+    this.snackBar.open('Successfully saved', 'Close', { duration: 5000 });
+    this.router.navigateByUrl('/');
   }
 
-  private async update() {
+  private async createLesson() {
+    const photoURL = await this.upload(
+      this.croppedImage
+    );
+    this.lessonService.createLesson({
+      id: this.uniqueId,
+      title: this.form.value.title,
+      thumbnail: photoURL,
+      playerUrl: this.playerUrl,
+      videoId: this.videoId.toString(),
+      content: this.form.value.content,
+      createrId: this.authService.user.uid,
+      subject: this.form.value.subject,
+      isPublic: this.form.value.isPublic
+    });
+  }
+
+  private async updateLesson() {
     this.lessonService.updateLesson({
       ...this.lesson,
       title: this.form.value.title,
@@ -208,8 +197,13 @@ export class CreateLessonComponent implements OnInit {
       subject: this.form.value.subject,
       isPublic: this.form.value.isPublic
     });
-    this.isComplete = true;
-    this.router.navigateByUrl('/');
+  }
+
+  async upload(base64: string): Promise<string> {
+    const time: number = new Date().getTime();
+    const ref = this.storage.ref(`lessons/${this.uniqueId}/images/${time}`);
+    const result = await ref.putString(base64, 'data_url');
+    return result.ref.getDownloadURL();
   }
 
   openDialog() {
