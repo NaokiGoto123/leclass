@@ -26,8 +26,10 @@ export class CreateLessonComponent implements OnInit {
 
   lesson: Lesson;
 
+  titleMaxLength = 30;
+
   form = this.fb.group({
-    title: ['', [Validators.required]],
+    title: ['', [Validators.required, Validators.maxLength(this.titleMaxLength)]],
     content: [''],
     subject: ['', [Validators.required]],
     isPublic: [true]
@@ -95,6 +97,10 @@ export class CreateLessonComponent implements OnInit {
       $event.preventDefault();
       $event.returnValue = 'Your work will be lost. Is it okay?';
     }
+  }
+
+  get titleControl() {
+    return this.form.get('title');
   }
 
   fileChangeEvent(event: any): void {

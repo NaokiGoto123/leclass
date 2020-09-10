@@ -14,7 +14,12 @@ export class AccountComponent implements OnInit {
 
   user = this.authService.user;
 
-  routerLinks: { label: string, link: string }[];
+  routerLinks = [
+    {
+      label: 'Profile',
+      link: 'profile'
+    }
+  ];
 
   targetUser: User;
 
@@ -30,25 +35,6 @@ export class AccountComponent implements OnInit {
       }))
       .subscribe((targetUser: User) => {
         this.targetUser = targetUser;
-        if (targetUser.uid === this.authService.user.uid) {
-          this.routerLinks = [
-            {
-              label: 'Profile',
-              link: 'profile'
-            },
-            {
-              label: 'Drafts',
-              link: 'drafts'
-            }
-          ];
-        } else {
-          this.routerLinks = [
-            {
-              label: 'Profile',
-              link: 'profile'
-            }
-          ];
-        }
       });
   }
 

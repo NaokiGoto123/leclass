@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/interfaces/user';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -17,8 +17,10 @@ export class ProfileSettingsComponent implements OnInit {
 
   user: User;
 
+  displayNameMaxLength = 20;
+
   form = this.fb.group({
-    displayName: ['', Validators.required],
+    displayName: ['', [Validators.required, Validators.maxLength(this.displayNameMaxLength)]],
     profile: ['']
   });
 
@@ -54,6 +56,10 @@ export class ProfileSettingsComponent implements OnInit {
       $event.preventDefault();
       $event.returnValue = 'Your work will be lost. Is it okay?';
     }
+  }
+
+  get displayNameControl() {
+    return this.form.get('displayName') as FormControl;
   }
 
   fileChangeEvent(event: any): void {

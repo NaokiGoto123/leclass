@@ -2,12 +2,13 @@
   <p class="form__title">Report</p>
   <mat-form-field appearance="outline">
     <mat-label>Title</mat-label>
-    <input matInput type="text" formControlName="title" autocomplete="off" required>
-    <mat-error *ngIf="!form.hasError('required')">
-      Title is <strong>required</strong>
+    <input matInput type="text" formControlName="title" #titleInput autocomplete="off" required>
+    <mat-hint align="end">{{ titleInput.value?.length || 0 }}/{{titleMaxLength}}</mat-hint>
+    <mat-error *ngIf="titleControl.hasError('required')">Title is <strong>required</strong>
+    <mat-error *ngIf="titleControl.hasError('maxLength')">Title has be less than {{ titleMaxLength }} letters</mat-error>
     </mat-error>
   </mat-form-field>
-  <mat-form-field class="field"appearance="outline">
+  <mat-form-field class="field" appearance="outline">
     <mat-label>Message</mat-label>
     <textarea class="field__area" matInput type="text" formControlName="message" autocomplete="off" required></textarea>
     <mat-error *ngIf="!form.hasError('required')">
