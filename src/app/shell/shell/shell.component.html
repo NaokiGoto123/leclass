@@ -17,15 +17,6 @@
       </button>
     </mat-form-field>
   </form>
-  <!-- <form [formGroup]="form">
-    <mat-form-field class="toolbar__selector" appearance="legacy">
-      <mat-label>Select course</mat-label>
-      <mat-select formControlName="course">
-        <mat-option value="DP">DP</mat-option>
-        <mat-option value="MYP">MYP</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </form> -->
   <p class="verified-label" *ngIf="user?.verified" matTooltip="You are verified">
     <span class="verified-label__text">Verified</span>
     <mat-icon class="verified-label__icon">verified</mat-icon>
@@ -41,31 +32,31 @@
 
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav class="sidenav" #sidenav mode="side" [opened]="isShowing">
-    <mat-nav-list *ngIf="form.value.course === 'DP'">
+    <mat-nav-list>
       <div mat-subheader>DP subjects</div>
-      <a mat-list-item class="sidenav-item" routerLink="/subject" [queryParams]='{subject: "Language & Literature HL"}'>
+      <a mat-list-item class="sidenav-item" routerLink="/subject" [queryParams]='{subject: "Language & Literature"}'>
         <img class="sidenav-item__image" src="/assets/icons/english.svg">
-        <span>Language & Literature SL</span>
+        <span>Language & Literature</span>
       </a>
-      <a mat-list-item class="sidenav-item" class="sidenav-item" routerLink="/subject" [queryParams]='{subject: "Japanese SL"}'>
+      <a mat-list-item class="sidenav-item" class="sidenav-item" routerLink="/subject" [queryParams]='{subject: "Japanese"}'>
         <img class="sidenav-item__image" src="/assets/icons/japanese.svg">
-        <span>Japanese SL</span>
+        <span>Japanese</span>
       </a>
-      <a mat-list-item class="sidenav-item" routerLink="/subject" [queryParams]='{subject: "Analysis & Approaches Hl"}'>
+      <a mat-list-item class="sidenav-item" routerLink="/subject" [queryParams]='{subject: "Analysis & Approaches"}'>
         <img class="sidenav-item__image" src="/assets/icons/math.svg">
-        <span>Analysis & Approaches HL</span>
+        <span>Analysis & Approaches</span>
       </a>
-      <a mat-list-item class="sidenav-item" routerLink="/subject" [queryParams]='{subject: "Physics HL"}'>
+      <a mat-list-item class="sidenav-item" routerLink="/subject" [queryParams]='{subject: "Physics"}'>
         <img class="sidenav-item__image" src="/assets/icons/science.svg">
-        <span>Physics HL</span>
+        <span>Physics</span>
       </a>
-      <a mat-list-item class="sidenav-item" routerLink="/subject" [queryParams]='{subject: "Computer Science HL"}'>
+      <a mat-list-item class="sidenav-item" routerLink="/subject" [queryParams]='{subject: "Computer Science"}'>
         <img class="sidenav-item__image" src="/assets/icons/cs.svg">
-        <span>Compouter Science HL</span>
+        <span>Compouter Science</span>
       </a>
-      <a mat-list-item class="sidenav-item" routerLink="/subject" [queryParams]='{subject: "Economics HL"}'>
+      <a mat-list-item class="sidenav-item" routerLink="/subject" [queryParams]='{subject: "Economics"}'>
         <img class="sidenav-item__image" src="/assets/icons/economics.svg">
-        <span>Economics SL</span>
+        <span>Economics</span>
       </a>
       <a mat-list-item class="sidenav-item" routerLink="/subject" [queryParams]='{subject: "Theory of Knowledge"}'>
         <img class="sidenav-item__image" src="/assets/icons/tok.svg">

@@ -25,10 +25,6 @@ export class ShellComponent implements OnInit {
 
   valueControl: FormControl = new FormControl();
 
-  form = this.fb.group({
-    course: ['DP', [Validators.required]]
-  });
-
   verificationRequests: string[];
 
   constructor(

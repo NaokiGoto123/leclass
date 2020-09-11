@@ -3,8 +3,8 @@
 }
 
 .container {
-  margin: 40px 60px 180px 60px;
-
+  margin: 40px auto 180px auto;
+  width: 75%;
   &__title {
     font-size: 32px;
     margin: 32px 0 15px 0;

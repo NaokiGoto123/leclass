@@ -38,26 +38,24 @@ export class CreateLessonComponent implements OnInit {
   isComplete: boolean;
 
   subjects = [
-    'Language & Literature HL',
-    'Analysis & Approaches Hl',
-    'Japanese SL',
-    'Physics HL',
-    'Computer Science HL',
-    'Economics HL',
+    'Language & Literature',
+    'Analysis & Approaches',
+    'Japanese',
+    'Physics',
+    'Computer Science',
+    'Economics',
     'Theory of Knowledge',
     'IB DP'
   ];
 
   imageChangedEvent: any = '';
-
   croppedImage: any = '';
 
   token = environment.vimeo.token;
-  percentage: string;
-  file: File;
-  endpoint: string;
-  videoUrl: string;
   isUploadingComplete: boolean;
+  file: File;
+  uploadUrl: string;
+  videoUrl: string;
   videoId: number;
   playerUrl: string;
 
@@ -119,94 +117,61 @@ export class CreateLessonComponent implements OnInit {
     console.log('error occured');
   }
 
-  // Vimeo上に動画を作成（アップロードの前処理）
   createVideo(event) {
     this.file = event.target.files[0];
 
-    this.http.post('https://api.vimeo.com/me/videos',
-      {
-        upload: {
-          approach: 'tus',
-          size: this.file.size,
-        }
-      },
-      {
-        headers: new HttpHeaders({
-          Authorization: `bearer ${this.token}`,
-          'Content-Type': 'application/json',
-          Accept: 'application/vnd.vimeo.*+json;version=3.4',
-        }),
-      }
+    this.http.post(
+      'https://api.vimeo.com/me/videos',
+      { upload: { approach: 'tus', size: this.file.size } },
+      { headers: new HttpHeaders({ Authorization: `bearer ${this.token}`, 'Content-Type': 'application/json', Accept: 'application/vnd.vimeo.*+json;version=3.4' }) }
     )
       .subscribe((res: any) => {
-        // アップロード用URL
-        this.endpoint = res.upload.upload_link;
-        // Vimeo上の動画URL
+        this.uploadUrl = res.upload.upload_link;
         this.videoUrl = res.link;
-        // 動画URLから動画IDを抽出
-        this.videoId = +this.videoUrl.substring(
-          this.videoUrl.lastIndexOf('/') + 1
-        );
+        this.videoId = +this.videoUrl.substring(this.videoUrl.lastIndexOf('/') + 1);
         this.playerUrl = `https://player.vimeo.com/video/${this.videoId}`;
       });
   }
 
-  uploadVideo() {
-    this.isUploadingComplete = false;
-    const upload = new tus.Upload(this.file, {
-      uploadUrl: this.endpoint,
-      retryDelays: [0, 3000, 5000, 10000, 20000],
-      onError: (error) => {
-        console.log('Failed because: ' + error);
-      },
-      onProgress: (bytesUploaded, bytesTotal) => {
-        this.percentage = ((bytesUploaded / bytesTotal) * 100).toFixed(2);
-      },
-      onSuccess: () => {
-        this.isUploadingComplete = true;
-        this.snackBar.open('Video is successfully uploaded!', 'Close', { duration: 5000 });
-      },
-    });
-    upload.start();
-  }
-
-  async upload(id: string, base64: string): Promise<string> {
-    const time: number = new Date().getTime();
-    const ref = this.storage.ref(`lessons/${this.uniqueId}/images/${time}`);
-    const result = await ref.putString(base64, 'data_url');
-    return result.ref.getDownloadURL();
-  }
-
   async submit() {
-    if (this.lesson) {
-      this.snackBar.open('Saving in process', 'Close', { duration: 5000 });
-      this.update();
-    } else if (!this.endpoint) {
-      this.snackBar.open('Video is not readt', 'Close', { duration: 5000 });
-    } else {
-      this.snackBar.open('Saving in process', 'Close', { duration: 5000 });
-      const photoURL = await this.upload(
-        this.uniqueId,
-        this.croppedImage
-      );
-      this.lessonService.createLesson({
-        id: this.uniqueId,
-        title: this.form.value.title,
-        thumbnail: photoURL,
-        playerUrl: this.playerUrl,
-        videoId: this.videoId.toString(),
-        content: this.form.value.content,
-        createrId: this.authService.user.uid,
-        subject: this.form.value.subject,
-        isPublic: this.form.value.isPublic
-      });
-      this.isComplete = true;
-      this.snackBar.open('Successfully saved', 'Close', { duration: 5000 });
-      this.router.navigateByUrl('/');
+    if (!this.uploadUrl && !this.lesson) {
+      this.snackBar.open('Video is not ready', null, { duration: 5000 });
+      return;
     }
+
+    this.snackBar.open('Saving in process', null, { duration: 5000 });
+
+
+    if (this.lesson) {
+      await this.updateLesson();
+    } else {
+      await this.createLesson();
+    }
+
+    this.isComplete = true;
+    this.snackBar.open('Successfully saved', null, { duration: 5000 });
+    this.router.navigateByUrl('/');
   }
 
-  private async update() {
+  private async createLesson() {
+    await this.uploadVideo();
+    const photoURL = await this.upload(
+      this.croppedImage
+    );
+    this.lessonService.createLesson({
+      id: this.uniqueId,
+      title: this.form.value.title,
+      thumbnail: photoURL,
+      playerUrl: this.playerUrl,
+      videoId: this.videoId.toString(),
+      content: this.form.value.content,
+      createrId: this.authService.user.uid,
+      subject: this.form.value.subject,
+      isPublic: this.form.value.isPublic
+    });
+  }
+
+  private async updateLesson() {
     this.lessonService.updateLesson({
       ...this.lesson,
       title: this.form.value.title,
@@ -214,8 +179,30 @@ export class CreateLessonComponent implements OnInit {
       subject: this.form.value.subject,
       isPublic: this.form.value.isPublic
     });
-    this.isComplete = true;
-    this.router.navigateByUrl('/');
+  }
+
+  async upload(base64: string): Promise<string> {
+    const time: number = new Date().getTime();
+    const ref = this.storage.ref(`lessons/${this.uniqueId}/images/${time}`);
+    const result = await ref.putString(base64, 'data_url');
+    return result.ref.getDownloadURL();
+  }
+
+  private async uploadVideo() {
+    this.isUploadingComplete = false;
+    const upload = new tus.Upload(this.file, {
+      uploadUrl: this.uploadUrl,
+      retryDelays: [0, 3000, 5000, 10000, 20000],
+      onError: (error) => {
+        console.log('Failed because: ' + error);
+      },
+      onProgress: (bytesUploaded, bytesTotal) => {},
+      onSuccess: () => {
+        this.isUploadingComplete = true;
+        this.snackBar.open('Video is successfully uploaded!', null, { duration: 5000 });
+      },
+    });
+    upload.start();
   }
 
   openDialog() {
@@ -224,8 +211,6 @@ export class CreateLessonComponent implements OnInit {
         id: this.lesson.id,
         videoId: this.lesson.videoId
       }
-    });
-    dialogRef.afterClosed().subscribe(result => {
     });
   }
 }
