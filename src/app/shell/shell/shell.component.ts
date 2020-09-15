@@ -40,7 +40,12 @@ export class ShellComponent implements OnInit {
     if (!environment.production) {
       this.rootDocument
         .querySelector('[rel=icon]')
-        .setAttribute('href', 'favicon-hoge.svg');
+        .setAttribute('href', 'favicon.svg');
+    }
+    else if (environment.production) {
+      this.rootDocument
+        .querySelector('[rel=icon]')
+        .setAttribute('href', 'favicon.prod.svg');
     }
 
     this.authService.user$.subscribe((user: User) => {
