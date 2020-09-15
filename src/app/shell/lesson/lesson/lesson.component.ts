@@ -30,7 +30,7 @@ export class LessonComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private location: Location,
+    private locationService: Location,
     private lessonGetService: LessonGetService,
     private userService: UserService,
     private authService: AuthService,
@@ -74,7 +74,7 @@ export class LessonComponent implements OnInit {
   }
 
   navigateBack() {
-    this.location.back();
+    this.locationService.back();
   }
 
   addToList() {
