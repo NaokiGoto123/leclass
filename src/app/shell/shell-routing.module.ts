@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ShellComponent } from './shell/shell.component';
 import { AuthGuard } from '../guards/auth.guard';
-import { IbDpModule } from './ib-dp/ib-dp.module';
 
 
 const routes: Routes = [
