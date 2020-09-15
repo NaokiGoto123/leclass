@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { ReportService } from 'src/app/services/report.service';
 import { Router } from '@angular/router';
+import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-report',
@@ -24,8 +25,20 @@ export class ReportComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private reportService: ReportService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private titleService: Title,
+    private meta: Meta
+  ) {
+    this.titleService.setTitle('Leclass | Report');
+
+    this.meta.addTags([
+      { name: 'description', content: 'Report' },
+      { property: 'og:title', content: 'Report' },
+      { property: 'og:description', content: 'Report'},
+      { property: 'og:url', content: location.href },
+      { property: 'og:image', content: 'https://leclass-prod.web.app/assets/images/leclass.jpg' }
+    ]);
+  }
 
   ngOnInit(): void {
   }
