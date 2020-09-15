@@ -8,7 +8,8 @@ import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 import { User } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { ListService } from 'src/app/services/list.service';
-import { switchMap, take } from 'rxjs/operators';
+import { switchMap, take, map } from 'rxjs/operators';
+import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-lesson',
@@ -34,19 +35,34 @@ export class LessonComponent implements OnInit {
     private userService: UserService,
     private authService: AuthService,
     private listService: ListService,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private titleService: Title,
+    private meta: Meta
   ) {
     this.activatedRoute.queryParamMap.pipe(
       take(1),
       switchMap((params) => {
         return this.lessonGetService.getLesson(params.get('id'));
-      }))
-      .subscribe((lesson: Lesson) => {
+      }),
+      map((lesson: Lesson) => {
         this.lesson = lesson;
         this.safePlayerUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(lesson.playerUrl);
+        return lesson;
+      }))
+      .subscribe((lesson: Lesson) => {
         this.userService.getUser(lesson.createrId).subscribe((creater: User) => {
           this.creater = creater;
         });
+
+        this.titleService.setTitle(`Leclass | ${lesson.title}`);
+
+        this.meta.addTags([
+          { name: 'description', content: `${lesson.title}`},
+          { property: 'og:title', content: `${lesson.title}` },
+          { property: 'og:description', content: `${lesson.title}` },
+          { property: 'og:url', content: location.href },
+          { property: 'og:image', content: 'https://leclass-prod.web.app/assets/images/leclass.jpg' }
+        ]);
       });
 
     this.listService.getListItemIds(this.authService.user.uid).pipe(take(1)).subscribe((listItemIds: string[]) => {
