@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SearchService } from 'src/app/services/search.service';
 import { SearchIndex } from 'algoliasearch/lite';
 import { ActivatedRoute } from '@angular/router';
+import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-home',
@@ -23,8 +24,20 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private searchService: SearchService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private titleService: Title,
+    private meta: Meta
   ) {
+    this.titleService.setTitle('Leclass | Home');
+
+    this.meta.addTags([
+      { name: 'description', content: 'Home' },
+      { property: 'og:title', content: 'Home' },
+      { property: 'og:description', content: 'Home'},
+      { property: 'og:url', content: location.href },
+      { property: 'og:image', content: 'https://leclass-prod.web.app/assets/images/leclass.jpg' }
+    ]);
+
     this.activatedRoute.queryParamMap.subscribe((params) => {
       this.query = params.get('searchQuery') || '';
       this.search();

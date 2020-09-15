@@ -6,6 +6,7 @@ import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/interfaces/user';
 import { ReportService } from 'src/app/services/report.service';
 import { switchMap, take } from 'rxjs/operators';
+import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-report-detail',
@@ -22,7 +23,9 @@ export class ReportDetailComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private reportGetService: ReportGetService,
     private userService: UserService,
-    private reportService: ReportService
+    private reportService: ReportService,
+    private titleService: Title,
+    private meta: Meta
   ) {
     this.activatedRoute.queryParamMap.pipe(
       take(1),
@@ -31,6 +34,17 @@ export class ReportDetailComponent implements OnInit {
       }),
       switchMap((report: Report) => {
         this.report = report;
+
+        this.titleService.setTitle(`Leclass | ${report.title}`);
+
+        this.meta.addTags([
+          { name: 'description', content: `Report | ${report.title}` },
+          { property: 'og:title', content: `Report | ${report.title}` },
+          { property: 'og:description', content: `Report | ${report.title}` },
+          { property: 'og:url', content: location.href },
+          { property: 'og:image', content: 'https://leclass-prod.web.app/assets/images/leclass.jpg' }
+        ]);
+
         return this.userService.getUser(report.reporterId);
       }))
       .subscribe((reporter: User) => {

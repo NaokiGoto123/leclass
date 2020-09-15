@@ -7,6 +7,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { switchMap, take } from 'rxjs/operators';
+import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-profile-settings',
@@ -34,8 +35,20 @@ export class ProfileSettingsComponent implements OnInit {
     private storage: AngularFireStorage,
     private fb: FormBuilder,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private titleService: Title,
+    private meta: Meta
   ) {
+    this.titleService.setTitle('Leclass | Profile settings');
+
+    this.meta.addTags([
+      { name: 'description', content: 'Profile settings' },
+      { property: 'og:title', content: 'Profile settings' },
+      { property: 'og:description', content: 'Profile settings'},
+      { property: 'og:url', content: location.href },
+      { property: 'og:image', content: 'https://leclass-prod.web.app/assets/images/leclass.jpg' }
+    ]);
+
     this.activatedRoute.queryParamMap.pipe(
       take(1),
       switchMap((params) => {
