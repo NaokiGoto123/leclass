@@ -20,8 +20,6 @@ export class ProfileComponent implements OnInit {
     private titleService: Title,
     private meta: Meta
   ) {
-    this.titleService.setTitle('Leclass');
-
     this.meta.addTags([
       { name: 'description', content: 'Profile' },
       { property: 'og:title', content: 'Profile' },
@@ -37,6 +35,7 @@ export class ProfileComponent implements OnInit {
       }))
       .subscribe((user: User) => {
         this.user = user;
+        this.titleService.setTitle(`Leclass | ${user.displayName}`);
       });
   }
 
