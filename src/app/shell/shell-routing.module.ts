@@ -21,10 +21,6 @@ const routes: Routes = [
         loadChildren: () => import('./subject/subject.module').then((m) => m.SubjectModule)
       },
       {
-        path: 'ib-dp',
-        loadChildren: () => import('./ib-dp/ib-dp.module').then((m) => m.IbDpModule)
-      },
-      {
         path: 'lesson',
         loadChildren: () => import('./lesson/lesson.module').then((m) => m.LessonModule)
       },
