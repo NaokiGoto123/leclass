@@ -18,7 +18,7 @@ export class SupportersComponent implements OnInit {
     private titleService: Title,
     private meta: Meta
   ) {
-    this.titleService.setTitle('Leclass');
+    this.titleService.setTitle('Leclass | Suppoters');
 
     this.meta.addTags([
       { name: 'description', content: 'Get to know about the supporters' },
