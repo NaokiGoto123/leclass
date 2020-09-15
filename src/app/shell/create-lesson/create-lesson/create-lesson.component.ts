@@ -15,6 +15,7 @@ import * as tus from 'tus-js-client';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { switchMap, take } from 'rxjs/operators';
+import { Title, Meta } from '@angular/platform-browser';
 @Component({
   selector: 'app-create-lesson',
   templateUrl: './create-lesson.component.html',
@@ -70,8 +71,20 @@ export class CreateLessonComponent implements OnInit {
     private lessonGetService: LessonGetService,
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private http: HttpClient
+    private http: HttpClient,
+    private titleService: Title,
+    private meta: Meta
   ) {
+    this.titleService.setTitle('Leclass | Create lesson');
+
+    this.meta.addTags([
+      { name: 'description', content: 'Create lesson' },
+      { property: 'og:title', content: 'Create lesson' },
+      { property: 'og:description', content: 'Create lesson'},
+      { property: 'og:url', content: location.href },
+      { property: 'og:image', content: 'https://leclass-prod.web.app/assets/images/leclass.jpg' }
+    ]);
+
     this.activatedRoute.queryParamMap.pipe(
       take(1),
       switchMap((params) => {
