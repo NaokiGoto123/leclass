@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/interfaces/user';
@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { SearchService } from 'src/app/services/search.service';
 import { SearchIndex } from 'algoliasearch/lite';
 import { take } from 'rxjs/operators';
+import { DOCUMENT } from '@angular/common';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-shell',
@@ -32,7 +34,8 @@ export class ShellComponent implements OnInit {
     private authService: AuthService,
     private verificationGetService: VerificationGetService,
     private router: Router,
-    private searchService: SearchService
+    private searchService: SearchService,
+    @Inject(DOCUMENT) private rootDocument: HTMLDocument
   ) {
     this.authService.user$.subscribe((user: User) => {
       this.user = user;
@@ -58,9 +61,9 @@ export class ShellComponent implements OnInit {
         hitsPerPage: 5,
         facetFilters: ['isPublic:true']
       })
-      .then((result) => {
-        this.options = result.hits;
-      });
+        .then((result) => {
+          this.options = result.hits;
+        });
     });
   }
 
