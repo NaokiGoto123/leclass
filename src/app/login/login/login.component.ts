@@ -23,15 +23,9 @@ export class LoginComponent implements OnInit {
     private router: Router,
     @Inject(DOCUMENT) private rootDocument: HTMLDocument
   ) {
-    if (environment.production) {
-      this.rootDocument
-        .querySelector('[rel=icon]')
-        .setAttribute('href', 'favicon.prod.svg');
-    } else {
-      this.rootDocument
-        .querySelector('[rel=icon]')
-        .setAttribute('href', 'favicon.svg');
-    }
+    this.rootDocument
+      .querySelector('[rel=icon]')
+      .setAttribute('href', `favicon${environment.production ? '.prod' : ''}.svg`);
 
     this.initialLoading = true;
   }
