@@ -37,10 +37,6 @@ export class ShellComponent implements OnInit {
     private searchService: SearchService,
     @Inject(DOCUMENT) private rootDocument: HTMLDocument
   ) {
-    this.rootDocument
-      .querySelector('[rel=icon]')
-      .setAttribute('href', `favicon${environment.production ? '.prod' : ''}.svg`);
-
     this.authService.user$.subscribe((user: User) => {
       this.user = user;
     });
