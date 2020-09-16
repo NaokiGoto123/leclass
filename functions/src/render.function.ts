@@ -33,24 +33,18 @@ const buildHtml = (lesson: { [key: string]: string }) => {
     )
 };
 
-// expressアプリ初期化
 const app = express();
-// ユーザーエージェント判定ヘルパーを導入
 app.use(useragent.express());
 
 app.get('*', async (req: any, res: any) => {
-  // ロボットであれば置換結果を返却
   if (req.useragent.isBot) {
-    // https://xxx/:screenName/n/:articleId のようなURLを元に記事データをDBから取得
     const lesson = (await db.doc(`lessons/${req.query.id}`).get())?.data();
     if (lesson) {
       res.send(buildHtml(lesson));
       return;
     }
   }
-  // ロボットでなければ置換せずindex.htmlを返却
   res.send(file);
 });
 
-// 関数を定義
-export const render = functions.https.onRequest(app);
+export const render = functions.region('asia-northeast1').https.onRequest(app);
