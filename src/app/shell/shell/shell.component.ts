@@ -37,15 +37,9 @@ export class ShellComponent implements OnInit {
     private searchService: SearchService,
     @Inject(DOCUMENT) private rootDocument: HTMLDocument
   ) {
-    if (environment.production) {
-      this.rootDocument
-        .querySelector('[rel=icon]')
-        .setAttribute('href', 'favicon.prod.svg');
-    } else {
-      this.rootDocument
-        .querySelector('[rel=icon]')
-        .setAttribute('href', 'favicon.svg');
-    }
+    this.rootDocument
+      .querySelector('[rel=icon]')
+      .setAttribute('href', `favicon${environment.production ? '.prod' : ''}.svg`);
 
     this.authService.user$.subscribe((user: User) => {
       this.user = user;
@@ -71,9 +65,9 @@ export class ShellComponent implements OnInit {
         hitsPerPage: 5,
         facetFilters: ['isPublic:true']
       })
-      .then((result) => {
-        this.options = result.hits;
-      });
+        .then((result) => {
+          this.options = result.hits;
+        });
     });
   }
 
