@@ -28,9 +28,21 @@ const buildHtml = (lesson: { [key: string]: string }) => {
     .replace(/<title>(.+)<\/title>"/gm, replacer(lesson.title))
 
     .replace(
-      /<meta property="og:title" content="(.+)" \/>"/gm,
-      replacer(lesson.title)
+      /<meta name="description" content="[^>]*>/g,
+      '<meta name="description" content="' + lesson.description + '"/>'
     )
+    .replace(
+      /<meta property="og:title" content="[^>]*>/g,
+      '<meta property="og:title" content="' + lesson.title + '"/>'
+    )
+    .replace(
+      /<meta property="og:description" content="[^>]*>/g,
+      '<meta property="og:description" content="' + lesson.description + '"/>'
+    )
+    .replace(
+      /<meta property="og:image" content="[^>]*>/g,
+      '<meta property="og:image" content="' + lesson.thumbnail + '"/>'
+    );
 };
 
 const app = express();
