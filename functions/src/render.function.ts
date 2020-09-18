@@ -51,11 +51,13 @@ app.use(useragent.express());
 app.get('*', async (req: any, res: any) => {
   if (req.useragent.isBot) {
     const lesson = (await db.doc(`lessons/${req.query.id}`).get())?.data();
+    console.log(lesson)
     if (lesson) {
       res.send(buildHtml(lesson));
       return;
     }
   }
+  console.log(file);
   res.send(file);
 });
 
