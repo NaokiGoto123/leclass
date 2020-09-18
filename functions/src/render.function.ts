@@ -18,6 +18,8 @@ const replacer = (data: string) => {
 };
 
 const buildHtml = (lesson: { [key: string]: string }) => {
+  console.log(lesson);
+  const url = "https://leclass-prod.web.app/lesson?id=" + lesson.id;
   return file
     .replace(
       /<meta name="description" content="(.+)" \/>/gm,
@@ -29,19 +31,27 @@ const buildHtml = (lesson: { [key: string]: string }) => {
 
     .replace(
       /<meta name="description" content="[^>]*>/g,
-      '<meta name="description" content="' + lesson.description + '"/>'
+      '<meta name="description" content="' + lesson.description + '" />'
+    )
+    .replace(
+      /<meta name="description" content="[^>]*>/g,
+      '<meta name="url" content="' + url + '" />'
     )
     .replace(
       /<meta property="og:title" content="[^>]*>/g,
-      '<meta property="og:title" content="' + lesson.title + '"/>'
-    )
-    .replace(
-      /<meta property="og:description" content="[^>]*>/g,
-      '<meta property="og:description" content="' + lesson.description + '"/>'
+      '<meta property="og:title" content="' + lesson.title + '" />'
     )
     .replace(
       /<meta property="og:image" content="[^>]*>/g,
-      '<meta property="og:image" content="' + lesson.thumbnail + '"/>'
+      '<meta property="og:image" content="' + lesson.thumbnail + '" />'
+    )
+    .replace(
+      /<meta name="twitter:title" content="[^>]*>/g,
+      '<meta name="twitter:image" content="' + lesson.thumbnail + '" />'
+    )
+    .replace(
+      /<meta name="twitter:image" content="[^>]*>/g,
+      '<meta name="twitter:title" content="' + lesson.title + '" />'
     );
 };
 
@@ -61,4 +71,4 @@ app.get('*', async (req: any, res: any) => {
   res.send(file);
 });
 
-export const render = functions.region('asia-northeast1').https.onRequest(app);
+export const render = functions.https.onRequest(app);
