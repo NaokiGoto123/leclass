@@ -20,7 +20,8 @@
     "express-useragent": "^1.0.15",
     "firebase-admin": "^8.10.0",
     "firebase-functions": "^3.6.1",
-    "firebase-tools": "^8.6.0"
+    "firebase-tools": "^8.6.0",
+    "html-to-text": "^5.1.1"
   },
   "devDependencies": {
     "tslint": "^5.12.0",
