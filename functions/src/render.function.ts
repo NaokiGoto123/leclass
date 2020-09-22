@@ -5,6 +5,10 @@ import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import * as admin from 'firebase-admin';
 
+const htmlToText = require('html-to-text');
+
+const config = functions.config();
+
 const db = admin.firestore();
 
 const file = readFileSync(resolve(__dirname, 'index.html'), {
@@ -18,8 +22,12 @@ const replacer = (data: string) => {
 };
 
 const buildHtml = (lesson: { [key: string]: string }) => {
-  console.log(lesson);
-  const url = "https://leclass-prod.web.app/lesson?id=" + lesson.id;
+  const url = `${config.project.hosting_url}/lesson?id=${lesson.id}`;
+  const description = htmlToText.fromString(lesson.content? lesson.content : '', {
+    wordwrap: 200
+  });
+  console.log("url: ", url);
+  console.log("description: ", description);
   return file
     .replace(
       /<meta name="description" content="(.+)" \/>/gm,
@@ -31,15 +39,19 @@ const buildHtml = (lesson: { [key: string]: string }) => {
 
     .replace(
       /<meta name="description" content="[^>]*>/g,
-      '<meta name="description" content="' + lesson.description + '" />'
-    )
-    .replace(
-      /<meta name="description" content="[^>]*>/g,
-      '<meta name="url" content="' + url + '" />'
+      '<meta name="description" content="' + description + '" />'
     )
     .replace(
       /<meta property="og:title" content="[^>]*>/g,
-      '<meta property="og:title" content="' + lesson.title + '" />'
+      '<meta property="og:title" content="' + lesson.title + ' | Leclass" />'
+    )
+    .replace(
+      /<meta name="og:description" content="[^>]*>/g,
+      '<meta name="og:description" content="' + description + '" />'
+    )
+    .replace(
+      /<meta name="og:url" content="[^>]*>/g,
+      '<meta name="og:url" content="' + url + '" />'
     )
     .replace(
       /<meta property="og:image" content="[^>]*>/g,
@@ -47,11 +59,15 @@ const buildHtml = (lesson: { [key: string]: string }) => {
     )
     .replace(
       /<meta name="twitter:title" content="[^>]*>/g,
-      '<meta name="twitter:image" content="' + lesson.thumbnail + '" />'
+      '<meta name="twitter:title" content="' + lesson.title + '" />'
     )
     .replace(
       /<meta name="twitter:image" content="[^>]*>/g,
-      '<meta name="twitter:title" content="' + lesson.title + '" />'
+      '<meta name="twitter:image" content="' + lesson.thumbnail + ' | Leclass" />'
+    )
+    .replace(
+      /<meta name="twitter:description" content="[^>]*>/g,
+      '<meta name="twitter:description" content="' + description + '" />'
     );
 };
 
@@ -67,7 +83,6 @@ app.get('*', async (req: any, res: any) => {
       return;
     }
   }
-  console.log(file);
   res.send(file);
 });
 
