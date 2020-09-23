@@ -7,8 +7,6 @@ import * as admin from 'firebase-admin';
 
 const htmlToText = require('html-to-text');
 
-const config = functions.config();
-
 const db = admin.firestore();
 
 const file = readFileSync(resolve(__dirname, 'index.html'), {
@@ -22,11 +20,9 @@ const replacer = (data: string) => {
 };
 
 const buildHtml = (lesson: { [key: string]: string }) => {
-  const url = `${config.project.hosting_url}/lesson?id=${lesson.id}`;
   const description = htmlToText.fromString(lesson.content? lesson.content : '', {
     wordwrap: 200
   });
-  console.log("url: ", url);
   console.log("description: ", description);
   return file
     .replace(
@@ -48,10 +44,6 @@ const buildHtml = (lesson: { [key: string]: string }) => {
     .replace(
       /<meta name="og:description" content="[^>]*>/g,
       '<meta name="og:description" content="' + description + '" />'
-    )
-    .replace(
-      /<meta name="og:url" content="[^>]*>/g,
-      '<meta name="og:url" content="' + url + '" />'
     )
     .replace(
       /<meta property="og:image" content="[^>]*>/g,
@@ -77,7 +69,6 @@ app.use(useragent.express());
 app.get('*', async (req: any, res: any) => {
   if (req.useragent.isBot) {
     const lesson = (await db.doc(`lessons/${req.query.id}`).get())?.data();
-    console.log(lesson)
     if (lesson) {
       res.send(buildHtml(lesson));
       return;
