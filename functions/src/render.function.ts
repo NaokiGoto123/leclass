@@ -23,7 +23,6 @@ const buildHtml = (lesson: { [key: string]: string }) => {
   const description = htmlToText.fromString(lesson.content? lesson.content : '', {
     wordwrap: 200
   });
-  console.log("description: ", description);
   return file
     .replace(
       /<meta name="description" content="(.+)" \/>/gm,
