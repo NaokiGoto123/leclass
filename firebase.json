@@ -27,55 +27,7 @@
     ],
     "rewrites": [
       {
-        "source": "/",
-        "function": "render"
-      },
-      {
         "source": "/lesson",
-        "function": "render"
-      },
-      {
-        "source": "/subject",
-        "function": "render"
-      },
-      {
-        "source": "/create-lesson",
-        "function": "render"
-      },
-      {
-        "source": "/verification",
-        "function": "render"
-      },
-      {
-        "source": "/verification-requests",
-        "function": "render"
-      },
-      {
-        "source": "/list",
-        "function": "render"
-      },
-      {
-        "source": "/drafts",
-        "function": "render"
-      },
-      {
-        "source": "/account/**",
-        "function": "render"
-      },
-      {
-        "source": "/about/**",
-        "function": "render"
-      },
-      {
-        "source": "/report",
-        "function": "render"
-      },
-      {
-        "source": "/reports",
-        "function": "render"
-      },
-      {
-        "source": "/report-detail",
         "function": "render"
       },
       {
