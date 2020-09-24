@@ -54,7 +54,7 @@ const buildHtml = (lesson: { [key: string]: string }) => {
     )
     .replace(
       /<meta name="twitter:image" content="[^>]*>/g,
-      '<meta name="twitter:image" content="' + lesson.thumbnail + ' | Leclass" />'
+      '<meta name="twitter:image" content="' + lesson.thumbnail + '" />'
     )
     .replace(
       /<meta name="twitter:description" content="[^>]*>/g,
@@ -69,6 +69,7 @@ app.get('*', async (req: any, res: any) => {
   if (req.useragent.isBot) {
     const lesson = (await db.doc(`lessons/${req.query.id}`).get())?.data();
     if (lesson) {
+      functions.logger.info(buildHtml(lesson));
       res.send(buildHtml(lesson));
       return;
     }
