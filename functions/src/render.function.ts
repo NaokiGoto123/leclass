@@ -5,6 +5,8 @@ import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import * as admin from 'firebase-admin';
 
+const htmlToText = require('html-to-text');
+
 const db = admin.firestore();
 
 const file = readFileSync(resolve(__dirname, 'index.html'), {
@@ -18,6 +20,9 @@ const replacer = (data: string) => {
 };
 
 const buildHtml = (lesson: { [key: string]: string }) => {
+  const description = htmlToText.fromString(lesson.content? lesson.content : '', {
+    wordwrap: 200
+  });
   return file
     .replace(
       /<meta name="description" content="(.+)" \/>/gm,
@@ -28,29 +33,47 @@ const buildHtml = (lesson: { [key: string]: string }) => {
     .replace(/<title>(.+)<\/title>"/gm, replacer(lesson.title))
 
     .replace(
-      /<meta property="og:title" content="(.+)" \/>"/gm,
-      replacer(lesson.title)
+      /<meta name="description" content="[^>]*>/g,
+      '<meta name="description" content="' + description + '" />'
     )
+    .replace(
+      /<meta property="og:title" content="[^>]*>/g,
+      '<meta property="og:title" content="' + lesson.title + ' | Leclass" />'
+    )
+    .replace(
+      /<meta name="og:description" content="[^>]*>/g,
+      '<meta name="og:description" content="' + description + '" />'
+    )
+    .replace(
+      /<meta property="og:image" content="[^>]*>/g,
+      '<meta property="og:image" content="' + lesson.thumbnail + '" />'
+    )
+    .replace(
+      /<meta name="twitter:title" content="[^>]*>/g,
+      '<meta name="twitter:title" content="' + lesson.title + '" />'
+    )
+    .replace(
+      /<meta name="twitter:image" content="[^>]*>/g,
+      '<meta name="twitter:image" content="' + lesson.thumbnail + ' | Leclass" />'
+    )
+    .replace(
+      /<meta name="twitter:description" content="[^>]*>/g,
+      '<meta name="twitter:description" content="' + description + '" />'
+    );
 };
 
-// expressアプリ初期化
 const app = express();
-// ユーザーエージェント判定ヘルパーを導入
 app.use(useragent.express());
 
 app.get('*', async (req: any, res: any) => {
-  // ロボットであれば置換結果を返却
   if (req.useragent.isBot) {
-    // https://xxx/:screenName/n/:articleId のようなURLを元に記事データをDBから取得
     const lesson = (await db.doc(`lessons/${req.query.id}`).get())?.data();
     if (lesson) {
       res.send(buildHtml(lesson));
       return;
     }
   }
-  // ロボットでなければ置換せずindex.htmlを返却
   res.send(file);
 });
 
-// 関数を定義
 export const render = functions.https.onRequest(app);
