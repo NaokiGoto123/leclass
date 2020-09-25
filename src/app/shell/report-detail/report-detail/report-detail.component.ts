@@ -7,6 +7,7 @@ import { User } from 'src/app/interfaces/user';
 import { ReportService } from 'src/app/services/report.service';
 import { switchMap, take } from 'rxjs/operators';
 import { Title, Meta } from '@angular/platform-browser';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-report-detail',
@@ -25,7 +26,8 @@ export class ReportDetailComponent implements OnInit {
     private userService: UserService,
     private reportService: ReportService,
     private titleService: Title,
-    private meta: Meta
+    private meta: Meta,
+    private locationService: Location
   ) {
     this.activatedRoute.queryParamMap.pipe(
       take(1),
@@ -61,6 +63,10 @@ export class ReportDetailComponent implements OnInit {
 
   unfixReport() {
     this.reportService.unfixReport(this.report.id);
+  }
+
+  navigateBack() {
+    this.locationService.back();
   }
 
 }
