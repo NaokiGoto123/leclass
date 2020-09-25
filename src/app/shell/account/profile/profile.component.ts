@@ -35,7 +35,7 @@ export class ProfileComponent implements OnInit {
       }))
       .subscribe((user: User) => {
         this.user = user;
-        this.titleService.setTitle(`Leclass | ${user.displayName}`);
+        this.titleService.setTitle(`${user.displayName} | Leclass`);
       });
   }
 

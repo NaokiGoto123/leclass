@@ -35,7 +35,7 @@ export class ReportDetailComponent implements OnInit {
       switchMap((report: Report) => {
         this.report = report;
 
-        this.titleService.setTitle(`Leclass | ${report.title}`);
+        this.titleService.setTitle(`${report.title} | Leclass`);
 
         this.meta.addTags([
           { name: 'description', content: `Report | ${report.title}` },

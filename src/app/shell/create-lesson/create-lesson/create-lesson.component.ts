@@ -75,7 +75,7 @@ export class CreateLessonComponent implements OnInit {
     private titleService: Title,
     private meta: Meta
   ) {
-    this.titleService.setTitle('Leclass | Create lesson');
+    this.titleService.setTitle('Create lesson | Leclass');
 
     this.meta.addTags([
       { name: 'description', content: 'Create lesson' },

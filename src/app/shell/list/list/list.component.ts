@@ -22,7 +22,7 @@ export class ListComponent implements OnInit {
     private titleService: Title,
     private meta: Meta
   ) {
-    this.titleService.setTitle('Leclass | List');
+    this.titleService.setTitle('List | Leclass');
 
     this.meta.addTags([
       { name: 'description', content: 'List' },

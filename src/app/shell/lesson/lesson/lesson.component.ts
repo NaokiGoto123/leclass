@@ -54,7 +54,7 @@ export class LessonComponent implements OnInit {
           this.creater = creater;
         });
 
-        this.titleService.setTitle(`Leclass | ${lesson.title}`);
+        this.titleService.setTitle(`${lesson.title} | Leclass`);
 
         this.meta.addTags([
           { name: 'description', content: `${lesson.title}`},

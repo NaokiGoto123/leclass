@@ -12,7 +12,7 @@ export class PurposeComponent implements OnInit {
     private titleService: Title,
     private meta: Meta
   ) {
-    this.titleService.setTitle('Leclass | Purpose');
+    this.titleService.setTitle('Purpose | Leclass');
 
     this.meta.addTags([
       { name: 'description', content: 'Get to know what leclass is' },

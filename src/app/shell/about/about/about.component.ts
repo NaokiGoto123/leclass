@@ -18,7 +18,7 @@ export class AboutComponent implements OnInit {
     private titleService: Title,
     private meta: Meta
   ) {
-    this.titleService.setTitle('Leclass | About');
+    this.titleService.setTitle('About | Leclass');
 
     this.meta.addTags([
       { name: 'description', content: 'Get to know what leclass is' },

@@ -20,7 +20,7 @@ export class DraftsComponent implements OnInit {
     private titleService: Title,
     private meta: Meta
   ) {
-    this.titleService.setTitle('Leclass | Drafts');
+    this.titleService.setTitle('Drafts | Leclass');
 
     this.meta.addTags([
       { name: 'description', content: 'Drafts' },

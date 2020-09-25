@@ -39,7 +39,7 @@ export class ProfileSettingsComponent implements OnInit {
     private titleService: Title,
     private meta: Meta
   ) {
-    this.titleService.setTitle('Leclass | Profile settings');
+    this.titleService.setTitle('Profile settings | Leclass');
 
     this.meta.addTags([
       { name: 'description', content: 'Profile settings' },

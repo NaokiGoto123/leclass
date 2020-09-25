@@ -12,7 +12,7 @@ export class UnknownComponent implements OnInit {
     private titleService: Title,
     private meta: Meta
   ) {
-    this.titleService.setTitle('Leclass | 404');
+    this.titleService.setTitle('404 | Leclass');
 
     this.meta.addTags([
       { name: 'description', content: '404' },

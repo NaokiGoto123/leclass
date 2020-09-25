@@ -24,7 +24,7 @@ export class VerificationComponent implements OnInit {
     private titleService: Title,
     private meta: Meta
   ) {
-    this.titleService.setTitle('Leclass | Verification');
+    this.titleService.setTitle('Verification | Leclass');
 
     this.meta.addTags([
       { name: 'description', content: 'Verification' },
