@@ -1,20 +1,18 @@
 <div class="container" *ngIf="!initialLoading">
   <h1 class="container__title">Leclass</h1>
-  <mat-form-field class="form" appearance="outline" *ngIf="locked">
+  <mat-form-field class="form" appearance="outline" *ngIf="!user && locked">
     <mat-label>Enter password</mat-label>
     <input matInput type="text" [formControl]='enteredPassword' autocomplete="off">
     <button mat-icon-button color="primary" (click)="checkPass()" matSuffix>
       <mat-icon>check</mat-icon>
     </button>
   </mat-form-field>
-  <ng-container *ngIf="!locked">
-    <button class="login" (click)="login()" *ngIf="!user">
-      Login with Google
-    </button>
-    <button class="login" (click)="goHome()" *ngIf="user">
-      Already logged in
-    </button>
-  </ng-container>
+  <button class="login" (click)="login()" *ngIf="!user && !locked">
+    Login with Google
+  </button>
+  <button class="login" (click)="goHome()" *ngIf="user">
+    Already logged in
+  </button>
 </div>
 <svg class="wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
   <path fill="#222222" fill-opacity="1"
