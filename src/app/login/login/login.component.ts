@@ -1,11 +1,11 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { User } from 'src/app/interfaces/user';
-import { tap, map, take } from 'rxjs/operators';
-import { DOCUMENT } from '@angular/common';
-import { environment } from 'src/environments/environment';
+import { take } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { PasswordService } from 'src/app/services/password.service';
 
 @Component({
   selector: 'app-login',
@@ -18,12 +18,22 @@ export class LoginComponent implements OnInit {
 
   initialLoading: boolean;
 
+  enteredPassword = new FormControl();
+
+  correctPassword: string;
+
+  locked = true;
+
   constructor(
     private authService: AuthService,
     private router: Router,
-    @Inject(DOCUMENT) private rootDocument: HTMLDocument
+    private snackBar: MatSnackBar,
+    private passwordService: PasswordService
   ) {
     this.initialLoading = true;
+    this.passwordService.getPassword().pipe(take(1)).subscribe((password: {password: string}) => {
+      this.correctPassword = password.password;
+    });
   }
 
   ngOnInit(): void {
@@ -43,6 +53,23 @@ export class LoginComponent implements OnInit {
 
   goHome() {
     this.router.navigateByUrl('/');
+  }
+
+  checkPass() {
+    console.log(this.enteredPassword.value);
+    if (this.enteredPassword.value === this.correctPassword) {
+      this.locked = false;
+      this.snackBar.open('The password is correct', null, {
+        duration: 1500,
+      });
+    }
+    else {
+      this.enteredPassword.reset();
+      this.snackBar.open('The password is incorrect', null, {
+        duration: 1500,
+        panelClass: ['mat-warn']
+      });
+    }
   }
 
 }
