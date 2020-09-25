@@ -1,19 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ReportGetService } from 'src/app/services/report-get.service';
 import { Report } from 'src/app/interfaces/report';
 import { take } from 'rxjs/operators';
 import { Title, Meta } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.scss']
 })
-export class ReportsComponent implements OnInit {
+export class ReportsComponent implements OnInit, OnDestroy {
 
   reports: Report[];
 
   initialLoading: boolean;
+
+  subscription: Subscription;
 
   constructor(
     private reportGetService: ReportGetService,
@@ -31,7 +34,7 @@ export class ReportsComponent implements OnInit {
     ]);
 
     this.initialLoading = true;
-    this.reportGetService.getReports().pipe(take(1)).subscribe((reports: Report[]) => {
+    this.subscription = this.reportGetService.getReports().subscribe((reports: Report[]) => {
       this.reports = reports;
       setTimeout(() => {
         this.initialLoading = false;
@@ -40,6 +43,10 @@ export class ReportsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 }
