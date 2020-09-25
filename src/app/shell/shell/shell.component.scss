@@ -1,0 +1,79 @@
+.toolbar {
+  &__menu-button {
+    margin: 0 25px 0 0;
+  }
+
+  &__title {
+    color: white;
+    text-decoration: none;
+  }
+
+  &__selector {
+    height: 50px;
+    padding: 0;
+    margin: 0 30px 0 0;
+    font-size: 15px;
+  }
+
+  &__account-image {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+}
+
+.verified-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 10px 0 10px;
+  margin: 0 10px 0 0;
+  border: 0.1px solid #e0e0e0;
+  border-radius: 5px;
+  &__text {
+    font-size: 12px;
+    color: #e0e0e0;
+    padding: 0 5px 0 0;
+  }
+
+  &__icon {
+    font-size: 15px;
+    color: #e0e0e0;
+    height: 15px;
+    width: 15px;
+  }
+}
+
+.search-bar {
+  margin: 0 auto;
+  width: 700px;
+  min-width: 200px;
+  font-size: 12px;
+  margin-bottom: -1.25em;
+  &__field {
+    width: 100%;
+  }
+}
+
+.sidenav-container {
+  width: 100%;
+  height: calc(100% - 64px);
+}
+
+.sidenav {
+  width: 270px;
+}
+
+.sidenav-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  &__image {
+    height: 50%;
+    margin: 0 20px 0 0;
+  }
+  &__icon {
+    margin: 0 20px 0 0;
+  }
+}

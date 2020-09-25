@@ -1,0 +1,18 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin: 70px auto;
+  &__title {
+    text-align: center;
+    font-size: 56px;
+    margin: 0 0 56px 0;
+  }
+}
+
+.field {
+  margin: 0 0 30px 0;
+  &__area {
+    height: 400px;
+  }
+}

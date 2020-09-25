@@ -1,0 +1,72 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+.container {
+  margin: 40px auto 180px auto;
+  width: 75%;
+  &__title {
+    font-size: 32px;
+    margin: 32px 0 15px 0;
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0 0 10px 0;
+  &__date {
+    color: #9b9b9b;
+    margin: 0 40px 0 0;
+  }
+  &__spacer {
+    flex: 1 1 auto;
+  }
+}
+
+.vimeo {
+  position: relative;
+  width: 100%;
+  padding-top: 55%;
+  background: black;
+  border-radius: 5px;
+}
+.vimeo iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.creater {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 20px 0 20px 0;
+  &__account-image {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin: 0 10px 0 0;
+  }
+  &__account-image:focus {
+    outline: unset;
+  }
+  &__name {
+    font-size: 20px;
+    margin: 0;
+    text-decoration: none;
+    color: white;
+  }
+  &__name:hover {
+    text-decoration: underline;
+  }
+}
