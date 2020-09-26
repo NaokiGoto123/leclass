@@ -73,7 +73,8 @@ export class CreateLessonComponent implements OnInit {
     private snackBar: MatSnackBar,
     private http: HttpClient,
     private titleService: Title,
-    private meta: Meta
+    private meta: Meta,
+    private snackbar: MatSnackBar
   ) {
     this.titleService.setTitle('Create lesson | Leclass');
 
@@ -120,14 +121,10 @@ export class CreateLessonComponent implements OnInit {
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
   }
-  imageLoaded() {
-    console.log('image is loaded');
-  }
-  cropperReady() {
-    console.log('cropper is ready');
-  }
+  imageLoaded() {}
+  cropperReady() {}
   loadImageFailed() {
-    console.log('error occured');
+    this.snackBar.open('Failed to load image', null, {duration: 1500});
   }
 
   createVideo(event) {
@@ -207,7 +204,7 @@ export class CreateLessonComponent implements OnInit {
       uploadUrl: this.uploadUrl,
       retryDelays: [0, 3000, 5000, 10000, 20000],
       onError: (error) => {
-        console.log('Failed because: ' + error);
+        this.snackBar.open(`Error: ${error}`, null, {duration: 1500});
       },
       onProgress: (bytesUploaded, bytesTotal) => {},
       onSuccess: () => {
