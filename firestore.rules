@@ -29,6 +29,10 @@ service cloud.firestore {
       allow update: if true;
       allow delete: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.verified == true;
     }
+    match /password/{id} {
+      allow read: if true;
+      allow create, write, update, delete: if false;
+    }
     match /{document=**} {
       allow read, create, write, update, delete: if true;
     }
