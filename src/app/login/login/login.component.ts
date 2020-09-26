@@ -56,7 +56,6 @@ export class LoginComponent implements OnInit {
   }
 
   checkPass() {
-    console.log(this.enteredPassword.value);
     if (this.enteredPassword.value === this.correctPassword) {
       this.locked = false;
       this.snackBar.open('The password is correct', null, {
