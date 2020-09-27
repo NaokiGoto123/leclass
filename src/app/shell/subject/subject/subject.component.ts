@@ -30,7 +30,7 @@ export class SubjectComponent implements OnInit, OnDestroy {
       switchMap((params) => {
         const subject = params.get('subject');
 
-        this.titleService.setTitle(`Leclass | ${subject}`);
+        this.titleService.setTitle(`${subject} | Leclass`);
 
         this.meta.addTags([
           { name: 'description', content: `Subject | ${subject}` },

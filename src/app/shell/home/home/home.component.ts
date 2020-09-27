@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
     private titleService: Title,
     private meta: Meta
   ) {
-    this.titleService.setTitle('Leclass | Home');
+    this.titleService.setTitle('Home | Leclass');
 
     this.meta.addTags([
       { name: 'description', content: 'Home' },

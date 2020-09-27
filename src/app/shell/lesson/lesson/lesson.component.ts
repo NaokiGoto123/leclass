@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LessonGetService } from 'src/app/services/lesson-get.service';
 import { Lesson } from 'src/app/interfaces/lesson';
@@ -10,13 +10,14 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ListService } from 'src/app/services/list.service';
 import { switchMap, take, map } from 'rxjs/operators';
 import { Title, Meta } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-lesson',
   templateUrl: './lesson.component.html',
   styleUrls: ['./lesson.component.scss']
 })
-export class LessonComponent implements OnInit {
+export class LessonComponent implements OnInit, OnDestroy {
 
   user = this.authService.user;
 
@@ -27,6 +28,8 @@ export class LessonComponent implements OnInit {
   creater: User;
 
   listItemIds: string[];
+
+  subscription: Subscription;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -54,10 +57,10 @@ export class LessonComponent implements OnInit {
           this.creater = creater;
         });
 
-        this.titleService.setTitle(`Leclass | ${lesson.title}`);
+        this.titleService.setTitle(`${lesson.title} | Leclass`);
 
         this.meta.addTags([
-          { name: 'description', content: `${lesson.title}`},
+          { name: 'description', content: `${lesson.title}` },
           { property: 'og:title', content: `${lesson.title}` },
           { property: 'og:description', content: `${lesson.title}` },
           { property: 'og:url', content: location.href },
@@ -65,12 +68,16 @@ export class LessonComponent implements OnInit {
         ]);
       });
 
-    this.listService.getListItemIds(this.authService.user.uid).pipe(take(1)).subscribe((listItemIds: string[]) => {
+    this.subscription = this.listService.getListItemIds(this.authService.user.uid).subscribe((listItemIds: string[]) => {
       this.listItemIds = listItemIds;
     });
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   navigateBack() {
