@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit {
       this.enteredPassword.reset();
       this.snackBar.open('The password is incorrect', null, {
         duration: 1500,
-        panelClass: ['warn-color']
+        panelClass: ['warn']
       });
     }
   }
