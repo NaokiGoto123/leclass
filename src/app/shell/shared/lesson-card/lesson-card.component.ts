@@ -23,7 +23,12 @@ export class LessonCardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.publishedDate = moment(this.lesson?.date);
+    if (typeof this.lesson.date === 'number') {
+      this.publishedDate = moment(this.lesson?.date);
+    }
+    else {
+      this.publishedDate = moment(this.lesson?.date.toDate());
+    }
     this.userService.getUser(this.lesson?.createrId).pipe(take(1)).subscribe((creater: User) => {
       this.creater = creater;
     });
