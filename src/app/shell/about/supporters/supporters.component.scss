@@ -30,3 +30,18 @@
     text-decoration: underline;
   }
 }
+
+.no-suppoters-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: calc(100% - 64px);
+  &__text {
+    font-size: 56px;
+  }
+  &__image {
+    width: 80%;
+  }
+}
