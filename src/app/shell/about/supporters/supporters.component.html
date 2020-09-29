@@ -1,7 +1,7 @@
 <div class="container">
   <p class="container__title">Contributers</p>
   <div class="supporters">
-    <div *ngFor="let verifiedUser of verifiedUsers" class="supporter">
+    <div *ngFor="let verifiedUser of verifiedUsers | async" class="supporter">
       <img class="supporter__image" src="{{verifiedUser.photoURL}}" routerLink="/account"
         [queryParams]="{id: verifiedUser.uid}">
       <a class="supporter__name" routerLink="/account"
