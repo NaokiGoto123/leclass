@@ -1,17 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { VerificationGetService } from 'src/app/services/verification-get.service';
 import { User } from 'src/app/interfaces/user';
 import { take } from 'rxjs/operators';
 import { Meta, Title } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-supporters',
   templateUrl: './supporters.component.html',
   styleUrls: ['./supporters.component.scss']
 })
-export class SupportersComponent implements OnInit {
+export class SupportersComponent implements OnInit, OnDestroy {
 
   verifiedUsers: User[];
+
+  subscription: Subscription;
 
   constructor(
     private verificationGetService: VerificationGetService,
@@ -28,12 +31,16 @@ export class SupportersComponent implements OnInit {
       { property: 'og:image', content: 'https://leclass-prod.web.app/assets/images/leclass.jpg' }
     ]);
 
-    this.verificationGetService.getVerifiedUsers().pipe(take(1)).subscribe((verifiedUsers: User[]) => {
+    this.subscription = this.verificationGetService.getVerifiedUsers().pipe(take(1)).subscribe((verifiedUsers: User[]) => {
       this.verifiedUsers = verifiedUsers;
     });
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 }

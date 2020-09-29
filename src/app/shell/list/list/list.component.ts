@@ -1,20 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { ListService } from 'src/app/services/list.service';
 import { Lesson } from 'src/app/interfaces/lesson';
-import { take } from 'rxjs/operators';
 import { Title, Meta } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, OnDestroy {
 
   listItems: Lesson[];
 
   initialLoading: boolean;
+
+  subscription: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -33,7 +35,7 @@ export class ListComponent implements OnInit {
     ]);
 
     this.initialLoading = true;
-    this.listService.getListItems(this.authService.user.uid).pipe(take(1)).subscribe((listItems) => {
+    this.subscription = this.listService.getListItems(this.authService.user.uid).subscribe((listItems) => {
       this.listItems = listItems;
       setTimeout(() => {
         this.initialLoading = false;
@@ -42,6 +44,10 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   removeAll() {

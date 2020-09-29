@@ -16,13 +16,14 @@ export class LessonCardComponent implements OnInit {
 
   creater: User;
 
-  publishedDate: moment.Moment = moment(this.lesson?.date);
+  publishedDate: moment.Moment;
 
   constructor(
     private userService: UserService
   ) { }
 
   ngOnInit(): void {
+    this.publishedDate = moment(this.lesson?.date);
     this.userService.getUser(this.lesson?.createrId).pipe(take(1)).subscribe((creater: User) => {
       this.creater = creater;
     });

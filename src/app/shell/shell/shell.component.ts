@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/interfaces/user';
@@ -9,13 +9,14 @@ import { SearchIndex } from 'algoliasearch/lite';
 import { take } from 'rxjs/operators';
 import { DOCUMENT } from '@angular/common';
 import { environment } from 'src/environments/environment';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-shell',
   templateUrl: './shell.component.html',
   styleUrls: ['./shell.component.scss']
 })
-export class ShellComponent implements OnInit {
+export class ShellComponent implements OnInit, OnDestroy {
 
   index: SearchIndex = this.searchService.index.lessons_date;
 
@@ -29,6 +30,8 @@ export class ShellComponent implements OnInit {
 
   verificationRequests: string[];
 
+  subscription: Subscription;
+
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -40,7 +43,7 @@ export class ShellComponent implements OnInit {
     this.authService.user$.subscribe((user: User) => {
       this.user = user;
     });
-    this.verificationGetService.getVerificationRequests().pipe(take(1)).subscribe((verificationRequests) => {
+    this.subscription = this.verificationGetService.getVerificationRequests().subscribe((verificationRequests) => {
       this.verificationRequests = verificationRequests;
     });
     this.index
@@ -65,6 +68,10 @@ export class ShellComponent implements OnInit {
           this.options = result.hits;
         });
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   toggleSidenav() {
