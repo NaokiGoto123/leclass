@@ -1,18 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { User } from 'src/app/interfaces/user';
 import { switchMap, take } from 'rxjs/operators';
 import { Meta, Title } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
 
   user: User;
+
+  subscription: Subscription;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -28,8 +31,7 @@ export class ProfileComponent implements OnInit {
       { property: 'og:image', content: 'https://leclass-prod.web.app/assets/images/leclass.jpg' }
     ]);
 
-    this.activatedRoute.queryParamMap.pipe(
-      take(1),
+    this.subscription = this.activatedRoute.queryParamMap.pipe(
       switchMap((params) => {
         return this.userService.getUser(params.get('id'));
       }))
@@ -40,6 +42,10 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 }
