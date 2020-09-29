@@ -1,3 +1,9 @@
+<mat-toolbar class="toolbar">
+  <button mat-icon-button (click)="locationService.back()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+</mat-toolbar>
+
 <form class="form" [formGroup]="form">
   <div class="account-image-container">
     <img class="account-image-container__account-image" src="{{user?.photoURL}}">
@@ -29,7 +35,7 @@
     <quill-editor [styles]="{height: '500px'}" formControlName='profile'></quill-editor>
   </div>
 
-  <button mat-raised-button (click)="updateUser()">
+  <button mat-raised-button [disabled]="form.pristine || !form.valid" (click)="updateUser()">
     Update
   </button>
 </form>
