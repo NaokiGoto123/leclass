@@ -15,5 +15,5 @@
       Message is <strong>required</strong>
     </mat-error>
   </mat-form-field>
-  <button mat-raised-button (click)="sendReport()">Send</button>
+  <button mat-raised-button [disabled]="form.pristine || !form.valid" (click)="sendReport()">Send</button>
 </form>

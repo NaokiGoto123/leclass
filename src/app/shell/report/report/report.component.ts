@@ -56,7 +56,7 @@ export class ReportComponent implements OnInit {
   }
 
   sendReport() {
-    if (this.form.valid) {
+    if (!this.form.pristine && this.form.valid) {
       this.reportService.sendReport({
         reporterId: this.authService.user.uid,
         title: this.form.value.title,
