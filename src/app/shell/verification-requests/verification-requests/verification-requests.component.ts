@@ -1,23 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { VerificationGetService } from 'src/app/services/verification-get.service';
 import { VerificationService } from 'src/app/services/verification.service';
 import { User } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { take } from 'rxjs/operators';
 import { Title, Meta } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-verification-requests',
   templateUrl: './verification-requests.component.html',
   styleUrls: ['./verification-requests.component.scss']
 })
-export class VerificationRequestsComponent implements OnInit {
+export class VerificationRequestsComponent implements OnInit, OnDestroy {
 
   user: User = this.authService.user;
 
   requestingUsers: User[];
 
   initialLoading: boolean;
+
+  subscription: Subscription;
 
   constructor(
     private verificationGetService: VerificationGetService,
@@ -37,7 +40,7 @@ export class VerificationRequestsComponent implements OnInit {
     ]);
 
     this.initialLoading = true;
-    this.verificationGetService.getRequestingUsers().pipe(take(1)).subscribe((requestingUsers: User[]) => {
+    this.subscription = this.verificationGetService.getRequestingUsers().subscribe((requestingUsers: User[]) => {
       this.requestingUsers = requestingUsers;
       setTimeout(() => {
         this.initialLoading = false;
@@ -46,6 +49,10 @@ export class VerificationRequestsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   verifyUser(uid: string) {
