@@ -8,6 +8,7 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { switchMap, take } from 'rxjs/operators';
 import { Title, Meta } from '@angular/platform-browser';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-profile-settings',
@@ -37,7 +38,8 @@ export class ProfileSettingsComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar,
     private titleService: Title,
-    private meta: Meta
+    private meta: Meta,
+    public locationService: Location
   ) {
     this.titleService.setTitle('Profile settings | Leclass');
 
