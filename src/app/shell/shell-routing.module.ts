@@ -66,10 +66,6 @@ const routes: Routes = [
       {
         path: 'profile-settings',
         loadChildren: () => import('./profile-settings/profile-settings.module').then((m) => m.ProfileSettingsModule)
-      },
-      {
-        path: '**',
-        loadChildren: () => import('./unknown/unknown.module').then((m) => m.UnknownModule)
       }
     ]
   }
