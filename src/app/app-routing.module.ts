@@ -13,8 +13,12 @@ const routes: Routes = [
     loadChildren: () => import('./shell/shell.module').then((m) => m.ShellModule)
   },
   {
-    path: '**',
+    path: '404',
     loadChildren: () => import('./notfound/notfound.module').then((m) => m.NotfoundModule)
+  },
+  {
+    path: '**',
+    redirectTo: '404'
   }
 ];
 
