@@ -8,6 +8,9 @@
   justify-content: center;
   margin: 0 auto 60px auto;
   width: 80%;
+  &__field {
+    margin: 0 0 20px 0;
+  }
 }
 
 .account-image-container {
