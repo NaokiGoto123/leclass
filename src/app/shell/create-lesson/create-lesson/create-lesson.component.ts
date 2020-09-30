@@ -116,7 +116,7 @@ export class CreateLessonComponent implements OnInit {
     this.croppedImage = event.base64;
   }
   loadImageFailed() {
-    this.snackBar.open('Failed to load image', null, {duration: 1500});
+    this.snackBar.open('Failed to load image');
   }
 
   createVideo(event) {
@@ -136,7 +136,7 @@ export class CreateLessonComponent implements OnInit {
   }
 
   async submit() {
-    this.snackBar.open('Saving in process', null, { duration: 1500 });
+    this.snackBar.open('Saving in process');
 
     if (this.lesson) {
       await this.updateLesson();
@@ -145,7 +145,7 @@ export class CreateLessonComponent implements OnInit {
     }
 
     this.isComplete = true;
-    this.snackBar.open('Successfully saved', null, { duration: 1500 });
+    this.snackBar.open('Successfully saved');
     this.router.navigateByUrl('/');
   }
 
@@ -190,7 +190,7 @@ export class CreateLessonComponent implements OnInit {
       uploadUrl: this.uploadUrl,
       retryDelays: [0, 3000, 5000, 10000, 20000],
       onError: (error) => {
-        this.snackBar.open(`Error: ${error}`, null, {duration: 1500});
+        this.snackBar.open(`Error: ${error}`);
       },
       onSuccess: () => {
         this.isUploadingComplete = true;
