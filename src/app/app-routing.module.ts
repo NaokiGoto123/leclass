@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { NotfoundModule } from './notfound/notfound.module';
 
 
 const routes: Routes = [
@@ -10,6 +11,10 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./shell/shell.module').then((m) => m.ShellModule)
+  },
+  {
+    path: '**',
+    loadChildren: () => import('./notfound/notfound.module').then((m) => m.NotfoundModule)
   }
 ];
 
