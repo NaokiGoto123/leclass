@@ -1,12 +1,14 @@
 <div class="container" *ngIf="!initialLoading">
   <h1 class="container__title">Leclass</h1>
-  <mat-form-field class="form" appearance="outline" *ngIf="!user && locked">
-    <mat-label>Enter password</mat-label>
-    <input matInput type="text" [formControl]='enteredPassword' autocomplete="off">
-    <button mat-icon-button color="primary" (click)="checkPass()" matSuffix>
+  <form class="form" (ngSubmit)="checkPass()" *ngIf="!user && locked">
+    <mat-form-field class="form__field" appearance="outline">
+      <mat-label>Enter password</mat-label>
+      <input matInput type="text" [formControl]='enteredPassword' autocomplete="off">
+    </mat-form-field>
+    <button mat-fab (click)="checkPass()" matSuffix>
       <mat-icon>check</mat-icon>
     </button>
-  </mat-form-field>
+  </form>
   <button class="login" (click)="login()" *ngIf="!user && !locked">
     Login with Google
   </button>
