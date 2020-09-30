@@ -3,9 +3,21 @@
   <ng-container *ngFor="let report of reports">
     <mat-list-item role="listitem" class="item">
       <mat-icon class="item__done-icon" *ngIf="report.isSolved">check</mat-icon>
-      <mat-icon class="item__warning-icon" *ngIf="!report.isSolved">warning</mat-icon>
-      <span class="item__content">{{report.title}}・{{report.date.toDate() | date: 'yyyy/MM/dd'}}</span>
-      <button mat-icon-button routerLink='/report-detail' [queryParams]='{id: report.id}'>
+      <mat-icon class="item__warning-icon" *ngIf="!report.isSolved"
+        >warning</mat-icon
+      >
+      <span class="item__content"
+        >{{ report.title }}・{{
+          report.date.toDate() | date: 'yyyy/MM/dd'
+        }}</span
+      >
+      <button
+        mat-icon-button
+        routerLink="/report-detail"
+        matTooltip="See detail"
+        matTooltipPosition="right"
+        [queryParams]="{ id: report.id }"
+      >
         <mat-icon>launch</mat-icon>
       </button>
     </mat-list-item>
@@ -15,7 +27,7 @@
 
 <div class="no-reports-container" *ngIf="!initialLoading && !reports?.length">
   <p class="no-reports-container__text">No reports</p>
-  <img class="no-reports-container__image" src="/assets/images/reports.svg"/>
+  <img class="no-reports-container__image" src="/assets/images/reports.svg" />
 </div>
 
 <div class="spinner-container" *ngIf="initialLoading">
