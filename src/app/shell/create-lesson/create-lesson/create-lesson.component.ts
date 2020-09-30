@@ -24,20 +24,15 @@ import { Title, Meta } from '@angular/platform-browser';
 export class CreateLessonComponent implements OnInit {
 
   uniqueId = this.db.createId();
-
   lesson: Lesson;
-
   titleMaxLength = 30;
-
   form = this.fb.group({
     title: ['', [Validators.required, Validators.maxLength(this.titleMaxLength)]],
     content: [''],
     subject: ['', [Validators.required]],
     isPublic: [true]
   });
-
   isComplete: boolean;
-
   subjects = [
     'Language & Literature',
     'Analysis & Approaches',
@@ -74,7 +69,6 @@ export class CreateLessonComponent implements OnInit {
     private http: HttpClient,
     private titleService: Title,
     private meta: Meta,
-    private snackbar: MatSnackBar
   ) {
     this.titleService.setTitle('Create lesson | Leclass');
 
@@ -121,8 +115,6 @@ export class CreateLessonComponent implements OnInit {
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
   }
-  imageLoaded() {}
-  cropperReady() {}
   loadImageFailed() {
     this.snackBar.open('Failed to load image', null, {duration: 1500});
   }
@@ -144,13 +136,7 @@ export class CreateLessonComponent implements OnInit {
   }
 
   async submit() {
-    if (!this.uploadUrl && !this.lesson) {
-      this.snackBar.open('Video is not ready', null, { duration: 5000 });
-      return;
-    }
-
-    this.snackBar.open('Saving in process', null, { duration: 5000 });
-
+    this.snackBar.open('Saving in process', null, { duration: 1500 });
 
     if (this.lesson) {
       await this.updateLesson();
@@ -159,7 +145,7 @@ export class CreateLessonComponent implements OnInit {
     }
 
     this.isComplete = true;
-    this.snackBar.open('Successfully saved', null, { duration: 5000 });
+    this.snackBar.open('Successfully saved', null, { duration: 1500 });
     this.router.navigateByUrl('/');
   }
 
@@ -206,10 +192,8 @@ export class CreateLessonComponent implements OnInit {
       onError: (error) => {
         this.snackBar.open(`Error: ${error}`, null, {duration: 1500});
       },
-      onProgress: (bytesUploaded, bytesTotal) => {},
       onSuccess: () => {
         this.isUploadingComplete = true;
-        this.snackBar.open('Video is successfully uploaded!', null, { duration: 5000 });
       },
     });
     upload.start();

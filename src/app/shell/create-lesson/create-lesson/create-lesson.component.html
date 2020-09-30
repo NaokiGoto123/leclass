@@ -36,7 +36,7 @@
         <ng-container *ngIf="imageChangedEvent">
           <image-cropper class="cropper-container__cropper" [imageChangedEvent]="imageChangedEvent"
             [maintainAspectRatio]="true" [aspectRatio]="2 / 1" format="png" (imageCropped)="imageCropped($event)"
-            (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()">
+            (loadImageFailed)="loadImageFailed()">
           </image-cropper>
         </ng-container>
 
@@ -49,7 +49,7 @@
     </div>
 
     <mat-slide-toggle class="toggle" formControlName="isPublic">Publish</mat-slide-toggle>
-    <button mat-raised-button class="submit-button" [disabled]="!uploadUrl && !croppedImage && !lesson" (click)="submit()">Save</button>
+    <button mat-raised-button class="submit-button" [disabled]="this.form.pristine || !uploadUrl || !croppedImage || !lesson" (click)="submit()">Save</button>
     <button mat-raised-button *ngIf="lesson" color="warn" class="delete-button" (click)="openDialog()">Delete</button>
   </form>
 </div>
