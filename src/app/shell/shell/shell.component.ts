@@ -6,18 +6,15 @@ import { VerificationGetService } from 'src/app/services/verification-get.servic
 import { Router } from '@angular/router';
 import { SearchService } from 'src/app/services/search.service';
 import { SearchIndex } from 'algoliasearch/lite';
-import { take } from 'rxjs/operators';
 import { DOCUMENT } from '@angular/common';
-import { environment } from 'src/environments/environment';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-shell',
   templateUrl: './shell.component.html',
-  styleUrls: ['./shell.component.scss']
+  styleUrls: ['./shell.component.scss'],
 })
 export class ShellComponent implements OnInit, OnDestroy {
-
   index: SearchIndex = this.searchService.index.lessons_date;
 
   options = [];
@@ -43,14 +40,16 @@ export class ShellComponent implements OnInit, OnDestroy {
     this.authService.user$.subscribe((user: User) => {
       this.user = user;
     });
-    this.subscription = this.verificationGetService.getVerificationRequests().subscribe((verificationRequests) => {
-      this.verificationRequests = verificationRequests;
-    });
+    this.subscription = this.verificationGetService
+      .getVerificationRequests()
+      .subscribe((verificationRequests) => {
+        this.verificationRequests = verificationRequests;
+      });
     this.index
       .search('', {
         page: 0,
         hitsPerPage: 5,
-        facetFilters: ['isPublic:true']
+        facetFilters: ['isPublic:true'],
       })
       .then((result) => {
         this.options = result.hits;
@@ -59,11 +58,12 @@ export class ShellComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.valueControl.valueChanges.subscribe((query) => {
-      this.index.search(query, {
-        page: 0,
-        hitsPerPage: 5,
-        facetFilters: ['isPublic:true']
-      })
+      this.index
+        .search(query, {
+          page: 0,
+          hitsPerPage: 5,
+          facetFilters: ['isPublic:true'],
+        })
         .then((result) => {
           this.options = result.hits;
         });
@@ -92,8 +92,8 @@ export class ShellComponent implements OnInit, OnDestroy {
     this.valueControl.reset();
     this.router.navigate(['/lesson'], {
       queryParams: {
-        id
-      }
+        id,
+      },
     });
   }
 }
