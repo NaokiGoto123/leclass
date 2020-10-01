@@ -1,10 +1,52 @@
-<mat-card class="card" routerLink="/lesson" [queryParams]="{id: lesson?.id}">
-  <img mat-card-image src="{{lesson?.thumbnail}}">
+<mat-card class="card">
+  <img
+    mat-card-image
+    class="card__image"
+    src="{{ lesson?.thumbnail }}"
+    routerLink="/lesson"
+    [queryParams]="{ id: lesson?.id }"
+  />
   <mat-card-content class="card-content">
-    <img class="card-content__image" src="{{creater?.photoURL}}">
+    <img
+      class="card-content__image"
+      src="{{ creater?.photoURL }}"
+      routerLink="/account"
+      [queryParams]="{ id: creater?.uid }"
+    />
     <div class="card-info">
-      <h3 class="card-info__title">{{lesson?.title}}</h3>
-      <span class="card-info__date">Published on {{publishedDate | date: 'yyyy/MM/dd'}}</span>
+      <h3
+        class="card-info__title"
+        routerLink="/lesson"
+        [queryParams]="{ id: lesson?.id }"
+      >
+        {{ lesson?.title }}
+      </h3>
+      <span class="card-info__date"
+        >Published on {{ publishedDate | date: 'yyyy/MM/dd' }}</span
+      >
     </div>
+    <span class="card-content__spacer"></span>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_horiz</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button
+        mat-menu-item
+        *ngIf="!(listItemIds | async)?.includes(lesson.id)"
+        (click)="addToList()"
+      >
+        <mat-icon>add</mat-icon>
+        <span>Add to list</span>
+      </button>
+      <button
+        mat-menu-item
+        color="warn"
+        *ngIf="(listItemIds | async)?.includes(lesson.id)"
+        (click)="removeFromList()"
+      >
+        <mat-icon>remove</mat-icon>
+        <span>Remove from list</span>
+      </button>
+    </mat-menu>
   </mat-card-content>
 </mat-card>
