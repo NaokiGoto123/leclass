@@ -31,11 +31,9 @@ export class AuthGuard implements CanActivate, CanLoad {
       map((user) => !!user),
       tap((isLoggedin) => {
         if (!isLoggedin) {
-          console.log('11');
           this.router.navigateByUrl('/login');
           return false;
         }
-        console.log('22');
         return true;
       })
     );
@@ -50,11 +48,9 @@ export class AuthGuard implements CanActivate, CanLoad {
       take(1),
       tap((isLoggedin) => {
         if (!isLoggedin) {
-          console.log('33');
           this.router.navigateByUrl('/login');
           return false;
         }
-        console.log('44');
         return true;
       })
     );

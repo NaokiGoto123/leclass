@@ -31,11 +31,9 @@ export class LoginGuard implements CanActivate, CanLoad {
       map((user) => !!user),
       tap((isLoggedin) => {
         if (isLoggedin) {
-          console.log('1');
           this.router.navigateByUrl('/');
           return false;
         }
-        console.log('2');
         return true;
       })
     );
@@ -49,11 +47,9 @@ export class LoginGuard implements CanActivate, CanLoad {
       take(1),
       tap((isLoggedin) => {
         if (isLoggedin) {
-          console.log('3');
           this.router.navigateByUrl('/');
           return false;
         }
-        console.log('4');
         return true;
       })
     );
