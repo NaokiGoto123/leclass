@@ -1,25 +1,24 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { LoginGuard } from './guards/login.guard';
 
 const routes: Routes = [
-  {
-    path: 'login',
-    loadChildren: () =>
-      import('./login/login.module').then((m) => m.LoginModule),
-  },
   {
     path: '',
     loadChildren: () =>
       import('./shell/shell.module').then((m) => m.ShellModule),
   },
   {
-    path: '404',
+    path: 'login',
     loadChildren: () =>
-      import('./notfound/notfound.module').then((m) => m.NotfoundModule),
+      import('./login/login.module').then((m) => m.LoginModule),
+    // canActivate: [LoginGuard],
+    // canLoad: [LoginGuard]
   },
   {
     path: '**',
-    redirectTo: '404',
+    loadChildren: () =>
+      import('./notfound/notfound.module').then((m) => m.NotfoundModule),
   },
 ];
 
