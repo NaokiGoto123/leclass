@@ -6,13 +6,30 @@
 
 <form class="form" [formGroup]="form">
   <div class="account-image-container">
-    <img class="account-image-container__account-image" src="{{user?.photoURL}}">
+    <img
+      class="account-image-container__account-image"
+      src="{{ user?.photoURL }}"
+      alt="account image"
+    />
   </div>
   <mat-form-field class="form__field" appearance="outline">
     <mat-label>Name</mat-label>
-    <input matInput type="text" formControlName="displayName" autocomplete="off" #displayNameInput required>
-    <mat-hint align="end">{{ displayNameInput.value?.length || 0 }}/{{displayNameMaxLength}}</mat-hint>
-    <mat-error *ngIf="displayNameControl.hasError('maxlength')">User name has be less than {{ displayNameMaxLength }} letters</mat-error>
+    <input
+      matInput
+      type="text"
+      formControlName="displayName"
+      autocomplete="off"
+      #displayNameInput
+      required
+    />
+    <mat-hint align="end"
+      >{{ displayNameInput.value?.length || 0 }}/{{
+        displayNameMaxLength
+      }}</mat-hint
+    >
+    <mat-error *ngIf="displayNameControl.hasError('maxlength')"
+      >User name has be less than {{ displayNameMaxLength }} letters</mat-error
+    >
   </mat-form-field>
 
   <mat-form-field class="form__field" appearance="outline">
@@ -24,18 +41,33 @@
     <img class="cropper-container__cropped-image" [src]="croppedImage" />
 
     <ng-container *ngIf="imageChangedEvent">
-      <image-cropper class="cropper-container__cropper" [imageChangedEvent]="imageChangedEvent"
-        [maintainAspectRatio]="true" [aspectRatio]="1 / 1" [roundCropper]="true" format="png"
-        (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
-        (loadImageFailed)="loadImageFailed()"></image-cropper>
+      <image-cropper
+        class="cropper-container__cropper"
+        [imageChangedEvent]="imageChangedEvent"
+        [maintainAspectRatio]="true"
+        [aspectRatio]="1 / 1"
+        [roundCropper]="true"
+        format="png"
+        (imageCropped)="imageCropped($event)"
+        (imageLoaded)="imageLoaded()"
+        (cropperReady)="cropperReady()"
+        (loadImageFailed)="loadImageFailed()"
+      ></image-cropper>
     </ng-container>
   </div>
 
   <div class="editor">
-    <quill-editor [styles]="{height: '500px'}" formControlName='profile'></quill-editor>
+    <quill-editor
+      [styles]="{ height: '500px' }"
+      formControlName="profile"
+    ></quill-editor>
   </div>
 
-  <button mat-raised-button [disabled]="form.pristine || !form.valid" (click)="updateUser()">
+  <button
+    mat-raised-button
+    [disabled]="form.pristine || !form.valid"
+    (click)="updateUser()"
+  >
     Update
   </button>
 </form>

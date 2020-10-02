@@ -1,8 +1,15 @@
 <div class="cards-container" *ngIf="drafts?.length">
-  <app-lesson-card *ngFor="let draft of drafts" [lesson]="draft"></app-lesson-card>
+  <app-lesson-card
+    *ngFor="let draft of drafts"
+    [lesson]="draft"
+  ></app-lesson-card>
 </div>
 
 <div class="no-drafts-container" *ngIf="!drafts?.length">
   <p class="no-drafts-container__text">No drafts</p>
-  <img class="no-drafts-container__image" src="/assets/images/progress.svg"/>
+  <img
+    class="no-drafts-container__image"
+    src="/assets/images/progress.svg"
+    alt=""
+  />
 </div>

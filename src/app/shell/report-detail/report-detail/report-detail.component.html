@@ -5,21 +5,36 @@
 </mat-toolbar>
 <div class="container">
   <div class="title-row">
-    <p class="title-row__title">{{report?.title}}</p>
+    <p class="title-row__title">{{ report?.title }}</p>
     <span class="title-row__spacer"></span>
     <button mat-fab *ngIf="!report?.isSolved" (click)="fixReport()">
       <mat-icon>done</mat-icon>
     </button>
-    <button mat-fab color="warn" *ngIf="report?.isSolved" (click)="unfixReport()">
+    <button
+      mat-fab
+      color="warn"
+      *ngIf="report?.isSolved"
+      (click)="unfixReport()"
+    >
       <mat-icon>clear</mat-icon>
     </button>
   </div>
   <mat-divider></mat-divider>
   <div class="reporter">
-    <img class="reporter__account-image" src="{{reporter?.photoURL}}" routerLink='/account'
-      [queryParams]="{id: reporter?.uid}">
-    <a class="reporter__name" routerLink='/account' [queryParams]="{id: reporter?.uid}">{{reporter?.displayName}}</a>
+    <img
+      class="reporter__account-image"
+      src="{{ reporter?.photoURL }}"
+      routerLink="/account"
+      [queryParams]="{ id: reporter?.uid }"
+      alt="account image"
+    />
+    <a
+      class="reporter__name"
+      routerLink="/account"
+      [queryParams]="{ id: reporter?.uid }"
+      >{{ reporter?.displayName }}</a
+    >
   </div>
   <mat-divider></mat-divider>
-  <p class="container__message">{{report?.message}}</p>
+  <p class="container__message">{{ report?.message }}</p>
 </div>

@@ -27,7 +27,11 @@
 
 <div class="no-reports-container" *ngIf="!initialLoading && !reports?.length">
   <p class="no-reports-container__text">No reports</p>
-  <img class="no-reports-container__image" src="/assets/images/reports.svg" />
+  <img
+    class="no-reports-container__image"
+    src="/assets/images/reports.svg"
+    alt=""
+  />
 </div>
 
 <div class="spinner-container" *ngIf="initialLoading">
