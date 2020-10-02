@@ -18,8 +18,8 @@
         >{{ titleInput.value?.length || 0 }}/{{ titleMaxLength }}</mat-hint
       >
       <mat-error *ngIf="titleControl.hasError('maxlength')"
-        >Title has be less than {{ titleMaxLength }} letters</mat-error
-      >
+        >Title has be less than {{ titleMaxLength }} letters
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field class="form__field" appearance="outline">
@@ -72,7 +72,7 @@
       <quill-editor
         [styles]="{
           height: '500px',
-          padding: '0 15px',
+          padding: '0 0 0 15px',
           border: 'solid 1px white'
         }"
         formControlName="content"

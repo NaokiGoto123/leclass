@@ -58,7 +58,11 @@
 
   <div class="editor">
     <quill-editor
-      [styles]="{ height: '500px' }"
+      [styles]="{
+        height: '500px',
+        padding: '0 0 0 15px',
+        border: 'solid 1px white'
+      }"
       formControlName="profile"
     ></quill-editor>
   </div>
