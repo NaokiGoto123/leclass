@@ -70,7 +70,11 @@
 
     <div class="editor-container">
       <quill-editor
-        [styles]="{ height: '500px' }"
+        [styles]="{
+          height: '500px',
+          padding: '0 15px',
+          border: 'solid 1px white'
+        }"
         formControlName="content"
       ></quill-editor>
     </div>
