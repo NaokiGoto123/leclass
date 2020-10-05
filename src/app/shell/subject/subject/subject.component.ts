@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Lesson } from 'src/app/interfaces/lesson';
 import { LessonGetService } from 'src/app/services/lesson-get.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { Title, Meta } from '@angular/platform-browser';
@@ -19,16 +19,32 @@ export class SubjectComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
 
+  subjects = [
+    'Language & Literature',
+    'Analysis & Approaches',
+    'Japanese',
+    'Physics',
+    'Computer Science',
+    'Economics',
+    'Theory of Knowledge',
+    'IB DP'
+  ];
+
   constructor(
     private lessonGetService: LessonGetService,
     private activatedRoute: ActivatedRoute,
     private titleService: Title,
-    private meta: Meta
+    private meta: Meta,
+    private router: Router
   ) {
     this.initialLoading = true;
     this.subscription = this.activatedRoute.queryParamMap.pipe(
       switchMap((params) => {
         const subject = params.get('subject');
+
+        if (!this.subjects.includes(subject)) {
+          this.router.navigateByUrl('/404');
+        }
 
         this.titleService.setTitle(`${subject} | Leclass`);
 

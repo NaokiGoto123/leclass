@@ -1,42 +1,66 @@
 <div class="container">
-  <p class="container__create-title" *ngIf="!lesson">Create contetnt</p>
-  <p class="container__update-title" *ngIf="lesson">Update contetnt</p>
+  <p class="container__create-title" *ngIf="!lesson">Create lesson</p>
+  <p class="container__update-title" *ngIf="lesson">Update lesson</p>
   <form class="form" [formGroup]="form">
-
     <img class="thumbnail" *ngIf="lesson" [src]="croppedImage" />
 
-    <mat-form-field appearance="outline">
+    <mat-form-field class="form__field" appearance="outline">
       <mat-label>Title</mat-label>
-      <input matInput type="text" formControlName="title" autocomplete="off" #titleInput required>
-      <mat-hint align="end">{{ titleInput.value?.length || 0 }}/{{titleMaxLength}}</mat-hint>
-      <mat-error *ngIf="titleControl.hasError('maxlength')">Title has be less than {{ titleMaxLength }} letters</mat-error>
+      <input
+        matInput
+        type="text"
+        formControlName="title"
+        autocomplete="off"
+        #titleInput
+        required
+      />
+      <mat-hint align="end"
+        >{{ titleInput.value?.length || 0 }}/{{ titleMaxLength }}</mat-hint
+      >
+      <mat-error *ngIf="titleControl.hasError('maxlength')"
+        >Title has be less than {{ titleMaxLength }} letters
+      </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field class="form__field" appearance="outline">
       <mat-label>Choose subject</mat-label>
       <mat-select formControlName="subject" required>
         <mat-option *ngFor="let subject of subjects" [value]="subject">
-          {{subject}}
+          {{ subject }}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" *ngIf="!lesson">
+    <mat-form-field class="form__field" appearance="outline" *ngIf="!lesson">
       <mat-label>Upload a mp4 video</mat-label>
-      <ngx-mat-file-input type="file" accept="video/mp4" (change)="createVideo($event)" required></ngx-mat-file-input>
+      <ngx-mat-file-input
+        type="file"
+        accept="video/mp4"
+        (change)="createVideo($event)"
+        required
+      ></ngx-mat-file-input>
     </mat-form-field>
 
     <ng-container *ngIf="!lesson">
-      <mat-form-field appearance="outline">
+      <mat-form-field class="form__field" appearance="outline">
         <mat-label>Upload a thumbnail</mat-label>
-        <ngx-mat-file-input (change)="fileChangeEvent($event)" required></ngx-mat-file-input>
+        <ngx-mat-file-input
+          (change)="fileChangeEvent($event)"
+          required
+        ></ngx-mat-file-input>
       </mat-form-field>
 
       <div class="cropper-container" *ngIf="croppedImage || imageChangedEvent">
         <ng-container *ngIf="imageChangedEvent">
-          <image-cropper class="cropper-container__cropper" [imageChangedEvent]="imageChangedEvent"
-            [maintainAspectRatio]="true" [aspectRatio]="2 / 1" format="png" (imageCropped)="imageCropped($event)"
-            (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()">
+          <image-cropper
+            class="cropper-container__cropper"
+            [imageChangedEvent]="imageChangedEvent"
+            [maintainAspectRatio]="true"
+            [aspectRatio]="2 / 1"
+            format="png"
+            (imageCropped)="imageCropped($event)"
+            (loadImageFailed)="loadImageFailed()"
+          >
           </image-cropper>
         </ng-container>
 
@@ -45,11 +69,35 @@
     </ng-container>
 
     <div class="editor-container">
-      <quill-editor [styles]="{height: '500px'}" formControlName='content'></quill-editor>
+      <quill-editor
+        [styles]="{
+          height: '500px',
+          padding: '0 0 0 15px',
+          border: 'solid 1px white'
+        }"
+        formControlName="content"
+      ></quill-editor>
     </div>
 
-    <mat-slide-toggle class="toggle" formControlName="isPublic">Publish</mat-slide-toggle>
-    <button mat-raised-button class="submit-button" [disabled]="!uploadUrl && !croppedImage && !lesson" (click)="submit()">Save</button>
-    <button mat-raised-button *ngIf="lesson" color="warn" class="delete-button" (click)="openDialog()">Delete</button>
+    <mat-slide-toggle class="toggle" formControlName="isPublic"
+      >Publish</mat-slide-toggle
+    >
+    <button
+      mat-raised-button
+      class="submit-button"
+      [disabled]="this.form.pristine || (this.form.valid && !lesson)"
+      (click)="submit()"
+    >
+      Save
+    </button>
+    <button
+      mat-raised-button
+      *ngIf="lesson"
+      color="warn"
+      class="delete-button"
+      (click)="openDialog()"
+    >
+      Delete
+    </button>
   </form>
 </div>

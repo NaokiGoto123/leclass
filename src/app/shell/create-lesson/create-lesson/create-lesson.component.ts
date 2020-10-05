@@ -19,25 +19,22 @@ import { Title, Meta } from '@angular/platform-browser';
 @Component({
   selector: 'app-create-lesson',
   templateUrl: './create-lesson.component.html',
-  styleUrls: ['./create-lesson.component.scss']
+  styleUrls: ['./create-lesson.component.scss'],
 })
 export class CreateLessonComponent implements OnInit {
-
   uniqueId = this.db.createId();
-
   lesson: Lesson;
-
-  titleMaxLength = 30;
-
+  titleMaxLength = 50;
   form = this.fb.group({
-    title: ['', [Validators.required, Validators.maxLength(this.titleMaxLength)]],
+    title: [
+      '',
+      [Validators.required, Validators.maxLength(this.titleMaxLength)],
+    ],
     content: [''],
     subject: ['', [Validators.required]],
-    isPublic: [true]
+    isPublic: [true],
   });
-
   isComplete: boolean;
-
   subjects = [
     'Language & Literature',
     'Analysis & Approaches',
@@ -46,7 +43,7 @@ export class CreateLessonComponent implements OnInit {
     'Computer Science',
     'Economics',
     'Theory of Knowledge',
-    'IB DP'
+    'IB DP',
   ];
 
   imageChangedEvent: any = '';
@@ -73,24 +70,28 @@ export class CreateLessonComponent implements OnInit {
     private snackBar: MatSnackBar,
     private http: HttpClient,
     private titleService: Title,
-    private meta: Meta,
-    private snackbar: MatSnackBar
+    private meta: Meta
   ) {
     this.titleService.setTitle('Create lesson | Leclass');
 
     this.meta.addTags([
       { name: 'description', content: 'Create lesson' },
       { property: 'og:title', content: 'Create lesson' },
-      { property: 'og:description', content: 'Create lesson'},
+      { property: 'og:description', content: 'Create lesson' },
       { property: 'og:url', content: location.href },
-      { property: 'og:image', content: 'https://leclass-prod.web.app/assets/images/leclass.jpg' }
+      {
+        property: 'og:image',
+        content: 'https://leclass-prod.web.app/assets/images/leclass.jpg',
+      },
     ]);
 
-    this.activatedRoute.queryParamMap.pipe(
-      take(1),
-      switchMap((params) => {
-        return this.lessonGetService.getLesson(params.get('id'));
-      }))
+    this.activatedRoute.queryParamMap
+      .pipe(
+        take(1),
+        switchMap((params) => {
+          return this.lessonGetService.getLesson(params.get('id'));
+        })
+      )
       .subscribe((lesson: Lesson) => {
         if (lesson) {
           this.form.patchValue(lesson);
@@ -100,8 +101,7 @@ export class CreateLessonComponent implements OnInit {
       });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any) {
@@ -121,36 +121,37 @@ export class CreateLessonComponent implements OnInit {
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
   }
-  imageLoaded() {}
-  cropperReady() {}
   loadImageFailed() {
-    this.snackBar.open('Failed to load image', null, {duration: 1500});
+    this.snackBar.open('Failed to load image');
   }
 
   createVideo(event) {
     this.file = event.target.files[0];
 
-    this.http.post(
-      'https://api.vimeo.com/me/videos',
-      { upload: { approach: 'tus', size: this.file.size } },
-      { headers: new HttpHeaders({ Authorization: `bearer ${this.token}`, 'Content-Type': 'application/json', Accept: 'application/vnd.vimeo.*+json;version=3.4' }) }
-    )
+    this.http
+      .post(
+        'https://api.vimeo.com/me/videos',
+        { upload: { approach: 'tus', size: this.file.size } },
+        {
+          headers: new HttpHeaders({
+            Authorization: `bearer ${this.token}`,
+            'Content-Type': 'application/json',
+            Accept: 'application/vnd.vimeo.*+json;version=3.4',
+          }),
+        }
+      )
       .subscribe((res: any) => {
         this.uploadUrl = res.upload.upload_link;
         this.videoUrl = res.link;
-        this.videoId = +this.videoUrl.substring(this.videoUrl.lastIndexOf('/') + 1);
+        this.videoId = +this.videoUrl.substring(
+          this.videoUrl.lastIndexOf('/') + 1
+        );
         this.playerUrl = `https://player.vimeo.com/video/${this.videoId}`;
       });
   }
 
   async submit() {
-    if (!this.uploadUrl && !this.lesson) {
-      this.snackBar.open('Video is not ready', null, { duration: 5000 });
-      return;
-    }
-
-    this.snackBar.open('Saving in process', null, { duration: 5000 });
-
+    this.snackBar.open('Saving in process');
 
     if (this.lesson) {
       await this.updateLesson();
@@ -159,15 +160,13 @@ export class CreateLessonComponent implements OnInit {
     }
 
     this.isComplete = true;
-    this.snackBar.open('Successfully saved', null, { duration: 5000 });
+    this.snackBar.open('Successfully saved');
     this.router.navigateByUrl('/');
   }
 
   private async createLesson() {
     await this.uploadVideo();
-    const photoURL = await this.upload(
-      this.croppedImage
-    );
+    const photoURL = await this.upload(this.croppedImage);
     this.lessonService.createLesson({
       id: this.uniqueId,
       title: this.form.value.title,
@@ -177,7 +176,7 @@ export class CreateLessonComponent implements OnInit {
       content: this.form.value.content,
       createrId: this.authService.user.uid,
       subject: this.form.value.subject,
-      isPublic: this.form.value.isPublic
+      isPublic: this.form.value.isPublic,
     });
   }
 
@@ -187,7 +186,7 @@ export class CreateLessonComponent implements OnInit {
       title: this.form.value.title,
       content: this.form.value.content,
       subject: this.form.value.subject,
-      isPublic: this.form.value.isPublic
+      isPublic: this.form.value.isPublic,
     });
   }
 
@@ -204,12 +203,10 @@ export class CreateLessonComponent implements OnInit {
       uploadUrl: this.uploadUrl,
       retryDelays: [0, 3000, 5000, 10000, 20000],
       onError: (error) => {
-        this.snackBar.open(`Error: ${error}`, null, {duration: 1500});
+        this.snackBar.open(`Error: ${error}`);
       },
-      onProgress: (bytesUploaded, bytesTotal) => {},
       onSuccess: () => {
         this.isUploadingComplete = true;
-        this.snackBar.open('Video is successfully uploaded!', null, { duration: 5000 });
       },
     });
     upload.start();
@@ -219,8 +216,8 @@ export class CreateLessonComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: {
         id: this.lesson.id,
-        videoId: this.lesson.videoId
-      }
+        videoId: this.lesson.videoId,
+      },
     });
   }
 }

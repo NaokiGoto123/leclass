@@ -1,6 +1,6 @@
 <form class="form" [formGroup]="form">
   <p class="form__title">Report</p>
-  <mat-form-field appearance="outline">
+  <mat-form-field class="form__field" appearance="outline">
     <mat-label>Title</mat-label>
     <input matInput type="text" formControlName="title" #titleInput autocomplete="off" required>
     <mat-hint align="end">{{ titleInput.value?.length || 0 }}/{{titleMaxLength}}</mat-hint>
@@ -15,5 +15,5 @@
       Message is <strong>required</strong>
     </mat-error>
   </mat-form-field>
-  <button mat-raised-button (click)="sendReport()">Send</button>
+  <button mat-raised-button [disabled]="form.pristine || !form.valid" (click)="sendReport()">Send</button>
 </form>

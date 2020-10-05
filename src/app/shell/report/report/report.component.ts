@@ -4,19 +4,22 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ReportService } from 'src/app/services/report.service';
 import { Router } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
-  styleUrls: ['./report.component.scss']
+  styleUrls: ['./report.component.scss'],
 })
 export class ReportComponent implements OnInit {
-
   titleMaxLength = 20;
 
   form = this.fb.group({
-    title: ['', [Validators.required, Validators.maxLength(this.titleMaxLength)]],
-    message: ['', Validators.required]
+    title: [
+      '',
+      [Validators.required, Validators.maxLength(this.titleMaxLength)],
+    ],
+    message: ['', Validators.required],
   });
 
   isComplete: boolean;
@@ -27,21 +30,24 @@ export class ReportComponent implements OnInit {
     private reportService: ReportService,
     private router: Router,
     private titleService: Title,
-    private meta: Meta
+    private meta: Meta,
+    private snackbar: MatSnackBar
   ) {
     this.titleService.setTitle('Report | Leclass');
 
     this.meta.addTags([
       { name: 'description', content: 'Report' },
       { property: 'og:title', content: 'Report' },
-      { property: 'og:description', content: 'Report'},
+      { property: 'og:description', content: 'Report' },
       { property: 'og:url', content: location.href },
-      { property: 'og:image', content: 'https://leclass-prod.web.app/assets/images/leclass.jpg' }
+      {
+        property: 'og:image',
+        content: 'https://leclass-prod.web.app/assets/images/leclass.jpg',
+      },
     ]);
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any) {
@@ -56,16 +62,16 @@ export class ReportComponent implements OnInit {
   }
 
   sendReport() {
-    if (this.form.valid) {
+    if (!this.form.pristine && this.form.valid) {
       this.reportService.sendReport({
         reporterId: this.authService.user.uid,
         title: this.form.value.title,
         message: this.form.value.message,
-        isSolved: false
+        isSolved: false,
       });
       this.isComplete = true;
+      this.snackbar.open('Report sent seccessfull');
       this.router.navigateByUrl('/');
     }
   }
-
 }

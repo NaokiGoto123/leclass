@@ -1,9 +1,16 @@
+.toolbar {
+  background-color: #303030;
+}
+
 .form {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 40px auto;
+  margin: 0 auto 60px auto;
   width: 80%;
+  &__field {
+    margin: 0 0 20px 0;
+  }
 }
 
 .account-image-container {

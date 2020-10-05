@@ -35,7 +35,7 @@ export class ListComponent implements OnInit, OnDestroy {
     ]);
 
     this.initialLoading = true;
-    this.subscription = this.listService.getListItems(this.authService.user.uid).subscribe((listItems) => {
+    this.subscription = this.listService.getListItems(this.authService.user.uid).subscribe((listItems: Lesson[]) => {
       this.listItems = listItems;
       setTimeout(() => {
         this.initialLoading = false;
@@ -51,7 +51,7 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   removeAll() {
-    this.listService.removeAll(this.authService.user.uid)
+    this.listService.removeAll(this.authService.user.uid);
   }
 
 }

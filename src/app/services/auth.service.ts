@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
 import { auth } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { User } from '../interfaces/user';
 import { Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
   user$: Observable<User>;
 
   user: User;
@@ -32,9 +31,12 @@ export class AuthService {
     );
     this.afAuth.authState.subscribe((firebaseUser: firebase.User) => {
       if (firebaseUser) {
-        this.db.doc<User>(`users/${firebaseUser.uid}`).valueChanges().subscribe((user: User) => {
-          this.user = user;
-        });
+        this.db
+          .doc<User>(`users/${firebaseUser.uid}`)
+          .valueChanges()
+          .subscribe((user: User) => {
+            this.user = user;
+          });
       } else {
         this.user = null;
         return;
@@ -45,16 +47,18 @@ export class AuthService {
   async googleSignin() {
     const provider = new auth.GoogleAuthProvider();
     const credential = await this.afAuth.signInWithPopup(provider);
-    const doc: User = await this.db.doc<User>(`users/${credential.user.uid}`).valueChanges().pipe(
-      take(1)
-    ).toPromise();
+    const doc: User = await this.db
+      .doc<User>(`users/${credential.user.uid}`)
+      .valueChanges()
+      .pipe(take(1))
+      .toPromise();
     if (doc) {
       this.router.navigateByUrl('/');
     } else {
       return this.updateUserData({
         ...credential.user,
         profile: `This is ${credential.user.displayName}'s profile.`,
-        verified: false
+        verified: false,
       });
     }
   }
@@ -66,7 +70,7 @@ export class AuthService {
       email: user.email,
       photoURL: user.photoURL,
       profile: user.profile,
-      verified: user.verified
+      verified: user.verified,
     };
 
     return this.db.doc(`users/${user.uid}`).set(data, { merge: true });

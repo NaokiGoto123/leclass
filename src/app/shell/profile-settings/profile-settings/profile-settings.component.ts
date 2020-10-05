@@ -8,21 +8,24 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { switchMap, take } from 'rxjs/operators';
 import { Title, Meta } from '@angular/platform-browser';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-profile-settings',
   templateUrl: './profile-settings.component.html',
-  styleUrls: ['./profile-settings.component.scss']
+  styleUrls: ['./profile-settings.component.scss'],
 })
 export class ProfileSettingsComponent implements OnInit {
-
   user: User;
 
-  displayNameMaxLength = 20;
+  displayNameMaxLength = 50;
 
   form = this.fb.group({
-    displayName: ['', [Validators.required, Validators.maxLength(this.displayNameMaxLength)]],
-    profile: ['']
+    displayName: [
+      '',
+      [Validators.required, Validators.maxLength(this.displayNameMaxLength)],
+    ],
+    profile: [''],
   });
 
   imageChangedEvent: any = '';
@@ -37,31 +40,36 @@ export class ProfileSettingsComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar,
     private titleService: Title,
-    private meta: Meta
+    private meta: Meta,
+    public locationService: Location
   ) {
     this.titleService.setTitle('Profile settings | Leclass');
 
     this.meta.addTags([
       { name: 'description', content: 'Profile settings' },
       { property: 'og:title', content: 'Profile settings' },
-      { property: 'og:description', content: 'Profile settings'},
+      { property: 'og:description', content: 'Profile settings' },
       { property: 'og:url', content: location.href },
-      { property: 'og:image', content: 'https://leclass-prod.web.app/assets/images/leclass.jpg' }
+      {
+        property: 'og:image',
+        content: 'https://leclass-prod.web.app/assets/images/leclass.jpg',
+      },
     ]);
 
-    this.activatedRoute.queryParamMap.pipe(
-      take(1),
-      switchMap((params) => {
-        return this.userSevice.getUser(params.get('id'));
-      }))
+    this.activatedRoute.queryParamMap
+      .pipe(
+        take(1),
+        switchMap((params) => {
+          return this.userSevice.getUser(params.get('id'));
+        })
+      )
       .subscribe((user: User) => {
         this.user = user;
         this.form.patchValue(user);
       });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any) {
@@ -81,9 +89,9 @@ export class ProfileSettingsComponent implements OnInit {
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
   }
-  imageLoaded() { }
-  cropperReady() { }
-  loadImageFailed() { }
+  imageLoaded() {}
+  cropperReady() {}
+  loadImageFailed() {}
 
   async upload(path: string, base64: string): Promise<string> {
     const ref = this.storage.ref(path);
@@ -105,18 +113,21 @@ export class ProfileSettingsComponent implements OnInit {
           profile: this.form.value.profile,
         });
         this.snackBar.open('Successfully saved', 'Close');
-        this.router.navigate(['/account'], { queryParams: { id: this.user.uid } });
+        this.router.navigate(['/account'], {
+          queryParams: { id: this.user.uid },
+        });
       } else {
         await this.userSevice.updateUser({
           uid: this.user.uid,
           displayName: this.form.value.displayName,
           photoURL: this.user.photoURL,
-          profile: this.form.value.profile
+          profile: this.form.value.profile,
         });
         this.snackBar.open('Successfully saved', 'Close');
-        this.router.navigate(['/account'], { queryParams: { id: this.user.uid } });
+        this.router.navigate(['/account'], {
+          queryParams: { id: this.user.uid },
+        });
       }
     }
   }
-
 }

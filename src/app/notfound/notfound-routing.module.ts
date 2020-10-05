@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { UnknownComponent } from './unknown/unknown.component';
+import { NotfoundComponent } from './notfound/notfound.component';
 
 
 const routes: Routes = [
   {
     path: '',
-    component: UnknownComponent
+    component: NotfoundComponent
   }
 ];
 
@@ -14,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class UnknownRoutingModule { }
+export class NotfoundRoutingModule { }

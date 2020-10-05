@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ReportGetService } from 'src/app/services/report-get.service';
 import { Report } from 'src/app/interfaces/report';
 import { UserService } from 'src/app/services/user.service';
@@ -27,7 +27,8 @@ export class ReportDetailComponent implements OnInit {
     private reportService: ReportService,
     private titleService: Title,
     private meta: Meta,
-    private locationService: Location
+    private locationService: Location,
+    private router: Router
   ) {
     this.activatedRoute.queryParamMap.pipe(
       take(1),
@@ -35,6 +36,10 @@ export class ReportDetailComponent implements OnInit {
         return this.reportGetService.getReport(params.get('id'));
       }),
       switchMap((report: Report) => {
+        if (!report) {
+          this.router.navigateByUrl('/404');
+        }
+
         this.report = report;
 
         this.titleService.setTitle(`${report.title} | Leclass`);

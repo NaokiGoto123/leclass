@@ -1,7 +1,10 @@
 .card {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  cursor: pointer;
+  &__image {
+    cursor: pointer;
+    outline: none;
+  }
 }
 
 .card:hover {
@@ -16,10 +19,19 @@
   width: 100%;
   display: flex;
   flex-direction: row;
+  align-items: center;
   &__image {
     height: 50px;
     border-radius: 50%;
     margin: 0 15px 0 5px;
+    outline: unset;
+  }
+  &__image:hover {
+    border: 1px solid white;
+    box-sizing: border-box;
+  }
+  &__spacer {
+    flex: 1;
   }
 }
 
@@ -27,7 +39,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 80%;
+  width: auto;
   &__title {
     margin: 0 0 5px 0;
     font-size: 18px;
@@ -37,6 +49,10 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    outline: none;
+  }
+  &__title:hover {
+    text-decoration: underline;
   }
   &__date {
     margin: 0;

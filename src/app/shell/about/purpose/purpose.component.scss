@@ -4,7 +4,7 @@
   height: 500px;
 }
 
-.first-right {
+.first-image-container {
   display: flex;
   width: 50%;
   height: 100%;
@@ -13,20 +13,20 @@
   }
 }
 
-.first-left {
+.first-text-container {
   display: flex;
   flex-direction: column;
   width: 50%;
   height: 100%;
-  &__text1 {
+  &__title {
     margin: 80px 0 32px 0;
     font-size: 32px;
   }
-  &__text2 {
+  &__text1 {
     margin: 80px 0 32px 0;
     font-size: 24px;
   }
-  &__text3 {
+  &__text2 {
     margin: 0 0 32px 0;
     font-size: 24px;
   }
@@ -38,22 +38,22 @@
   height: 500px;
 }
 
-.second-right {
+.second-text-container {
   display: flex;
   flex-direction: column;
   width: 50%;
   height: 100%;
-  &__text1 {
+  &__title {
     margin: 80px 0 32px 80px;
     font-size: 32px;
   }
-  &__text2 {
+  &__text1 {
     margin: 16px 0 16px 80px;
     font-size: 24px;
   }
 }
 
-.second-left {
+.second-image-container {
   display: flex;
   width: 50%;
   height: 100%;
@@ -68,7 +68,7 @@
   height: 500px;
 }
 
-.third-right {
+.third-image-container {
   display: flex;
   width: 50%;
   height: 100%;
@@ -77,20 +77,20 @@
   }
 }
 
-.third-left {
+.third-text-container {
   display: flex;
   flex-direction: column;
   width: 50%;
   height: 100%;
-  &__text1 {
+  &__title {
     font-size: 32px;
     margin: 80px 0 32px 0;
   }
-  &__text2 {
+  &__text1 {
     font-size: 24px;
     margin: 80px 0 32px 0;
   }
-  &__text3 {
+  &__text2 {
     font-size: 24px;
     margin: 0 0 32px 0;
   }

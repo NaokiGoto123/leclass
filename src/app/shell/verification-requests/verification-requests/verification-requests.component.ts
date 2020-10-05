@@ -3,17 +3,15 @@ import { VerificationGetService } from 'src/app/services/verification-get.servic
 import { VerificationService } from 'src/app/services/verification.service';
 import { User } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
-import { take } from 'rxjs/operators';
 import { Title, Meta } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-verification-requests',
   templateUrl: './verification-requests.component.html',
-  styleUrls: ['./verification-requests.component.scss']
+  styleUrls: ['./verification-requests.component.scss'],
 })
 export class VerificationRequestsComponent implements OnInit, OnDestroy {
-
   user: User = this.authService.user;
 
   requestingUsers: User[];
@@ -34,22 +32,26 @@ export class VerificationRequestsComponent implements OnInit, OnDestroy {
     this.meta.addTags([
       { name: 'description', content: 'Verification requests' },
       { property: 'og:title', content: 'Verification requests' },
-      { property: 'og:description', content: 'Verification requests'},
+      { property: 'og:description', content: 'Verification requests' },
       { property: 'og:url', content: location.href },
-      { property: 'og:image', content: 'https://leclass-prod.web.app/assets/images/leclass.jpg' }
+      {
+        property: 'og:image',
+        content: 'https://leclass-prod.web.app/assets/images/leclass.jpg',
+      },
     ]);
 
     this.initialLoading = true;
-    this.subscription = this.verificationGetService.getRequestingUsers().subscribe((requestingUsers: User[]) => {
-      this.requestingUsers = requestingUsers;
-      setTimeout(() => {
-        this.initialLoading = false;
-      }, 500);
-    });
+    this.subscription = this.verificationGetService
+      .getRequestingUsers()
+      .subscribe((requestingUsers: User[]) => {
+        this.requestingUsers = requestingUsers;
+        setTimeout(() => {
+          this.initialLoading = false;
+        }, 500);
+      });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -62,5 +64,4 @@ export class VerificationRequestsComponent implements OnInit, OnDestroy {
   cancelRequest(uid: string) {
     this.verificationService.cancelRequest(uid);
   }
-
 }

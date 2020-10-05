@@ -20,7 +20,12 @@
     cursor: pointer;
     margin: 0 20px 0 0;
   }
-  &__image:focus{
+  &__image:hover {
+    border-radius: 50%;
+    border: 1px solid white;
+    box-sizing: border-box;
+  }
+  &__image:focus {
     outline: unset;
   }
   &__name {
@@ -29,7 +34,7 @@
     text-decoration: none;
     color: white;
   }
-  &__name:hover{
+  &__name:hover {
     text-decoration: underline;
   }
   &__update-button {

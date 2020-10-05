@@ -1,5 +1,5 @@
-@import "~quill/dist/quill.core.css";
-@import "~quill/dist/quill.snow.css";
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.snow.css';
 
 html,
 body {
@@ -7,12 +7,29 @@ body {
 }
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
   overflow: hidden;
   background-color: #303030;
 }
 
 .warn {
   color: white;
-  background-color: #F44335;
+  background-color: #f44335;
+}
+
+.ql-toolbar {
+  background-color: #222222;
+}
+
+.mat-form-field-wrapper {
+  padding: 0;
+}
+
+.ql-container {
+  font-size: 20px;
+}
+
+.ql-editor {
+  padding: 0;
+  padding: 20px 0 0 0;
 }

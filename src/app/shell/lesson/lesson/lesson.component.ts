@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LessonGetService } from 'src/app/services/lesson-get.service';
 import { Lesson } from 'src/app/interfaces/lesson';
 import { Location } from '@angular/common';
@@ -33,14 +33,15 @@ export class LessonComponent implements OnInit, OnDestroy {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private locationService: Location,
+    public locationService: Location,
     private lessonGetService: LessonGetService,
     private userService: UserService,
     private authService: AuthService,
     private listService: ListService,
     private domSanitizer: DomSanitizer,
     private titleService: Title,
-    private meta: Meta
+    private meta: Meta,
+    private router: Router
   ) {
     this.activatedRoute.queryParamMap.pipe(
       take(1),
@@ -48,15 +49,17 @@ export class LessonComponent implements OnInit, OnDestroy {
         return this.lessonGetService.getLesson(params.get('id'));
       }),
       map((lesson: Lesson) => {
+        if (!lesson) {
+          this.router.navigateByUrl('404');
+        }
         this.lesson = lesson;
         this.safePlayerUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(lesson.playerUrl);
-        return lesson;
-      }))
-      .subscribe((lesson: Lesson) => {
         this.userService.getUser(lesson.createrId).subscribe((creater: User) => {
           this.creater = creater;
         });
-
+        return lesson;
+      }))
+      .subscribe((lesson: Lesson) => {
         this.titleService.setTitle(`${lesson.title} | Leclass`);
 
         this.meta.addTags([
@@ -78,10 +81,6 @@ export class LessonComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-  }
-
-  navigateBack() {
-    this.locationService.back();
   }
 
   addToList() {

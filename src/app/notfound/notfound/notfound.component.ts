@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Title, Meta } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-unknown',
-  templateUrl: './unknown.component.html',
-  styleUrls: ['./unknown.component.scss']
+  selector: 'app-notfound',
+  templateUrl: './notfound.component.html',
+  styleUrls: ['./notfound.component.scss']
 })
-export class UnknownComponent implements OnInit {
+export class NotfoundComponent implements OnInit {
 
   constructor(
     private titleService: Title,

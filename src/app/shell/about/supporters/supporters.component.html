@@ -1,11 +1,28 @@
-<div class="container">
+<div class="container" *ngIf="(verifiedUsers | async)?.length">
   <p class="container__title">Contributers</p>
   <div class="supporters">
-    <div *ngFor="let verifiedUser of verifiedUsers" class="supporter">
-      <img class="supporter__image" src="{{verifiedUser.photoURL}}" routerLink="/account"
-        [queryParams]="{id: verifiedUser.uid}">
-      <a class="supporter__name" routerLink="/account"
-        [queryParams]="{id: verifiedUser.uid}">{{verifiedUser.displayName}}</a>
+    <div *ngFor="let verifiedUser of verifiedUsers | async" class="supporter">
+      <img
+        class="supporter__image"
+        src="{{ verifiedUser.photoURL }}"
+        routerLink="/account"
+        [queryParams]="{ id: verifiedUser.uid }"
+      />
+      <a
+        class="supporter__name"
+        routerLink="/account"
+        [queryParams]="{ id: verifiedUser.uid }"
+        >{{ verifiedUser.displayName }}</a
+      >
     </div>
   </div>
+</div>
+
+<div class="no-suppoters-container" *ngIf="!(verifiedUsers | async)?.length">
+  <p class="no-suppoters-container__text">No suppoters</p>
+  <img
+    class="no-suppoters-container__image"
+    src="/assets/images/experts.svg"
+    alt=""
+  />
 </div>
