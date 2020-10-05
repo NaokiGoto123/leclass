@@ -29,7 +29,7 @@ export class LoginGuard implements CanActivate, CanLoad {
     | UrlTree {
     return this.authService.user$.pipe(
       map((user) => !!user),
-      tap((isLoggedin) => {
+      map((isLoggedin) => {
         if (isLoggedin) {
           this.router.navigateByUrl('/');
           return false;
@@ -45,7 +45,7 @@ export class LoginGuard implements CanActivate, CanLoad {
     return this.authService.user$.pipe(
       map((user) => !!user),
       take(1),
-      tap((isLoggedin) => {
+      map((isLoggedin) => {
         if (isLoggedin) {
           this.router.navigateByUrl('/');
           return false;

@@ -29,7 +29,7 @@ export class AuthGuard implements CanActivate, CanLoad {
     | UrlTree {
     return this.afAuth.user$.pipe(
       map((user) => !!user),
-      tap((isLoggedin) => {
+      map((isLoggedin) => {
         if (!isLoggedin) {
           this.router.navigateByUrl('/login');
           return false;
@@ -46,7 +46,7 @@ export class AuthGuard implements CanActivate, CanLoad {
     return this.afAuth.user$.pipe(
       map((user) => !!user),
       take(1),
-      tap((isLoggedin) => {
+      map((isLoggedin) => {
         if (!isLoggedin) {
           this.router.navigateByUrl('/login');
           return false;
