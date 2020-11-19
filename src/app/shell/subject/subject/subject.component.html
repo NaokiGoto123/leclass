@@ -1,6 +1,14 @@
+<mat-toolbar class="toolbar">
+  <span>{{subject?.name}}</span>
+  <span class="toolbar__spacer"></span>
+  <button mat-icon-button routerLink="/add-subject" [queryParams]='{id: subject.id}'
+    *ngIf="authService.user?.email === 'baron.naoki.g@gmail.com' || authService.user?.email === 'naokigoto@woodstock.ac.in'">
+    <mat-icon>edit</mat-icon>
+  </button>
+</mat-toolbar>
+
 <app-cards-list class="cards-list" [lessons]="lessons" *ngIf="!initialLoading"></app-cards-list>
 
 <div class="spinner-container" *ngIf="initialLoading">
   <mat-spinner></mat-spinner>
 </div>
-

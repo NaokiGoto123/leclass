@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Lesson } from 'src/app/interfaces/lesson';
 import { LessonGetService } from 'src/app/services/lesson-get.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { Title, Meta } from '@angular/platform-browser';
 import { SubjectService } from 'src/app/services/subject.service';
 import { Subject } from 'src/app/interfaces/subject';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-subject',
@@ -14,6 +15,8 @@ import { Subject } from 'src/app/interfaces/subject';
   styleUrls: ['./subject.component.scss']
 })
 export class SubjectComponent implements OnInit, OnDestroy {
+
+  subject: Subject;
 
   lessons: Lesson[];
 
@@ -26,8 +29,8 @@ export class SubjectComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private titleService: Title,
     private meta: Meta,
-    private router: Router,
-    private subjectService: SubjectService
+    private subjectService: SubjectService,
+    public authService: AuthService
   ) {
     this.initialLoading = true;
     this.subscription = this.activatedRoute.queryParamMap.pipe(
@@ -37,6 +40,9 @@ export class SubjectComponent implements OnInit, OnDestroy {
         return this.subjectService.getSubject(subjectId);
       }),
       switchMap((subject: Subject) => {
+
+        this.subject = subject;
+
         this.titleService.setTitle(`${subject.name} | Leclass`);
 
         this.meta.addTags([
