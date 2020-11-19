@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { Title, Meta } from '@angular/platform-browser';
+import { SubjectService } from 'src/app/services/subject.service';
+import { Subject } from 'src/app/interfaces/subject';
 
 @Component({
   selector: 'app-subject',
@@ -19,44 +21,33 @@ export class SubjectComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
 
-  subjects = [
-    'Language & Literature',
-    'Analysis & Approaches',
-    'Japanese',
-    'Physics',
-    'Computer Science',
-    'Economics',
-    'Theory of Knowledge',
-    'IB DP'
-  ];
-
   constructor(
     private lessonGetService: LessonGetService,
     private activatedRoute: ActivatedRoute,
     private titleService: Title,
     private meta: Meta,
-    private router: Router
+    private router: Router,
+    private subjectService: SubjectService
   ) {
     this.initialLoading = true;
     this.subscription = this.activatedRoute.queryParamMap.pipe(
       switchMap((params) => {
-        const subject = params.get('subject');
+        const subjectId = params.get('id');
 
-        if (!this.subjects.includes(subject)) {
-          this.router.navigateByUrl('/404');
-        }
-
-        this.titleService.setTitle(`${subject} | Leclass`);
+        return this.subjectService.getSubject(subjectId);
+      }),
+      switchMap((subject: Subject) => {
+        this.titleService.setTitle(`${subject.name} | Leclass`);
 
         this.meta.addTags([
-          { name: 'description', content: `Subject | ${subject}` },
-          { property: 'og:title', content: `Subject | ${subject}` },
-          { property: 'og:description', content: `Subject | ${subject}` },
+          { name: 'description', content: `Subject | ${subject.name}` },
+          { property: 'og:title', content: `Subject | ${subject.name}` },
+          { property: 'og:description', content: `Subject | ${subject.name}` },
           { property: 'og:url', content: location.href },
           { property: 'og:image', content: 'https://leclass-prod.web.app/assets/images/leclass.jpg' }
         ]);
 
-        return this.lessonGetService.getSpecificLessons(subject);
+        return this.lessonGetService.getSpecificLessons(subject.id);
       }))
       .subscribe((lessons: Lesson[]) => {
         this.lessons = lessons;
