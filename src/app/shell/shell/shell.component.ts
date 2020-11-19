@@ -7,7 +7,9 @@ import { Router } from '@angular/router';
 import { SearchService } from 'src/app/services/search.service';
 import { SearchIndex } from 'algoliasearch/lite';
 import { DOCUMENT } from '@angular/common';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { Subject } from 'src/app/interfaces/subject';
+import { SubjectService } from 'src/app/services/subject.service';
 
 @Component({
   selector: 'app-shell',
@@ -27,12 +29,15 @@ export class ShellComponent implements OnInit, OnDestroy {
 
   verificationRequests: string[];
 
+  subjects: Observable<Subject[]>;
+
   subscription: Subscription;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private verificationGetService: VerificationGetService,
+    private subjectService: SubjectService,
     private router: Router,
     private searchService: SearchService,
     @Inject(DOCUMENT) private rootDocument: HTMLDocument
@@ -40,11 +45,15 @@ export class ShellComponent implements OnInit, OnDestroy {
     this.authService.user$.subscribe((user: User) => {
       this.user = user;
     });
+
+    this.subjects = this.subjectService.getSubjects();
+
     this.subscription = this.verificationGetService
       .getVerificationRequests()
       .subscribe((verificationRequests) => {
         this.verificationRequests = verificationRequests;
       });
+
     this.index
       .search('', {
         page: 0,

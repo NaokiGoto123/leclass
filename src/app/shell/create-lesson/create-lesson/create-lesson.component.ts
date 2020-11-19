@@ -16,6 +16,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { switchMap, take } from 'rxjs/operators';
 import { Title, Meta } from '@angular/platform-browser';
+import { Subject } from 'src/app/interfaces/subject';
+import { Observable } from 'rxjs';
+import { SubjectService } from 'src/app/services/subject.service';
 @Component({
   selector: 'app-create-lesson',
   templateUrl: './create-lesson.component.html',
@@ -31,20 +34,11 @@ export class CreateLessonComponent implements OnInit {
       [Validators.required, Validators.maxLength(this.titleMaxLength)],
     ],
     content: [''],
-    subject: ['', [Validators.required]],
+    subjectId: ['', [Validators.required]],
     isPublic: [true],
   });
   isComplete: boolean;
-  subjects = [
-    'Language & Literature',
-    'Analysis & Approaches',
-    'Japanese',
-    'Physics',
-    'Computer Science',
-    'Economics',
-    'Theory of Knowledge',
-    'IB DP',
-  ];
+  subjects: Subject[] = [];
 
   imageChangedEvent: any = '';
   croppedImage: any = '';
@@ -70,7 +64,8 @@ export class CreateLessonComponent implements OnInit {
     private snackBar: MatSnackBar,
     private http: HttpClient,
     private titleService: Title,
-    private meta: Meta
+    private meta: Meta,
+    private subjectService: SubjectService
   ) {
     this.titleService.setTitle('Create lesson | Leclass');
 
@@ -84,6 +79,14 @@ export class CreateLessonComponent implements OnInit {
         content: 'https://leclass-prod.web.app/assets/images/leclass.jpg',
       },
     ]);
+
+    this.subjectService.getSubjects().pipe(take(1)).subscribe((subjects: Subject[]) => {
+      subjects.map((subject: Subject) => {
+        if (!subject.archived) {
+          this.subjects.push(subject);
+        }
+      });
+    });
 
     this.activatedRoute.queryParamMap
       .pipe(
@@ -175,7 +178,7 @@ export class CreateLessonComponent implements OnInit {
       videoId: this.videoId.toString(),
       content: this.form.value.content,
       createrId: this.authService.user.uid,
-      subject: this.form.value.subject,
+      subjectId: this.form.value.subjectId,
       isPublic: this.form.value.isPublic,
     });
   }
@@ -185,7 +188,7 @@ export class CreateLessonComponent implements OnInit {
       ...this.lesson,
       title: this.form.value.title,
       content: this.form.value.content,
-      subject: this.form.value.subject,
+      subjectId: this.form.value.subjectId,
       isPublic: this.form.value.isPublic,
     });
   }

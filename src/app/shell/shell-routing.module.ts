@@ -16,6 +16,10 @@ const routes: Routes = [
         loadChildren: () => import('./home/home.module').then((m) => m.HomeModule)
       },
       {
+        path: 'add-subject',
+        loadChildren: () => import('./add-subject/add-subject.module').then((m) => m.AddSubjectModule)
+      },
+      {
         path: 'subject',
         loadChildren: () => import('./subject/subject.module').then((m) => m.SubjectModule)
       },
@@ -66,6 +70,10 @@ const routes: Routes = [
       {
         path: 'profile-settings',
         loadChildren: () => import('./profile-settings/profile-settings.module').then((m) => m.ProfileSettingsModule)
+      },
+      {
+        path: 'archived-courses',
+        loadChildren: () => import('./archived-courses/archived-courses.module').then((m) => m.ArchivedCoursesModule)
       }
     ]
   }

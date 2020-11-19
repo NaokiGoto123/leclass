@@ -1,60 +1,29 @@
 <mat-toolbar class="toolbar">
-  <button
-    mat-icon-button
-    class="toolbar__menu-button"
-    (click)="toggleSidenav()"
-    matTooltip="close or open side bar"
-  >
+  <button mat-icon-button class="toolbar__menu-button" (click)="toggleSidenav()" matTooltip="close or open side bar">
     <mat-icon>menu</mat-icon>
   </button>
   <a class="toolbar__title" routerLink="/">Leclass</a>
   <form class="search-bar" (ngSubmit)="routeSearch(valueControl.value)">
     <mat-form-field class="search-bar__field" appearance="outline">
       <mat-label>Search</mat-label>
-      <input
-        matInput
-        type="text"
-        [formControl]="valueControl"
-        autocomplete="off"
-        [matAutocomplete]="auto"
-      />
-      <mat-autocomplete
-        #auto="matAutocomplete"
-        (optionSelected)="directSearch($event.option?.value)"
-      >
+      <input matInput type="text" [formControl]="valueControl" autocomplete="off" [matAutocomplete]="auto" />
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="directSearch($event.option?.value)">
         <mat-option *ngFor="let option of options" [value]="option.id">
           {{ option.title }}
         </mat-option>
       </mat-autocomplete>
-      <button
-        mat-button
-        matSuffix
-        mat-icon-button
-        (click)="routeSearch(valueControl.value)"
-      >
+      <button mat-button matSuffix mat-icon-button (click)="routeSearch(valueControl.value)">
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
   </form>
-  <p
-    class="verified-label"
-    *ngIf="user?.verified"
-    matTooltip="You are verified"
-  >
+  <p class="verified-label" *ngIf="user?.verified" matTooltip="You are verified">
     <span class="verified-label__text">Verified</span>
     <mat-icon class="verified-label__icon">verified</mat-icon>
   </p>
-  <img
-    class="toolbar__account-image"
-    src="{{ user?.photoURL }}"
-    [matMenuTriggerFor]="menu"
-  />
+  <img class="toolbar__account-image" src="{{ user?.photoURL }}" [matMenuTriggerFor]="menu" />
   <mat-menu #menu="matMenu">
-    <button
-      mat-menu-item
-      routerLink="/account"
-      [queryParams]="{ id: user?.uid }"
-    >
+    <button mat-menu-item routerLink="/account" [queryParams]="{ id: user?.uid }">
       <mat-icon>person</mat-icon>
       <span>Account</span>
     </button>
@@ -65,146 +34,33 @@
   <mat-sidenav class="sidenav" #sidenav mode="side" [opened]="isShowing">
     <mat-nav-list>
       <div mat-subheader>DP subjects</div>
-      <a
-        mat-list-item
-        class="sidenav-item"
-        routerLink="/subject"
-        [queryParams]="{ subject: 'Language & Literature' }"
-      >
-        <img
-          class="sidenav-item__image"
-          src="/assets/icons/english.svg"
-          alt="english icon"
-        />
-        <span>Language & Literature</span>
-      </a>
-      <a
-        mat-list-item
-        class="sidenav-item"
-        class="sidenav-item"
-        routerLink="/subject"
-        [queryParams]="{ subject: 'Japanese' }"
-      >
-        <img
-          class="sidenav-item__image"
-          src="/assets/icons/japanese.svg"
-          alt="japanese icon"
-        />
-        <span>Japanese</span>
-      </a>
-      <a
-        mat-list-item
-        class="sidenav-item"
-        routerLink="/subject"
-        [queryParams]="{ subject: 'Analysis & Approaches' }"
-      >
-        <img
-          class="sidenav-item__image"
-          src="/assets/icons/math.svg"
-          alt="math icon"
-        />
-        <span>Analysis & Approaches</span>
-      </a>
-      <a
-        mat-list-item
-        class="sidenav-item"
-        routerLink="/subject"
-        [queryParams]="{ subject: 'Physics' }"
-      >
-        <img
-          class="sidenav-item__image"
-          src="/assets/icons/science.svg"
-          alt="physics icon"
-        />
-        <span>Physics</span>
-      </a>
-      <a
-        mat-list-item
-        class="sidenav-item"
-        routerLink="/subject"
-        [queryParams]="{ subject: 'Computer Science' }"
-      >
-        <img
-          class="sidenav-item__image"
-          src="/assets/icons/cs.svg"
-          alt="computer science icon"
-        />
-        <span>Compouter Science</span>
-      </a>
-      <a
-        mat-list-item
-        class="sidenav-item"
-        routerLink="/subject"
-        [queryParams]="{ subject: 'Economics' }"
-      >
-        <img
-          class="sidenav-item__image"
-          src="/assets/icons/economics.svg"
-          alt="economics icon"
-        />
-        <span>Economics</span>
-      </a>
-      <a
-        mat-list-item
-        class="sidenav-item"
-        routerLink="/subject"
-        [queryParams]="{ subject: 'Theory of Knowledge' }"
-      >
-        <img
-          class="sidenav-item__image"
-          src="/assets/icons/tok.svg"
-          alt="thoery of knowledge icon"
-        />
-        <span>Theory of Knowledge</span>
-      </a>
-      <a
-        mat-list-item
-        class="sidenav-item"
-        routerLink="/subject"
-        [queryParams]="{ subject: 'IB DP' }"
-      >
-        <mat-icon class="sidenav-item__icon">info</mat-icon>
-        <span>What is IB DP?</span>
+      <ng-container *ngFor="let subject of subjects | async">
+        <a mat-list-item class="sidenav-item" routerLink="/subject"
+          [queryParams]="{ id: subject.id }" *ngIf="!subject.archived">
+          <span>{{subject.name}}</span>
+        </a>
+      </ng-container>
+      <a mat-list-item class="sidenav-item" routerLink="/add-subject" *ngIf="user?.email === 'baron.naoki.g@gmail.com' || user?.email === 'naokigoto@woodstock.ac.in'">
+        <mat-icon class="sidenav-item__icon">add</mat-icon>
+        <span>Add new subject</span>
       </a>
       <mat-divider></mat-divider>
-      <a
-        mat-list-item
-        class="sidenav-item"
-        *ngIf="user?.verified"
-        routerLink="/create-lesson"
-      >
+      <a mat-list-item class="sidenav-item" *ngIf="user?.verified" routerLink="/create-lesson">
         <mat-icon class="sidenav-item__icon">add</mat-icon>
         <span>Create lesson</span>
       </a>
-      <a
-        mat-list-item
-        class="sidenav-item"
-        *ngIf="!user?.verified"
-        routerLink="/verification"
-      >
+      <a mat-list-item class="sidenav-item" *ngIf="!user?.verified" routerLink="/verification">
         <mat-icon class="sidenav-item__icon">group_add</mat-icon>
         <span>Verification</span>
       </a>
       <mat-divider></mat-divider>
-      <a
-        mat-list-item
-        class="sidenav-item"
-        *ngIf="user?.verified && verificationRequests?.length"
-        routerLink="/verification-requests"
-      >
+      <a mat-list-item class="sidenav-item" *ngIf="user?.verified && verificationRequests?.length"
+        routerLink="/verification-requests">
         <mat-icon class="sidenav-item__icon">group_add</mat-icon>
-        <span
-          matBadge="{{ verificationRequests.length }}"
-          matBadgeOverlap="false"
-          >Verification requests</span
-        >
+        <span matBadge="{{ verificationRequests.length }}" matBadgeOverlap="false">Verification requests</span>
       </a>
-      <a
-        mat-list-item
-        class="sidenav-item"
-        *ngIf="user?.verified && !verificationRequests?.length"
-        routerLink="/verification-requests"
-      >
+      <a mat-list-item class="sidenav-item" *ngIf="user?.verified && !verificationRequests?.length"
+        routerLink="/verification-requests">
         <mat-icon class="sidenav-item__icon">group_add</mat-icon>
         <span>Verification requests</span>
       </a>
@@ -213,25 +69,19 @@
         <mat-icon class="sidenav-item__icon">list</mat-icon>
         <span>List</span>
       </a>
-      <a
-        mat-list-item
-        class="sidenav-item"
-        *ngIf="user?.verified"
-        routerLink="/drafts"
-      >
+      <a mat-list-item class="sidenav-item" *ngIf="user?.verified" routerLink="/drafts">
         <mat-icon class="sidenav-item__icon">edit</mat-icon>
         <span>Drafts</span>
       </a>
-      <a
-        mat-list-item
-        class="sidenav-item"
-        routerLink="/account"
-        [queryParams]="{ id: user?.uid }"
-      >
+      <a mat-list-item class="sidenav-item" routerLink="/account" [queryParams]="{ id: user?.uid }">
         <mat-icon class="sidenav-item__icon">person</mat-icon>
         <span>Account</span>
       </a>
       <mat-divider></mat-divider>
+      <a mat-list-item class="sidenav-item" routerLink="/archived-courses">
+        <mat-icon class="sidenav-item__icon">archive</mat-icon>
+        <span>Archived courses</span>
+      </a>
       <a mat-list-item class="sidenav-item" routerLink="/about">
         <mat-icon class="sidenav-item__icon">info</mat-icon>
         <span>About</span>
@@ -240,12 +90,7 @@
         <mat-icon class="sidenav-item__icon">report</mat-icon>
         <span>Report</span>
       </a>
-      <a
-        mat-list-item
-        class="sidenav-item"
-        *ngIf="user?.verified"
-        routerLink="/reports"
-      >
+      <a mat-list-item class="sidenav-item" *ngIf="user?.verified" routerLink="/reports">
         <mat-icon class="sidenav-item__icon">build</mat-icon>
         <span>Reports</span>
       </a>

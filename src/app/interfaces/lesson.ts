@@ -9,6 +9,6 @@ export interface Lesson {
   content: string;
   createrId: string;
   date: firestore.Timestamp;
-  subject: string;
+  subjectId: string;
   isPublic: boolean;
 }

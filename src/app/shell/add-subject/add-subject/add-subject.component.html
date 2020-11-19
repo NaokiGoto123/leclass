@@ -1,0 +1,12 @@
+<form class="form" [formGroup]="form">
+  <p class="form__title">{{this.subject? "Update subject": "Add new subject"}}</p>
+
+  <mat-form-field class="form__field" appearance="outline">
+    <mat-label>Name</mat-label>
+    <input matInput type="text" formControlName="name" autocomplete="off">
+  </mat-form-field>
+
+  <mat-slide-toggle class="toggle" formControlName="archived">{{this.form.value.archived? "Archived": "Unarchived"}}</mat-slide-toggle>
+
+  <button mat-raised-button (click)="addSubject()">Save</button>
+</form>
