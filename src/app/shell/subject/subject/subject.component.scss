@@ -6,6 +6,14 @@
     flex: 1 1 auto;
   }
 }
+
+.cards-list {
+  position: absolute;
+  top: 64px;
+  width: 100%;
+  height: calc(100% - 64px);
+}
+
 .spinner-container {
   display: flex;
   align-items: center;
