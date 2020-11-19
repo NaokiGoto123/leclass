@@ -28,12 +28,12 @@ export class LessonService {
   }
 
   async deleteLesson(id: string, videoId: string) {
+    const deleteLesson = this.fns.httpsCallable('deleteLesson');
+    const result = await deleteLesson(id).toPromise();
     const vimeoDeletion = await this.http.delete(`https://api.vimeo.com/videos/${videoId}`, {
       headers: new HttpHeaders({
         Authorization: `bearer 131de8827dca0fa95e1fadae192e3bf7`,
       }),
     }).toPromise();
-    const deleteLesson = this.fns.httpsCallable('deleteLesson');
-    const result = await deleteLesson(id).toPromise();
   }
 }
