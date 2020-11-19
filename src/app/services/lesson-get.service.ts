@@ -39,8 +39,9 @@ export class LessonGetService {
     );
   }
 
-  getSpecificLessons(subject: string): Observable<Lesson[]> {
-    return this.db.collection<Lesson>(`lessons`, (ref) => ref.where('subject', '==', subject).where('isPublic', '==', true)).valueChanges()
+  getSpecificLessons(subjectId: string): Observable<Lesson[]> {
+    return this.db.collection<Lesson>(`lessons`, (ref) => ref.where('subjectId', '==', subjectId).where('isPublic', '==', true))
+    .valueChanges()
     .pipe(
       map((lessons: Lesson[]) => {
         if (lessons.length) {
