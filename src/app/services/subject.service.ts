@@ -21,6 +21,14 @@ export class SubjectService {
     });
   }
 
+  updateSubject(subject: Subject) {
+    this.db.doc(`subjects/${subject.id}`).set({
+      name: subject.name,
+      id: subject.id,
+      archived: subject.archived
+    });
+  }
+
   getSubject(id: string): Observable<Subject> {
     return this.db.doc<Subject>(`subjects/${id}`).valueChanges();
   }
