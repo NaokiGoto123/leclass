@@ -1,0 +1,10 @@
+<form class="form" [formGroup]="form">
+  <p class="form__title">Add new subject</p>
+
+  <mat-form-field class="form__field" appearance="outline">
+    <mat-label>Name</mat-label>
+    <input matInput type="text" formControlName="name" autocomplete="off">
+  </mat-form-field>
+
+  <button mat-raised-button (click)="addSubject()">Save</button>
+</form>
