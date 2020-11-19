@@ -85,7 +85,7 @@
     <button
       mat-raised-button
       class="submit-button"
-      [disabled]="this.form.pristine || (this.form.valid && !lesson)"
+      [disabled]="this.form.pristine || !this.form.valid || (!this.form.valid && !lesson)"
       (click)="submit()"
     >
       Save
