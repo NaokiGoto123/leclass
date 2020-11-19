@@ -17,7 +17,7 @@ export class AddSubjectComponent implements OnInit {
 
   form = this.fb.group({
     name: ['', [Validators.required]],
-    archived: [true]
+    archived: [false]
   });
 
   constructor(
