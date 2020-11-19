@@ -38,7 +38,7 @@ export class CreateLessonComponent implements OnInit {
     isPublic: [true],
   });
   isComplete: boolean;
-  subjects: Observable<Subject[]>;
+  subjects: Subject[] = [];
 
   imageChangedEvent: any = '';
   croppedImage: any = '';
@@ -80,7 +80,13 @@ export class CreateLessonComponent implements OnInit {
       },
     ]);
 
-    this.subjects = this.subjectService.getSubjects();
+    this.subjectService.getSubjects().pipe(take(1)).subscribe((subjects: Subject[]) => {
+      subjects.map((subject: Subject) => {
+        if (!subject.archived) {
+          this.subjects.push(subject);
+        }
+      });
+    });
 
     this.activatedRoute.queryParamMap
       .pipe(
