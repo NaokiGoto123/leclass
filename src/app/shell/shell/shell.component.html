@@ -36,7 +36,7 @@
       <div mat-subheader>DP subjects</div>
       <ng-container *ngFor="let subject of subjects | async">
         <a mat-list-item class="sidenav-item" routerLink="/subject"
-          [queryParams]="{ id: subject.id }">
+          [queryParams]="{ id: subject.id }" *ngIf="!subject.archived">
           <span>{{subject.name}}</span>
         </a>
       </ng-container>
@@ -78,6 +78,10 @@
         <span>Account</span>
       </a>
       <mat-divider></mat-divider>
+      <a mat-list-item class="sidenav-item" routerLink="/archived-courses">
+        <mat-icon class="sidenav-item__icon">archive</mat-icon>
+        <span>Archived courses</span>
+      </a>
       <a mat-list-item class="sidenav-item" routerLink="/about">
         <mat-icon class="sidenav-item__icon">info</mat-icon>
         <span>About</span>
