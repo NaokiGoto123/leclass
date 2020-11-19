@@ -1,7 +1,7 @@
 <mat-toolbar class="toolbar">
   <span>{{subject?.name}}</span>
   <span class="toolbar__spacer"></span>
-  <button mat-icon-button routerLink="/add-subject" [queryParams]='{id: subject.id}'
+  <button mat-icon-button routerLink="/add-subject" [queryParams]='{id: subject?.id}'
     *ngIf="authService.user?.email === 'baron.naoki.g@gmail.com' || authService.user?.email === 'naokigoto@woodstock.ac.in'">
     <mat-icon>edit</mat-icon>
   </button>
