@@ -1,7 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { switchMap, take } from 'rxjs/operators';
+import { Subject } from 'src/app/interfaces/subject';
 import { SubjectService } from 'src/app/services/subject.service';
 
 @Component({
@@ -11,8 +13,11 @@ import { SubjectService } from 'src/app/services/subject.service';
 })
 export class AddSubjectComponent implements OnInit {
 
+  subject: Subject;
+
   form = this.fb.group({
-    name: ['', [Validators.required]]
+    name: ['', [Validators.required]],
+    archived: [true]
   });
 
   constructor(
@@ -21,6 +26,7 @@ export class AddSubjectComponent implements OnInit {
     private router: Router,
     private titleService: Title,
     private meta: Meta,
+    private activatedRoute: ActivatedRoute
   ) {
     this.titleService.setTitle('Add subject | Leclass');
 
@@ -34,6 +40,18 @@ export class AddSubjectComponent implements OnInit {
         content: 'https://leclass-prod.web.app/assets/images/leclass.jpg',
       },
     ]);
+
+    this.activatedRoute.queryParamMap
+      .pipe(
+        take(1),
+        switchMap((params) => {
+          return this.subjectService.getSubject(params.get('id'));
+        })
+      )
+      .subscribe((subject: Subject) => {
+        this.subject = subject;
+        this.form.patchValue(subject);
+      });
   }
 
   ngOnInit(): void {
@@ -48,8 +66,22 @@ export class AddSubjectComponent implements OnInit {
   }
 
   addSubject() {
-    this.subjectService.addSubject({
-      name: this.form.value.name
+    if (this.subject) {
+      this.updateSubject();
+    }
+    else {
+      this.subjectService.addSubject({
+        name: this.form.value.name
+      });
+      this.router.navigateByUrl('/');
+    }
+  }
+
+  updateSubject() {
+    this.subjectService.updateSubject({
+      name: this.form.value.name,
+      id: this.subject.id,
+      archived: this.form.value.archived
     });
     this.router.navigateByUrl('/');
   }
