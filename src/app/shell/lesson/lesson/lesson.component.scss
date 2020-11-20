@@ -1,9 +1,13 @@
+.toolbar {
+  background-color: #303030;
+}
+
 .spacer {
   flex: 1 1 auto;
 }
 
 .container {
-  margin: 40px auto 180px auto;
+  margin: 0 auto 180px auto;
   width: 75%;
   &__title {
     font-size: 32px;

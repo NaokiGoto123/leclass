@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
@@ -27,7 +28,8 @@ export class AddSubjectComponent implements OnInit {
     private router: Router,
     private titleService: Title,
     private meta: Meta,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public locationService: Location
   ) {
     this.titleService.setTitle('Add subject | Leclass');
 

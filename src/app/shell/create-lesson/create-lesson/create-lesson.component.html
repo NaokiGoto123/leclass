@@ -1,3 +1,9 @@
+<mat-toolbar class="toolbar">
+  <button mat-icon-button (click)="locationService.back()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+</mat-toolbar>
+
 <div class="container">
   <p class="container__create-title" *ngIf="!lesson">Create lesson</p>
   <p class="container__update-title" *ngIf="lesson">Update lesson</p>
@@ -29,6 +35,16 @@
           {{ subject.name }}
         </mat-option>
       </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="form__field" appearance="outline">
+      <mat-label>Where does this lesson stand in this course?</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="number"
+        autocomplete="off"
+      />
     </mat-form-field>
 
     <mat-form-field class="form__field" appearance="outline">

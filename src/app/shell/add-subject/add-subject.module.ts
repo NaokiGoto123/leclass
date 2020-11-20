@@ -9,6 +9,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [AddSubjectComponent],
@@ -22,6 +24,8 @@ import { MatSelectModule } from '@angular/material/select';
     ReactiveFormsModule,
     MatSlideToggleModule,
     MatSelectModule,
+    MatToolbarModule,
+    MatIconModule,
   ],
 })
 export class AddSubjectModule {}
