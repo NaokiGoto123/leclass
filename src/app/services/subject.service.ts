@@ -4,28 +4,29 @@ import { Observable } from 'rxjs';
 import { Subject } from '../interfaces/subject';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SubjectService {
-
-  constructor(
-    private db: AngularFirestore
-  ) { }
+  constructor(private db: AngularFirestore) {}
 
   addSubject(subject: Omit<Subject, 'id' | 'archived'>) {
     const id = this.db.createId();
     this.db.doc(`subjects/${id}`).set({
-      name: subject.name,
       id,
-      archived: false
+      name: subject.name,
+      responsibleEmail: subject.responsibleEmail,
+      curriculum: subject.curriculum,
+      archived: false,
     });
   }
 
   updateSubject(subject: Subject) {
     this.db.doc(`subjects/${subject.id}`).set({
-      name: subject.name,
       id: subject.id,
-      archived: subject.archived
+      name: subject.name,
+      responsibleEmail: subject.responsibleEmail,
+      curriculum: subject.curriculum,
+      archived: subject.archived,
     });
   }
 
