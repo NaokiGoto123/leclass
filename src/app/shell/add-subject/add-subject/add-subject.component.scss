@@ -1,8 +1,12 @@
+.toolbar {
+  background-color: #303030;
+}
+
 .form {
   display: flex;
   flex-direction: column;
   width: 80%;
-  margin: 70px auto;
+  margin: 0 auto 70px auto;
   &__title {
     text-align: center;
     font-size: 56px;
