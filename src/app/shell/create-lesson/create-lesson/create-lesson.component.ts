@@ -15,6 +15,7 @@ import { switchMap, take } from 'rxjs/operators';
 import { Title, Meta } from '@angular/platform-browser';
 import { Subject } from 'src/app/interfaces/subject';
 import { SubjectService } from 'src/app/services/subject.service';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-create-lesson',
   templateUrl: './create-lesson.component.html',
@@ -32,6 +33,7 @@ export class CreateLessonComponent implements OnInit {
     content: ['', [Validators.required]],
     loomLink: ['', [Validators.required]],
     subjectId: ['', [Validators.required]],
+    number: [null, [Validators.required]],
     isPublic: [true],
   });
   isComplete: boolean;
@@ -53,7 +55,8 @@ export class CreateLessonComponent implements OnInit {
     private snackBar: MatSnackBar,
     private titleService: Title,
     private meta: Meta,
-    private subjectService: SubjectService
+    private subjectService: SubjectService,
+    public locationService: Location
   ) {
     this.titleService.setTitle('Create lesson | Leclass');
 
@@ -143,6 +146,7 @@ export class CreateLessonComponent implements OnInit {
       loomLink: this.form.value.loomLink,
       createrId: this.authService.user.uid,
       subjectId: this.form.value.subjectId,
+      number: this.form.value.number,
       isPublic: this.form.value.isPublic,
     });
   }
@@ -154,6 +158,7 @@ export class CreateLessonComponent implements OnInit {
       content: this.form.value.content,
       loomLink: this.form.value.loomLink,
       subjectId: this.form.value.subjectId,
+      number: this.form.value.number,
       isPublic: this.form.value.isPublic,
     });
   }

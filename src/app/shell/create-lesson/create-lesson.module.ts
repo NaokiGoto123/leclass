@@ -7,18 +7,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
-import {MatSelectModule} from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { ImageCropperModule } from 'ngx-image-cropper';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
-import { HttpClientModule } from '@angular/common/http';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { QuillModule } from 'ngx-quill';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [CreateLessonComponent, DeleteDialogComponent],
@@ -38,9 +38,9 @@ import { QuillModule } from 'ngx-quill';
     MatTooltipModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
-    MatProgressBarModule,
-    HttpClientModule,
-    QuillModule.forRoot()
-  ]
+    QuillModule.forRoot(),
+    MatToolbarModule,
+    MatIconModule,
+  ],
 })
-export class CreateLessonModule { }
+export class CreateLessonModule {}
