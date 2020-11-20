@@ -9,15 +9,16 @@ import { SubjectService } from 'src/app/services/subject.service';
 @Component({
   selector: 'app-add-subject',
   templateUrl: './add-subject.component.html',
-  styleUrls: ['./add-subject.component.scss']
+  styleUrls: ['./add-subject.component.scss'],
 })
 export class AddSubjectComponent implements OnInit {
-
   subject: Subject;
 
   form = this.fb.group({
     name: ['', [Validators.required]],
-    archived: [false]
+    responsibleEmail: ['', [Validators.required]],
+    curriculum: ['', [Validators.required]],
+    archived: [false],
   });
 
   constructor(
@@ -49,13 +50,14 @@ export class AddSubjectComponent implements OnInit {
         })
       )
       .subscribe((subject: Subject) => {
-        this.subject = subject;
-        this.form.patchValue(subject);
+        if (subject) {
+          this.subject = subject;
+          this.form.patchValue(subject);
+        }
       });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any) {
@@ -68,10 +70,11 @@ export class AddSubjectComponent implements OnInit {
   addSubject() {
     if (this.subject) {
       this.updateSubject();
-    }
-    else {
+    } else {
       this.subjectService.addSubject({
-        name: this.form.value.name
+        name: this.form.value.name,
+        responsibleEmail: this.form.value.responsibleEmail,
+        curriculum: this.form.value.curriculum,
       });
       this.router.navigateByUrl('/');
     }
@@ -81,9 +84,10 @@ export class AddSubjectComponent implements OnInit {
     this.subjectService.updateSubject({
       name: this.form.value.name,
       id: this.subject.id,
-      archived: this.form.value.archived
+      responsibleEmail: this.form.value.responsibleEmail,
+      curriculum: this.form.value.curriculum,
+      archived: this.form.value.archived,
     });
     this.router.navigateByUrl('/');
   }
-
 }

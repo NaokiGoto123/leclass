@@ -4,26 +4,25 @@ import { LessonGetService } from 'src/app/services/lesson-get.service';
 import { Lesson } from 'src/app/interfaces/lesson';
 import { Location } from '@angular/common';
 import { UserService } from 'src/app/services/user.service';
-import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 import { User } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { ListService } from 'src/app/services/list.service';
 import { switchMap, take, map } from 'rxjs/operators';
 import { Title, Meta } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
+import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-lesson',
   templateUrl: './lesson.component.html',
-  styleUrls: ['./lesson.component.scss']
+  styleUrls: ['./lesson.component.scss'],
 })
 export class LessonComponent implements OnInit, OnDestroy {
-
   user = this.authService.user;
 
   lesson: Lesson;
 
-  safePlayerUrl: SafeResourceUrl;
+  embededLink: SafeResourceUrl;
 
   creater: User;
 
@@ -38,27 +37,34 @@ export class LessonComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private authService: AuthService,
     private listService: ListService,
-    private domSanitizer: DomSanitizer,
     private titleService: Title,
     private meta: Meta,
-    private router: Router
+    private router: Router,
+    private domSanitizer: DomSanitizer
   ) {
-    this.activatedRoute.queryParamMap.pipe(
-      take(1),
-      switchMap((params) => {
-        return this.lessonGetService.getLesson(params.get('id'));
-      }),
-      map((lesson: Lesson) => {
-        if (!lesson) {
-          this.router.navigateByUrl('404');
-        }
-        this.lesson = lesson;
-        this.safePlayerUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(lesson.playerUrl);
-        this.userService.getUser(lesson.createrId).subscribe((creater: User) => {
-          this.creater = creater;
-        });
-        return lesson;
-      }))
+    this.activatedRoute.queryParamMap
+      .pipe(
+        take(1),
+        switchMap((params) => {
+          return this.lessonGetService.getLesson(params.get('id'));
+        }),
+        map((lesson: Lesson) => {
+          if (!lesson) {
+            this.router.navigateByUrl('404');
+          }
+          this.lesson = lesson;
+          this.embededLink = this.domSanitizer.bypassSecurityTrustResourceUrl(
+            'https://www.loom.com/embed/' +
+              lesson?.loomLink.match('(?<=share/).*$')[0]
+          );
+          this.userService
+            .getUser(lesson.createrId)
+            .subscribe((creater: User) => {
+              this.creater = creater;
+            });
+          return lesson;
+        })
+      )
       .subscribe((lesson: Lesson) => {
         this.titleService.setTitle(`${lesson.title} | Leclass`);
 
@@ -67,17 +73,21 @@ export class LessonComponent implements OnInit, OnDestroy {
           { property: 'og:title', content: `${lesson.title}` },
           { property: 'og:description', content: `${lesson.title}` },
           { property: 'og:url', content: location.href },
-          { property: 'og:image', content: 'https://leclass-prod.web.app/assets/images/leclass.jpg' }
+          {
+            property: 'og:image',
+            content: 'https://leclass-prod.web.app/assets/images/leclass.jpg',
+          },
         ]);
       });
 
-    this.subscription = this.listService.getListItemIds(this.authService.user.uid).subscribe((listItemIds: string[]) => {
-      this.listItemIds = listItemIds;
-    });
+    this.subscription = this.listService
+      .getListItemIds(this.authService.user.uid)
+      .subscribe((listItemIds: string[]) => {
+        this.listItemIds = listItemIds;
+      });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -90,5 +100,4 @@ export class LessonComponent implements OnInit, OnDestroy {
   removeFromList() {
     this.listService.removeFromList(this.authService.user.uid, this.lesson.id);
   }
-
 }

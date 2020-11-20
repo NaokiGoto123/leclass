@@ -1,12 +1,34 @@
 <form class="form" [formGroup]="form">
-  <p class="form__title">{{this.subject? "Update subject": "Add new subject"}}</p>
+  <p class="form__title">
+    {{ this.subject ? 'Update subject' : 'Add new subject' }}
+  </p>
 
   <mat-form-field class="form__field" appearance="outline">
     <mat-label>Name</mat-label>
-    <input matInput type="text" formControlName="name" autocomplete="off">
+    <input matInput type="text" formControlName="name" autocomplete="off" />
   </mat-form-field>
 
-  <mat-slide-toggle class="toggle" formControlName="archived">{{this.form.value.archived? "Archived": "Unarchived"}}</mat-slide-toggle>
+  <mat-form-field class="form__field" appearance="outline">
+    <mat-label>Reponsible teacher's email</mat-label>
+    <input
+      matInput
+      type="text"
+      formControlName="responsibleEmail"
+      autocomplete="off"
+    />
+  </mat-form-field>
+
+  <mat-form-field class="form__field" appearance="outline">
+    <mat-label>Curriculum</mat-label>
+    <mat-select formControlName="curriculum">
+      <mat-option value="DP">DP</mat-option>
+      <mat-option value="MYP">MYP</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-slide-toggle class="toggle" formControlName="archived" *ngIf="subject">{{
+    this.form.value.archived ? 'Archived' : 'Unarchived'
+  }}</mat-slide-toggle>
 
   <button mat-raised-button (click)="addSubject()">Save</button>
 </form>
