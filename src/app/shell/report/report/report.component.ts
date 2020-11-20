@@ -12,7 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./report.component.scss'],
 })
 export class ReportComponent implements OnInit {
-  titleMaxLength = 20;
+  titleMaxLength = 70;
 
   form = this.fb.group({
     title: [
