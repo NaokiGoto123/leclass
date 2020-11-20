@@ -11,13 +11,9 @@ import { Lesson } from 'src/app/interfaces/lesson';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import * as tus from 'tus-js-client';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 import { switchMap, take } from 'rxjs/operators';
 import { Title, Meta } from '@angular/platform-browser';
 import { Subject } from 'src/app/interfaces/subject';
-import { Observable } from 'rxjs';
 import { SubjectService } from 'src/app/services/subject.service';
 @Component({
   selector: 'app-create-lesson',
@@ -27,13 +23,14 @@ import { SubjectService } from 'src/app/services/subject.service';
 export class CreateLessonComponent implements OnInit {
   uniqueId = this.db.createId();
   lesson: Lesson;
-  titleMaxLength = 50;
+  titleMaxLength = 70;
   form = this.fb.group({
     title: [
       '',
       [Validators.required, Validators.maxLength(this.titleMaxLength)],
     ],
-    content: [''],
+    content: ['', [Validators.required]],
+    loomLink: ['', [Validators.required]],
     subjectId: ['', [Validators.required]],
     isPublic: [true],
   });
@@ -42,14 +39,6 @@ export class CreateLessonComponent implements OnInit {
 
   imageChangedEvent: any = '';
   croppedImage: any = '';
-
-  token = environment.vimeo.token;
-  isUploadingComplete: boolean;
-  file: File;
-  uploadUrl: string;
-  videoUrl: string;
-  videoId: number;
-  playerUrl: string;
 
   constructor(
     private fb: FormBuilder,
@@ -62,7 +51,6 @@ export class CreateLessonComponent implements OnInit {
     private lessonGetService: LessonGetService,
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private http: HttpClient,
     private titleService: Title,
     private meta: Meta,
     private subjectService: SubjectService
@@ -80,13 +68,16 @@ export class CreateLessonComponent implements OnInit {
       },
     ]);
 
-    this.subjectService.getSubjects().pipe(take(1)).subscribe((subjects: Subject[]) => {
-      subjects.map((subject: Subject) => {
-        if (!subject.archived) {
-          this.subjects.push(subject);
-        }
+    this.subjectService
+      .getSubjects()
+      .pipe(take(1))
+      .subscribe((subjects: Subject[]) => {
+        subjects.map((subject: Subject) => {
+          if (!subject.archived) {
+            this.subjects.push(subject);
+          }
+        });
       });
-    });
 
     this.activatedRoute.queryParamMap
       .pipe(
@@ -128,31 +119,6 @@ export class CreateLessonComponent implements OnInit {
     this.snackBar.open('Failed to load image');
   }
 
-  createVideo(event) {
-    this.file = event.target.files[0];
-
-    this.http
-      .post(
-        'https://api.vimeo.com/me/videos',
-        { upload: { approach: 'tus', size: this.file.size } },
-        {
-          headers: new HttpHeaders({
-            Authorization: `bearer ${this.token}`,
-            'Content-Type': 'application/json',
-            Accept: 'application/vnd.vimeo.*+json;version=3.4',
-          }),
-        }
-      )
-      .subscribe((res: any) => {
-        this.uploadUrl = res.upload.upload_link;
-        this.videoUrl = res.link;
-        this.videoId = +this.videoUrl.substring(
-          this.videoUrl.lastIndexOf('/') + 1
-        );
-        this.playerUrl = `https://player.vimeo.com/video/${this.videoId}`;
-      });
-  }
-
   async submit() {
     this.snackBar.open('Saving in process');
 
@@ -168,15 +134,13 @@ export class CreateLessonComponent implements OnInit {
   }
 
   private async createLesson() {
-    await this.uploadVideo();
     const photoURL = await this.upload(this.croppedImage);
     this.lessonService.createLesson({
       id: this.uniqueId,
       title: this.form.value.title,
       thumbnail: photoURL,
-      playerUrl: this.playerUrl,
-      videoId: this.videoId.toString(),
       content: this.form.value.content,
+      loomLink: this.form.value.loomLink,
       createrId: this.authService.user.uid,
       subjectId: this.form.value.subjectId,
       isPublic: this.form.value.isPublic,
@@ -188,6 +152,7 @@ export class CreateLessonComponent implements OnInit {
       ...this.lesson,
       title: this.form.value.title,
       content: this.form.value.content,
+      loomLink: this.form.value.loomLink,
       subjectId: this.form.value.subjectId,
       isPublic: this.form.value.isPublic,
     });
@@ -200,26 +165,10 @@ export class CreateLessonComponent implements OnInit {
     return result.ref.getDownloadURL();
   }
 
-  private async uploadVideo() {
-    this.isUploadingComplete = false;
-    const upload = new tus.Upload(this.file, {
-      uploadUrl: this.uploadUrl,
-      retryDelays: [0, 3000, 5000, 10000, 20000],
-      onError: (error) => {
-        this.snackBar.open(`Error: ${error}`);
-      },
-      onSuccess: () => {
-        this.isUploadingComplete = true;
-      },
-    });
-    upload.start();
-  }
-
   openDialog() {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: {
         id: this.lesson.id,
-        videoId: this.lesson.videoId,
       },
     });
   }

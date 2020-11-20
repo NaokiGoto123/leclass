@@ -31,14 +31,14 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field class="form__field" appearance="outline" *ngIf="!lesson">
-      <mat-label>Upload a mp4 video</mat-label>
-      <ngx-mat-file-input
-        type="file"
-        accept="video/mp4"
-        (change)="createVideo($event)"
-        required
-      ></ngx-mat-file-input>
+    <mat-form-field class="form__field" appearance="outline">
+      <mat-label>Paste loom link</mat-label>
+      <input
+        matInput
+        type="text"
+        formControlName="loomLink"
+        autocomplete="off"
+      />
     </mat-form-field>
 
     <ng-container *ngIf="!lesson">
