@@ -15,7 +15,7 @@ import { AuthService } from '../services/auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class EnterLessonEditorGuard implements CanActivate, CanLoad {
+export class AddSubjectGuard implements CanActivate, CanLoad {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(
@@ -27,7 +27,7 @@ export class EnterLessonEditorGuard implements CanActivate, CanLoad {
     | boolean
     | UrlTree {
     if (
-      !this.authService.user.isTeacher &&
+      !this.authService.user.isAdministrator &&
       !this.authService.user.isDeveloper
     ) {
       this.router.navigateByUrl('/');
@@ -39,7 +39,7 @@ export class EnterLessonEditorGuard implements CanActivate, CanLoad {
     segments: UrlSegment[]
   ): Observable<boolean> | Promise<boolean> | boolean {
     if (
-      !this.authService.user.isTeacher &&
+      !this.authService.user.isAdministrator &&
       !this.authService.user.isDeveloper
     ) {
       this.router.navigateByUrl('/');

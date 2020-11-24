@@ -38,7 +38,7 @@
   </form>
   <p
     class="verified-label"
-    *ngIf="user?.verified"
+    *ngIf="user?.isTeacher || user?.isAdministrator || user?.isDeveloper"
     matTooltip="You are verified"
   >
     <span class="verified-label__text">Verified</span>
@@ -88,61 +88,21 @@
           <span>{{ subject.name }}</span>
         </a>
       </ng-container>
-      <a
-        mat-list-item
-        class="sidenav-item"
-        routerLink="/add-subject"
-        *ngIf="
-          user?.email === 'baron.naoki.g@gmail.com' ||
-          user?.email === 'naokigoto@woodstock.ac.in'
-        "
-      >
-        <mat-icon class="sidenav-item__icon">add</mat-icon>
-        <span>Add new subject</span>
-      </a>
       <mat-divider></mat-divider>
-      <a
-        mat-list-item
-        class="sidenav-item"
-        *ngIf="user?.verified"
-        routerLink="/create-lesson"
+      <ng-container
+        *ngIf="user?.isTeacher || user?.isAdministrator || user?.isDeveloper"
       >
-        <mat-icon class="sidenav-item__icon">add</mat-icon>
-        <span>Create lesson</span>
-      </a>
-      <a
-        mat-list-item
-        class="sidenav-item"
-        *ngIf="!user?.verified"
-        routerLink="/verification"
-      >
-        <mat-icon class="sidenav-item__icon">group_add</mat-icon>
-        <span>Verification</span>
-      </a>
-      <mat-divider></mat-divider>
-      <a
-        mat-list-item
-        class="sidenav-item"
-        *ngIf="user?.verified && verificationRequests?.length"
-        routerLink="/verification-requests"
-      >
-        <mat-icon class="sidenav-item__icon">group_add</mat-icon>
-        <span
-          matBadge="{{ verificationRequests.length }}"
-          matBadgeOverlap="false"
-          >Verification requests</span
+        <a
+          mat-list-item
+          class="sidenav-item"
+          *ngIf="user?.isTeacher || user?.isAdministrator || user?.isDeveloper"
+          routerLink="/create-lesson"
         >
-      </a>
-      <a
-        mat-list-item
-        class="sidenav-item"
-        *ngIf="user?.verified && !verificationRequests?.length"
-        routerLink="/verification-requests"
-      >
-        <mat-icon class="sidenav-item__icon">group_add</mat-icon>
-        <span>Verification requests</span>
-      </a>
-      <mat-divider></mat-divider>
+          <mat-icon class="sidenav-item__icon">add</mat-icon>
+          <span>Create lesson</span>
+        </a>
+        <mat-divider></mat-divider>
+      </ng-container>
       <a mat-list-item class="sidenav-item" routerLink="/list">
         <mat-icon class="sidenav-item__icon">list</mat-icon>
         <span>List</span>
@@ -150,7 +110,7 @@
       <a
         mat-list-item
         class="sidenav-item"
-        *ngIf="user?.verified"
+        *ngIf="user?.isTeacher || user?.isAdministrator || user?.isDeveloper"
         routerLink="/drafts"
       >
         <mat-icon class="sidenav-item__icon">edit</mat-icon>
@@ -181,11 +141,20 @@
       <a
         mat-list-item
         class="sidenav-item"
-        *ngIf="user?.verified"
+        *ngIf="user?.isTeacher || user?.isAdministrator || user?.isDeveloper"
         routerLink="/reports"
       >
         <mat-icon class="sidenav-item__icon">build</mat-icon>
         <span>Reports</span>
+      </a>
+      <a
+        mat-list-item
+        class="sidenav-item"
+        routerLink="/add-subject"
+        *ngIf="user?.isAdministrator || user?.isDeveloper"
+      >
+        <mat-icon class="sidenav-item__icon">add</mat-icon>
+        <span>Add new subject</span>
       </a>
     </mat-nav-list>
   </mat-sidenav>

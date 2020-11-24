@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { ShellComponent } from './shell/shell.component';
 import { AuthGuard } from '../guards/auth.guard';
 
-
 const routes: Routes = [
   {
     path: '',
@@ -13,74 +12,90 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: () => import('./home/home.module').then((m) => m.HomeModule)
+        loadChildren: () =>
+          import('./home/home.module').then((m) => m.HomeModule),
       },
       {
         path: 'add-subject',
-        loadChildren: () => import('./add-subject/add-subject.module').then((m) => m.AddSubjectModule)
+        loadChildren: () =>
+          import('./add-subject/add-subject.module').then(
+            (m) => m.AddSubjectModule
+          ),
       },
       {
         path: 'subject',
-        loadChildren: () => import('./subject/subject.module').then((m) => m.SubjectModule)
+        loadChildren: () =>
+          import('./subject/subject.module').then((m) => m.SubjectModule),
       },
       {
         path: 'lesson',
-        loadChildren: () => import('./lesson/lesson.module').then((m) => m.LessonModule)
+        loadChildren: () =>
+          import('./lesson/lesson.module').then((m) => m.LessonModule),
       },
       {
         path: 'create-lesson',
-        loadChildren: () => import('./create-lesson/create-lesson.module').then((m) => m.CreateLessonModule)
-      },
-      {
-        path: 'verification',
-        loadChildren: () => import('./verification/verification.module').then((m) => m.VerificationModule)
-      },
-      {
-        path: 'verification-requests',
-        loadChildren: () => import('./verification-requests/verification-requests.module').then((m) => m.VerificationRequestsModule)
+        loadChildren: () =>
+          import('./create-lesson/create-lesson.module').then(
+            (m) => m.CreateLessonModule
+          ),
       },
       {
         path: 'about',
-        loadChildren: () => import('./about/about.module').then((m) => m.AboutModule)
+        loadChildren: () =>
+          import('./about/about.module').then((m) => m.AboutModule),
       },
       {
         path: 'list',
-        loadChildren: () => import('./list/list.module').then((m) => m.ListModule)
+        loadChildren: () =>
+          import('./list/list.module').then((m) => m.ListModule),
       },
       {
         path: 'drafts',
-        loadChildren: () => import('./drafts/drafts.module').then((m) => m.DraftsModule)
+        loadChildren: () =>
+          import('./drafts/drafts.module').then((m) => m.DraftsModule),
       },
       {
         path: 'report',
-        loadChildren: () => import('./report/report.module').then((m) => m.ReportModule)
+        loadChildren: () =>
+          import('./report/report.module').then((m) => m.ReportModule),
       },
       {
         path: 'reports',
-        loadChildren: () => import('./reports/reports.module').then((m) => m.ReportsModule)
+        loadChildren: () =>
+          import('./reports/reports.module').then((m) => m.ReportsModule),
       },
       {
         path: 'report-detail',
-        loadChildren: () => import('./report-detail/report-detail.module').then((m) => m.ReportDetailModule)
+        loadChildren: () =>
+          import('./report-detail/report-detail.module').then(
+            (m) => m.ReportDetailModule
+          ),
       },
       {
         path: 'account',
-        loadChildren: () => import('./account/account.module').then((m) => m.AccountModule)
+        loadChildren: () =>
+          import('./account/account.module').then((m) => m.AccountModule),
       },
       {
         path: 'profile-settings',
-        loadChildren: () => import('./profile-settings/profile-settings.module').then((m) => m.ProfileSettingsModule)
+        loadChildren: () =>
+          import('./profile-settings/profile-settings.module').then(
+            (m) => m.ProfileSettingsModule
+          ),
       },
       {
         path: 'archived-courses',
-        loadChildren: () => import('./archived-courses/archived-courses.module').then((m) => m.ArchivedCoursesModule)
-      }
-    ]
-  }
+        loadChildren: () =>
+          import('./archived-courses/archived-courses.module').then(
+            (m) => m.ArchivedCoursesModule
+          ),
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ShellRoutingModule { }
+export class ShellRoutingModule {}

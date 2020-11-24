@@ -58,7 +58,9 @@ export class AuthService {
       return this.updateUserData({
         ...credential.user,
         profile: `This is ${credential.user.displayName}'s profile.`,
-        verified: false,
+        isTeacher: false,
+        isDeveloper: false,
+        isAdministrator: false,
       });
     }
   }
@@ -70,7 +72,9 @@ export class AuthService {
       email: user.email,
       photoURL: user.photoURL,
       profile: user.profile,
-      verified: user.verified,
+      isTeacher: false,
+      isDeveloper: false,
+      isAdministrator: false,
     };
 
     return this.db.doc(`users/${user.uid}`).set(data, { merge: true });

@@ -30,7 +30,13 @@
   <div class="header-content">
     <div class="header-content-row">
       <p class="header-content-row__name">{{ targetUser?.displayName }}</p>
-      <mat-icon class="header-content-row__icon" *ngIf="targetUser?.verified"
+      <mat-icon
+        class="header-content-row__icon"
+        *ngIf="
+          targetUser?.isTeacher ||
+          targetUser?.isAdministrator ||
+          targetUser?.isDeveloper
+        "
         >verified</mat-icon
       >
     </div>
