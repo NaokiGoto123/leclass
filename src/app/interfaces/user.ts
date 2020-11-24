@@ -4,5 +4,7 @@ export interface User {
   photoURL?: string;
   displayName: string;
   profile: string;
-  verified: boolean;
+  isTeacher: boolean;
+  isAdministrator: boolean;
+  isDeveloper: boolean;
 }
