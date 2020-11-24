@@ -88,25 +88,21 @@
           <span>{{ subject.name }}</span>
         </a>
       </ng-container>
-      <a
-        mat-list-item
-        class="sidenav-item"
-        routerLink="/add-subject"
-        *ngIf="user?.isAdministrator || user?.isDeveloper"
-      >
-        <mat-icon class="sidenav-item__icon">add</mat-icon>
-        <span>Add new subject</span>
-      </a>
       <mat-divider></mat-divider>
-      <a
-        mat-list-item
-        class="sidenav-item"
+      <ng-container
         *ngIf="user?.isTeacher || user?.isAdministrator || user?.isDeveloper"
-        routerLink="/create-lesson"
       >
-        <mat-icon class="sidenav-item__icon">add</mat-icon>
-        <span>Create lesson</span>
-      </a>
+        <a
+          mat-list-item
+          class="sidenav-item"
+          *ngIf="user?.isTeacher || user?.isAdministrator || user?.isDeveloper"
+          routerLink="/create-lesson"
+        >
+          <mat-icon class="sidenav-item__icon">add</mat-icon>
+          <span>Create lesson</span>
+        </a>
+        <mat-divider></mat-divider>
+      </ng-container>
       <a mat-list-item class="sidenav-item" routerLink="/list">
         <mat-icon class="sidenav-item__icon">list</mat-icon>
         <span>List</span>
@@ -150,6 +146,15 @@
       >
         <mat-icon class="sidenav-item__icon">build</mat-icon>
         <span>Reports</span>
+      </a>
+      <a
+        mat-list-item
+        class="sidenav-item"
+        routerLink="/add-subject"
+        *ngIf="user?.isAdministrator || user?.isDeveloper"
+      >
+        <mat-icon class="sidenav-item__icon">add</mat-icon>
+        <span>Add new subject</span>
       </a>
     </mat-nav-list>
   </mat-sidenav>
