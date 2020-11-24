@@ -7,7 +7,7 @@
     mat-icon-button
     routerLink="/create-lesson"
     [queryParams]="{ id: lesson?.id }"
-    *ngIf="user.verified"
+    *ngIf="lesson?.createrId == user.uid || user.isAdministrator"
   >
     <mat-icon>edit</mat-icon>
   </button>

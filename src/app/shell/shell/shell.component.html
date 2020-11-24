@@ -38,7 +38,7 @@
   </form>
   <p
     class="verified-label"
-    *ngIf="user?.verified"
+    *ngIf="user?.isTeacher || user?.isAdministrator || user?.isDeveloper"
     matTooltip="You are verified"
   >
     <span class="verified-label__text">Verified</span>
@@ -104,7 +104,7 @@
       <a
         mat-list-item
         class="sidenav-item"
-        *ngIf="user?.verified"
+        *ngIf="user?.isTeacher || user?.isAdministrator || user?.isDeveloper"
         routerLink="/create-lesson"
       >
         <mat-icon class="sidenav-item__icon">add</mat-icon>
@@ -113,7 +113,7 @@
       <a
         mat-list-item
         class="sidenav-item"
-        *ngIf="!user?.verified"
+        *ngIf="!user?.isTeacher && !user?.isAdministrator && !user?.isDeveloper"
         routerLink="/verification"
       >
         <mat-icon class="sidenav-item__icon">group_add</mat-icon>
@@ -123,7 +123,11 @@
       <a
         mat-list-item
         class="sidenav-item"
-        *ngIf="user?.verified && verificationRequests?.length"
+        *ngIf="
+          user?.isTeacher ||
+          user?.isAdministrator ||
+          (user?.isDeveloper && verificationRequests?.length)
+        "
         routerLink="/verification-requests"
       >
         <mat-icon class="sidenav-item__icon">group_add</mat-icon>
@@ -136,7 +140,11 @@
       <a
         mat-list-item
         class="sidenav-item"
-        *ngIf="user?.verified && !verificationRequests?.length"
+        *ngIf="
+          user?.isTeacher ||
+          user?.isAdministrator ||
+          (user?.isDeveloper && !verificationRequests?.length)
+        "
         routerLink="/verification-requests"
       >
         <mat-icon class="sidenav-item__icon">group_add</mat-icon>
@@ -150,7 +158,7 @@
       <a
         mat-list-item
         class="sidenav-item"
-        *ngIf="user?.verified"
+        *ngIf="user?.isTeacher || user?.isAdministrator || user?.isDeveloper"
         routerLink="/drafts"
       >
         <mat-icon class="sidenav-item__icon">edit</mat-icon>
@@ -181,7 +189,7 @@
       <a
         mat-list-item
         class="sidenav-item"
-        *ngIf="user?.verified"
+        *ngIf="user?.isTeacher || user?.isAdministrator || user?.isDeveloper"
         routerLink="/reports"
       >
         <mat-icon class="sidenav-item__icon">build</mat-icon>
