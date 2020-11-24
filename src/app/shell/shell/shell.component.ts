@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
-import { FormBuilder, Validators, FormControl } from '@angular/forms';
+import { Component, OnInit, Inject } from '@angular/core';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/interfaces/user';
 import { VerificationGetService } from 'src/app/services/verification-get.service';
@@ -16,7 +16,7 @@ import { SubjectService } from 'src/app/services/subject.service';
   templateUrl: './shell.component.html',
   styleUrls: ['./shell.component.scss'],
 })
-export class ShellComponent implements OnInit, OnDestroy {
+export class ShellComponent implements OnInit {
   index: SearchIndex = this.searchService.index.lessons_date;
 
   options = [];
@@ -30,8 +30,6 @@ export class ShellComponent implements OnInit, OnDestroy {
   verificationRequests: string[];
 
   subjects: Observable<Subject[]>;
-
-  subscription: Subscription;
 
   constructor(
     private fb: FormBuilder,
@@ -47,12 +45,6 @@ export class ShellComponent implements OnInit, OnDestroy {
     });
 
     this.subjects = this.subjectService.getSubjects();
-
-    this.subscription = this.verificationGetService
-      .getVerificationRequests()
-      .subscribe((verificationRequests) => {
-        this.verificationRequests = verificationRequests;
-      });
 
     this.index
       .search('', {
@@ -77,10 +69,6 @@ export class ShellComponent implements OnInit, OnDestroy {
           this.options = result.hits;
         });
     });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
   toggleSidenav() {
