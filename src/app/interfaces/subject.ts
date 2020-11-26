@@ -2,6 +2,6 @@ export interface Subject {
   id: string;
   name: string;
   responsibleEmail: string;
-  curriculum: 'DP' | 'MYP';
+  curriculum: 'DP' | 'MYP' | 'Other';
   archived: boolean;
 }
