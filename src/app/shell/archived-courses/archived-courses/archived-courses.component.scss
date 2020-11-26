@@ -1,14 +1,11 @@
 .item {
-  &__done-icon {
-    margin: 0 15px 0 0;
-    color: green;
-  }
-  &__warning-icon {
-    margin: 0 15px 0 0;
-    color: yellow;
-  }
   &__content {
-    margin: 0 20px 0 0;
+    color: white;
+    text-decoration: none;
+  }
+  &__content:hover {
+    color: white;
+    text-decoration: underline;
   }
 }
 
