@@ -14,7 +14,10 @@
 </mat-toolbar>
 
 <div class="container">
-  <div style="position: relative; padding-bottom: 62.5%; height: 0">
+  <div
+    style="position: relative; padding-bottom: 62.5%; height: 0"
+    *ngIf="lesson?.loomLink"
+  >
     <iframe
       [src]="embededLink"
       frameborder="0"
