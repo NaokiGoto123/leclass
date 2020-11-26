@@ -1,4 +1,65 @@
-<app-cards-list class="cards-list" [lessons]="result?.hits" *ngIf="!initialLoading"></app-cards-list>
+<mat-list>
+  <ng-container *ngIf="(dpSubjects | async).length">
+    <div mat-subheader>DP subjects</div>
+    <ng-container *ngFor="let dpSubject of dpSubjects | async">
+      <mat-list-item
+        *ngIf="dpSubject.curriculum === 'DP' && dpSubject.archived == false"
+      >
+        <a
+          mat-line
+          class="subject-title"
+          routerLink="/subject"
+          [queryParams]="{ id: dpSubject.id }"
+          >{{ dpSubject.name }}</a
+        >
+      </mat-list-item>
+    </ng-container>
+  </ng-container>
+
+  <mat-divider
+    *ngIf="(dpSubjects | async).length && (mypSubjects | async).length"
+  ></mat-divider>
+
+  <ng-container *ngIf="(mypSubjects | async).length">
+    <div mat-subheader>MYP subjects</div>
+    <ng-container *ngFor="let mypSubject of mypSubjects | async">
+      <mat-list-item
+        *ngIf="mypSubject.curriculum === 'MYP' && mypSubject.archived == false"
+      >
+        <a
+          mat-line
+          class="subject-title"
+          routerLink="/subject"
+          [queryParams]="{ id: mypSubject.id }"
+          >{{ mypSubject.name }}</a
+        >
+      </mat-list-item>
+    </ng-container>
+  </ng-container>
+
+  <mat-divider
+    *ngIf="(mypSubjects | async).length && (otherSubjects | async).length"
+  ></mat-divider>
+
+  <ng-container *ngIf="(otherSubjects | async).length">
+    <div mat-subheader>Others</div>
+    <ng-container *ngFor="let otherSubject of otherSubjects | async">
+      <mat-list-item
+        *ngIf="
+          otherSubject.curriculum === 'Other' && otherSubject.archived == false
+        "
+      >
+        <a
+          mat-line
+          class="subject-title"
+          routerLink="/subject"
+          [queryParams]="{ id: otherSubject.id }"
+          >{{ otherSubject.name }}</a
+        >
+      </mat-list-item>
+    </ng-container>
+  </ng-container>
+</mat-list>
 
 <div class="spinner-container" *ngIf="initialLoading">
   <mat-spinner></mat-spinner>

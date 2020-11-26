@@ -1,61 +1,82 @@
 import { Component, OnInit } from '@angular/core';
-import { SearchService } from 'src/app/services/search.service';
-import { SearchIndex } from 'algoliasearch/lite';
-import { ActivatedRoute } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Subject } from 'src/app/interfaces/subject';
+import { SubjectService } from 'src/app/services/subject.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-
-  private index: SearchIndex = this.searchService.index.lessons_date;
-
   initialLoading: boolean;
 
-  result: {
-    nbHits: number;
-    hits: any[];
-  };
+  private subjects: Observable<Subject[]>;
 
-  query: string;
+  dpSubjects: Observable<Subject[]>;
+
+  mypSubjects: Observable<Subject[]>;
+
+  otherSubjects: Observable<Subject[]>;
 
   constructor(
-    private searchService: SearchService,
-    private activatedRoute: ActivatedRoute,
     private titleService: Title,
-    private meta: Meta
+    private meta: Meta,
+    private subjectService: SubjectService
   ) {
     this.titleService.setTitle('Home | Leclass');
 
     this.meta.addTags([
       { name: 'description', content: 'Home' },
       { property: 'og:title', content: 'Home' },
-      { property: 'og:description', content: 'Home'},
+      { property: 'og:description', content: 'Home' },
       { property: 'og:url', content: location.href },
-      { property: 'og:image', content: 'https://leclass-prod.web.app/assets/images/leclass.jpg' }
+      {
+        property: 'og:image',
+        content: 'https://leclass-prod.web.app/assets/images/leclass.jpg',
+      },
     ]);
 
-    this.activatedRoute.queryParamMap.subscribe((params) => {
-      this.query = params.get('searchQuery') || '';
-      this.search();
-    });
-  }
+    this.subjects = this.subjectService.getSubjects();
 
-  ngOnInit(): void {
-  }
-
-  private search() {
-    this.initialLoading = true;
-    this.index
-      .search(this.query, {
-        facetFilters: `isPublic:true`
+    this.dpSubjects = this.subjects.pipe(
+      map((subjects: Subject[]) => {
+        const result: Subject[] = [];
+        subjects.map((subject: Subject) => {
+          if (subject.curriculum === 'DP' && subject.archived === false) {
+            result.push(subject);
+          }
+        });
+        return result;
       })
-      .then((result) => {
-        this.result = result;
-        this.initialLoading = false;
-      });
+    );
+
+    this.mypSubjects = this.subjects.pipe(
+      map((subjects: Subject[]) => {
+        const result: Subject[] = [];
+        subjects.map((subject: Subject) => {
+          if (subject.curriculum === 'MYP' && subject.archived === false) {
+            result.push(subject);
+          }
+        });
+        return result;
+      })
+    );
+
+    this.otherSubjects = this.subjects.pipe(
+      map((subjects: Subject[]) => {
+        const result: Subject[] = [];
+        subjects.map((subject: Subject) => {
+          if (subject.curriculum === 'Other' && subject.archived === false) {
+            result.push(subject);
+          }
+        });
+        return result;
+      })
+    );
   }
+
+  ngOnInit(): void {}
 }

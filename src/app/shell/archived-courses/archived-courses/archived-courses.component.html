@@ -1,22 +1,28 @@
-<mat-list role="list" *ngIf="!initialLoading && (archivedCourses)?.length">
+<mat-list role="list" *ngIf="!initialLoading && archivedCourses?.length">
   <div mat-subheader>Archived courses</div>
   <ng-container *ngFor="let archivedCourse of archivedCourses">
     <mat-list-item role="listitem" class="item">
-
-      <span class="item__content">{{ archivedCourse.name }}</span>
-
-      <button mat-icon-button routerLink="/subject" matTooltip="See detail" matTooltipPosition="right"
-        [queryParams]="{ id: archivedCourse.id }">
-        <mat-icon>launch</mat-icon>
-      </button>
+      <a
+        class="item__content"
+        routerLink="/subject"
+        [queryParams]="{ id: archivedCourse.id }"
+        >{{ archivedCourse.name }}</a
+      >
     </mat-list-item>
     <mat-divider></mat-divider>
   </ng-container>
 </mat-list>
 
-<div class="no-archived-courses-container" *ngIf="!initialLoading && !(archivedCourses)?.length">
+<div
+  class="no-archived-courses-container"
+  *ngIf="!initialLoading && !archivedCourses?.length"
+>
   <p class="no-archived-courses-container__text">No archived courses</p>
-  <img class="no-archived-courses-container__image" src="/assets/images/reports.svg" alt="" />
+  <img
+    class="no-archived-courses-container__image"
+    src="/assets/images/reports.svg"
+    alt=""
+  />
 </div>
 
 <div class="spinner-container" *ngIf="initialLoading">

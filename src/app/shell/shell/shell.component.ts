@@ -1,15 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/interfaces/user';
-import { VerificationGetService } from 'src/app/services/verification-get.service';
-import { Router } from '@angular/router';
-import { SearchService } from 'src/app/services/search.service';
-import { SearchIndex } from 'algoliasearch/lite';
 import { DOCUMENT } from '@angular/common';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Subject } from 'src/app/interfaces/subject';
 import { SubjectService } from 'src/app/services/subject.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-shell',
@@ -17,80 +13,65 @@ import { SubjectService } from 'src/app/services/subject.service';
   styleUrls: ['./shell.component.scss'],
 })
 export class ShellComponent implements OnInit {
-  index: SearchIndex = this.searchService.index.lessons_date;
-
-  options = [];
-
   user: User;
 
   isShowing = true;
 
-  valueControl: FormControl = new FormControl();
+  dpSubjects: Observable<Subject[]>;
 
-  verificationRequests: string[];
+  mypSubjects: Observable<Subject[]>;
 
-  subjects: Observable<Subject[]>;
+  otherSubjects: Observable<Subject[]>;
 
   constructor(
-    private fb: FormBuilder,
     private authService: AuthService,
-    private verificationGetService: VerificationGetService,
     private subjectService: SubjectService,
-    private router: Router,
-    private searchService: SearchService,
     @Inject(DOCUMENT) private rootDocument: HTMLDocument
   ) {
     this.authService.user$.subscribe((user: User) => {
       this.user = user;
     });
 
-    this.subjects = this.subjectService.getSubjects();
-
-    this.index
-      .search('', {
-        page: 0,
-        hitsPerPage: 5,
-        facetFilters: ['isPublic:true'],
-      })
-      .then((result) => {
-        this.options = result.hits;
-      });
-  }
-
-  ngOnInit(): void {
-    this.valueControl.valueChanges.subscribe((query) => {
-      this.index
-        .search(query, {
-          page: 0,
-          hitsPerPage: 5,
-          facetFilters: ['isPublic:true'],
-        })
-        .then((result) => {
-          this.options = result.hits;
+    this.dpSubjects = this.subjectService.getSubjects().pipe(
+      map((subjects: Subject[]) => {
+        const result: Subject[] = [];
+        subjects.map((subject: Subject) => {
+          if (subject.curriculum === 'DP' && subject.archived === false) {
+            result.push(subject);
+          }
         });
-    });
+        return result;
+      })
+    );
+
+    this.mypSubjects = this.subjectService.getSubjects().pipe(
+      map((subjects: Subject[]) => {
+        const result: Subject[] = [];
+        subjects.map((subject: Subject) => {
+          if (subject.curriculum === 'MYP' && subject.archived === false) {
+            result.push(subject);
+          }
+        });
+        return result;
+      })
+    );
+
+    this.otherSubjects = this.subjectService.getSubjects().pipe(
+      map((subjects: Subject[]) => {
+        const result: Subject[] = [];
+        subjects.map((subject: Subject) => {
+          if (subject.curriculum === 'Other' && subject.archived === false) {
+            result.push(subject);
+          }
+        });
+        return result;
+      })
+    );
   }
+
+  ngOnInit(): void {}
 
   toggleSidenav() {
     this.isShowing = !this.isShowing;
-  }
-
-  routeSearch(searchQuery) {
-    this.valueControl.reset();
-    this.router.navigate(['/'], {
-      queryParams: {
-        searchQuery: searchQuery || null,
-      },
-      queryParamsHandling: 'merge',
-    });
-  }
-
-  directSearch(id) {
-    this.valueControl.reset();
-    this.router.navigate(['/lesson'], {
-      queryParams: {
-        id,
-      },
-    });
   }
 }

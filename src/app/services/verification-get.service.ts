@@ -10,14 +10,46 @@ import { map, switchMap } from 'rxjs/operators';
 export class VerificationGetService {
   constructor(private db: AngularFirestore) {}
 
-  getVerifiedUsers(): Observable<User[]> {
+  getAdministrators(): Observable<User[]> {
+    return this.db
+      .collection<User>(`users`, (ref) =>
+        ref.where('isAdministrator', '==', true)
+      )
+      .valueChanges()
+      .pipe(
+        map((administrators: User[]) => {
+          if (administrators.length) {
+            return administrators;
+          } else {
+            return [];
+          }
+        })
+      );
+  }
+
+  getTeachers(): Observable<User[]> {
     return this.db
       .collection<User>(`users`, (ref) => ref.where('isTeacher', '==', true))
       .valueChanges()
       .pipe(
-        map((verifiedUsers: User[]) => {
-          if (verifiedUsers.length) {
-            return verifiedUsers;
+        map((teachers: User[]) => {
+          if (teachers.length) {
+            return teachers;
+          } else {
+            return [];
+          }
+        })
+      );
+  }
+
+  getDevelopers(): Observable<User[]> {
+    return this.db
+      .collection<User>(`users`, (ref) => ref.where('isDeveloper', '==', true))
+      .valueChanges()
+      .pipe(
+        map((developers: User[]) => {
+          if (developers.length) {
+            return developers;
           } else {
             return [];
           }

@@ -40,11 +40,6 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'about',
-        loadChildren: () =>
-          import('./about/about.module').then((m) => m.AboutModule),
-      },
-      {
         path: 'list',
         loadChildren: () =>
           import('./list/list.module').then((m) => m.ListModule),
@@ -88,6 +83,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('./archived-courses/archived-courses.module').then(
             (m) => m.ArchivedCoursesModule
+          ),
+      },
+      {
+        path: 'contributers',
+        loadChildren: () =>
+          import('./contributers/contributers.module').then(
+            (m) => m.ContributersModule
           ),
       },
     ],
