@@ -6,8 +6,8 @@
     routerLink="/add-subject"
     [queryParams]="{ id: subject?.id }"
     *ngIf="
-      authService.user?.email === 'baron.naoki.g@gmail.com' ||
-      authService.user?.email === 'naokigoto@woodstock.ac.in'
+      authService.user?.isAdministrator === true ||
+      authService.user?.isDeveloper === true
     "
   >
     <mat-icon>edit</mat-icon>
