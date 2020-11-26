@@ -9,6 +9,10 @@
     margin: 0 25px 0 0;
   }
 
+  &__spacer {
+    flex: 1 1;
+  }
+
   &__account-image {
     width: 45px;
     height: 45px;
@@ -36,16 +40,6 @@
     color: #e0e0e0;
     height: 15px;
     width: 15px;
-  }
-}
-
-.search-bar {
-  margin: 0 auto;
-  width: 700px;
-  min-width: 200px;
-  font-size: 12px;
-  &__field {
-    width: 100%;
   }
 }
 

@@ -8,34 +8,7 @@
     <mat-icon>menu</mat-icon>
   </button>
   <a class="toolbar__title" routerLink="/">Leclass</a>
-  <form class="search-bar" (ngSubmit)="routeSearch(valueControl.value)">
-    <mat-form-field class="search-bar__field" appearance="outline">
-      <mat-label>Search</mat-label>
-      <input
-        matInput
-        type="text"
-        [formControl]="valueControl"
-        autocomplete="off"
-        [matAutocomplete]="auto"
-      />
-      <mat-autocomplete
-        #auto="matAutocomplete"
-        (optionSelected)="directSearch($event.option?.value)"
-      >
-        <mat-option *ngFor="let option of options" [value]="option.id">
-          {{ option.title }}
-        </mat-option>
-      </mat-autocomplete>
-      <button
-        mat-button
-        matSuffix
-        mat-icon-button
-        (click)="routeSearch(valueControl.value)"
-      >
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
-  </form>
+  <span class="toolbar__spacer"></span>
   <p
     class="verified-label"
     *ngIf="user?.isTeacher || user?.isAdministrator || user?.isDeveloper"
@@ -64,30 +37,48 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav class="sidenav" #sidenav mode="side" [opened]="isShowing">
     <mat-nav-list>
-      <div mat-subheader>DP subjects</div>
-      <ng-container *ngFor="let subject of subjects | async">
-        <a
-          mat-list-item
-          class="sidenav-item"
-          routerLink="/subject"
-          [queryParams]="{ id: subject.id }"
-          *ngIf="!subject.archived && subject.curriculum === 'DP'"
-        >
-          <span>{{ subject.name }}</span>
-        </a>
+      <ng-container *ngIf="(dpSubjects | async).length">
+        <div mat-subheader>DP subjects</div>
+        <ng-container *ngFor="let dpSubject of dpSubjects | async">
+          <a
+            mat-list-item
+            class="sidenav-item"
+            routerLink="/subject"
+            [queryParams]="{ id: dpSubject.id }"
+          >
+            <span>{{ dpSubject.name }}</span>
+          </a>
+        </ng-container>
       </ng-container>
-      <div mat-subheader>MYP subjects</div>
-      <ng-container *ngFor="let subject of subjects | async">
-        <a
-          mat-list-item
-          class="sidenav-item"
-          routerLink="/subject"
-          [queryParams]="{ id: subject.id }"
-          *ngIf="!subject.archived && subject.curriculum === 'MYP'"
-        >
-          <span>{{ subject.name }}</span>
-        </a>
+
+      <ng-container *ngIf="(mypSubjects | async).length">
+        <div mat-subheader>MYP subjects</div>
+        <ng-container *ngFor="let mypSubject of mypSubjects | async">
+          <a
+            mat-list-item
+            class="sidenav-item"
+            routerLink="/subject"
+            [queryParams]="{ id: mypSubject.id }"
+          >
+            <span>{{ mypSubject.name }}</span>
+          </a>
+        </ng-container>
       </ng-container>
+
+      <ng-container *ngIf="(otherSubjects | async).length">
+        <div mat-subheader>Others</div>
+        <ng-container *ngFor="let otherSubject of otherSubjects | async">
+          <a
+            mat-list-item
+            class="sidenav-item"
+            routerLink="/subject"
+            [queryParams]="{ id: otherSubject.id }"
+          >
+            <span>{{ otherSubject.name }}</span>
+          </a>
+        </ng-container>
+      </ng-container>
+
       <mat-divider></mat-divider>
       <ng-container
         *ngIf="user?.isTeacher || user?.isAdministrator || user?.isDeveloper"
@@ -130,13 +121,13 @@
         <mat-icon class="sidenav-item__icon">archive</mat-icon>
         <span>Archived courses</span>
       </a>
-      <a mat-list-item class="sidenav-item" routerLink="/about">
-        <mat-icon class="sidenav-item__icon">info</mat-icon>
-        <span>About</span>
+      <a mat-list-item class="sidenav-item" routerLink="/contributers">
+        <mat-icon class="sidenav-item__icon">group</mat-icon>
+        <span>Contributers</span>
       </a>
       <a mat-list-item class="sidenav-item" routerLink="/report">
         <mat-icon class="sidenav-item__icon">report</mat-icon>
-        <span>Report</span>
+        <span>Report & Request</span>
       </a>
       <a
         mat-list-item
