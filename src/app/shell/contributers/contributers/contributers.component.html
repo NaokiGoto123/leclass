@@ -1,0 +1,55 @@
+<div class="container" *ngIf="(administrators | async)?.length">
+  <p class="container__title">Administrators:</p>
+  <div class="supporters">
+    <div *ngFor="let administrator of administrators | async" class="supporter">
+      <img
+        class="supporter__image"
+        src="{{ administrator.photoURL }}"
+        routerLink="/account"
+        [queryParams]="{ id: administrator.uid }"
+      />
+      <a
+        class="supporter__name"
+        routerLink="/account"
+        [queryParams]="{ id: administrator.uid }"
+        >{{ administrator.displayName }}</a
+      >
+    </div>
+  </div>
+
+  <p class="container__title">Teachers:</p>
+  <div class="supporters">
+    <div *ngFor="let teacher of teachers | async" class="supporter">
+      <img
+        class="supporter__image"
+        src="{{ teacher.photoURL }}"
+        routerLink="/account"
+        [queryParams]="{ id: teacher.uid }"
+      />
+      <a
+        class="supporter__name"
+        routerLink="/account"
+        [queryParams]="{ id: teacher.uid }"
+        >{{ teacher.displayName }}</a
+      >
+    </div>
+  </div>
+
+  <p class="container__title">Developers:</p>
+  <div class="supporters">
+    <div *ngFor="let developer of developers | async" class="supporter">
+      <img
+        class="supporter__image"
+        src="{{ developer.photoURL }}"
+        routerLink="/account"
+        [queryParams]="{ id: developer.uid }"
+      />
+      <a
+        class="supporter__name"
+        routerLink="/account"
+        [queryParams]="{ id: developer.uid }"
+        >{{ developer.displayName }}</a
+      >
+    </div>
+  </div>
+</div>

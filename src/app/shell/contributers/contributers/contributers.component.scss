@@ -1,0 +1,37 @@
+.container {
+  width: 80%;
+  margin: 0 auto;
+  &__title {
+    font-size: 32px;
+  }
+}
+
+.supporter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 70px;
+  margin: 0 0 20px 0;
+  &__image {
+    height: 100%;
+    border-radius: 50%;
+    margin: 0 20px 0 0;
+    cursor: pointer;
+  }
+  &__image:hover {
+    border-radius: 50%;
+    border: 1px solid white;
+    box-sizing: border-box;
+  }
+  &__image:focus {
+    outline: unset;
+  }
+  &__name {
+    font-size: 24px;
+    text-decoration: none;
+    color: white;
+  }
+  &__name:hover {
+    text-decoration: underline;
+  }
+}
