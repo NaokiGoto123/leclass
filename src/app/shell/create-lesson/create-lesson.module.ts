@@ -8,9 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { MatSelectModule } from '@angular/material/select';
-import { ImageCropperModule } from 'ngx-image-cropper';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -31,9 +29,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatFormFieldModule,
     MatButtonModule,
     MatSlideToggleModule,
-    MaterialFileInputModule,
     MatSelectModule,
-    ImageCropperModule,
     MatDialogModule,
     MatTooltipModule,
     MatSnackBarModule,

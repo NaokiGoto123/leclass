@@ -11,6 +11,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { MaterialFileInputModule } from 'ngx-material-file-input';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [AddSubjectComponent],
@@ -26,6 +29,9 @@ import { MatIconModule } from '@angular/material/icon';
     MatSelectModule,
     MatToolbarModule,
     MatIconModule,
+    ImageCropperModule,
+    MaterialFileInputModule,
+    MatSnackBarModule,
   ],
 })
 export class AddSubjectModule {}

@@ -2,7 +2,7 @@
   <img
     mat-card-image
     class="card__image"
-    src="{{ lesson?.thumbnail }}"
+    src="{{ (subject | async)?.photoURL }}"
     routerLink="/lesson"
     [queryParams]="{ id: lesson?.id }"
     alt="thumbnail"

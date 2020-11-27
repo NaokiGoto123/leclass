@@ -4,4 +4,5 @@ export interface Subject {
   responsibleEmail: string;
   curriculum: 'DP' | 'MYP' | 'Other';
   archived: boolean;
+  photoURL: string;
 }

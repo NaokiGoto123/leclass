@@ -1,8 +1,12 @@
 import { Location } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { switchMap, take } from 'rxjs/operators';
 import { Subject } from 'src/app/interfaces/subject';
 import { SubjectService } from 'src/app/services/subject.service';
@@ -13,6 +17,8 @@ import { SubjectService } from 'src/app/services/subject.service';
   styleUrls: ['./add-subject.component.scss'],
 })
 export class AddSubjectComponent implements OnInit {
+  id = this.db.createId();
+
   subject: Subject;
 
   form = this.fb.group({
@@ -22,6 +28,9 @@ export class AddSubjectComponent implements OnInit {
     archived: [false],
   });
 
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+
   constructor(
     private fb: FormBuilder,
     private subjectService: SubjectService,
@@ -29,7 +38,10 @@ export class AddSubjectComponent implements OnInit {
     private titleService: Title,
     private meta: Meta,
     private activatedRoute: ActivatedRoute,
-    public locationService: Location
+    public locationService: Location,
+    private storage: AngularFireStorage,
+    private db: AngularFirestore,
+    private snackBar: MatSnackBar
   ) {
     this.titleService.setTitle('Add subject | Leclass');
 
@@ -69,27 +81,51 @@ export class AddSubjectComponent implements OnInit {
     }
   }
 
-  addSubject() {
-    if (this.subject) {
-      this.updateSubject();
-    } else {
-      this.subjectService.addSubject({
-        name: this.form.value.name,
-        responsibleEmail: this.form.value.responsibleEmail,
-        curriculum: this.form.value.curriculum,
-      });
-      this.router.navigateByUrl('/');
-    }
+  fileChangeEvent(event: any): void {
+    this.imageChangedEvent = event;
+  }
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64;
   }
 
-  updateSubject() {
-    this.subjectService.updateSubject({
+  private async upload(base64: string): Promise<string> {
+    const time: number = new Date().getTime();
+    const ref = this.storage.ref(`subjects/${this.id}/${time}`);
+    const result = await ref.putString(base64, 'data_url');
+    return result.ref.getDownloadURL();
+  }
+
+  private async addSubject() {
+    const photoURL = await this.upload(this.croppedImage);
+    this.subjectService.addSubject({
+      id: this.id,
       name: this.form.value.name,
+      responsibleEmail: this.form.value.responsibleEmail,
+      curriculum: this.form.value.curriculum,
+      photoURL,
+    });
+  }
+
+  private updateSubject() {
+    this.subjectService.updateSubject({
       id: this.subject.id,
+      name: this.form.value.name,
       responsibleEmail: this.form.value.responsibleEmail,
       curriculum: this.form.value.curriculum,
       archived: this.form.value.archived,
     });
+  }
+
+  async submit() {
+    this.snackBar.open('Saving in progress', null, {
+      duration: 10000000,
+    });
     this.router.navigateByUrl('/');
+    if (this.subject) {
+      await this.updateSubject();
+    } else {
+      await this.addSubject();
+    }
+    this.snackBar.open('Successfully saved!');
   }
 }

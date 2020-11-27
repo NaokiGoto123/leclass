@@ -37,7 +37,7 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav class="sidenav" #sidenav mode="side" [opened]="isShowing">
     <mat-nav-list>
-      <ng-container *ngIf="(dpSubjects | async).length">
+      <ng-container *ngIf="(dpSubjects | async)?.length">
         <div mat-subheader>DP subjects</div>
         <ng-container *ngFor="let dpSubject of dpSubjects | async">
           <a
@@ -51,7 +51,7 @@
         </ng-container>
       </ng-container>
 
-      <ng-container *ngIf="(mypSubjects | async).length">
+      <ng-container *ngIf="(mypSubjects | async)?.length">
         <div mat-subheader>MYP subjects</div>
         <ng-container *ngFor="let mypSubject of mypSubjects | async">
           <a
@@ -65,7 +65,7 @@
         </ng-container>
       </ng-container>
 
-      <ng-container *ngIf="(otherSubjects | async).length">
+      <ng-container *ngIf="(otherSubjects | async)?.length">
         <div mat-subheader>Others</div>
         <ng-container *ngFor="let otherSubject of otherSubjects | async">
           <a

@@ -14,6 +14,32 @@
     <input matInput type="text" formControlName="name" autocomplete="off" />
   </mat-form-field>
 
+  <ng-container *ngIf="!subject">
+    <mat-form-field class="form__field" appearance="outline">
+      <mat-label>Upload a JPG image</mat-label>
+      <ngx-mat-file-input
+        (change)="fileChangeEvent($event)"
+        required
+      ></ngx-mat-file-input>
+    </mat-form-field>
+
+    <div class="cropper-container" *ngIf="croppedImage || imageChangedEvent">
+      <ng-container *ngIf="imageChangedEvent">
+        <image-cropper
+          class="cropper-container__cropper"
+          [imageChangedEvent]="imageChangedEvent"
+          [maintainAspectRatio]="true"
+          [aspectRatio]="2 / 1"
+          format="png"
+          (imageCropped)="imageCropped($event)"
+        >
+        </image-cropper>
+      </ng-container>
+
+      <img class="cropper-container__cropped-image" [src]="croppedImage" />
+    </div>
+  </ng-container>
+
   <mat-form-field class="form__field" appearance="outline">
     <mat-label>Reponsible teacher's email</mat-label>
     <input
@@ -37,5 +63,14 @@
     this.form.value.archived ? 'Archived' : 'Unarchived'
   }}</mat-slide-toggle>
 
-  <button mat-raised-button (click)="addSubject()">Save</button>
+  <button
+    mat-raised-button
+    [disabled]="
+      (form.pristine || !form.valid || !croppedImage) &&
+      (form.pristine || !form.valid || !subject?.photoURL)
+    "
+    (click)="submit()"
+  >
+    Save
+  </button>
 </form>

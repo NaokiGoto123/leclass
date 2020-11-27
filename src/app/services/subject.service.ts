@@ -9,18 +9,18 @@ import { Subject } from '../interfaces/subject';
 export class SubjectService {
   constructor(private db: AngularFirestore) {}
 
-  addSubject(subject: Omit<Subject, 'id' | 'archived'>) {
-    const id = this.db.createId();
-    this.db.doc(`subjects/${id}`).set({
-      id,
+  addSubject(subject: Omit<Subject, 'archived'>) {
+    this.db.doc<Subject>(`subjects/${subject.id}`).set({
+      id: subject.id,
       name: subject.name,
       responsibleEmail: subject.responsibleEmail,
       curriculum: subject.curriculum,
       archived: false,
+      photoURL: subject.photoURL,
     });
   }
 
-  updateSubject(subject: Subject) {
+  updateSubject(subject: Omit<Subject, 'photoURL'>) {
     this.db.doc(`subjects/${subject.id}`).set({
       id: subject.id,
       name: subject.name,

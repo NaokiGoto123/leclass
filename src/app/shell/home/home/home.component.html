@@ -1,5 +1,5 @@
 <mat-list>
-  <ng-container *ngIf="(dpSubjects | async).length">
+  <ng-container *ngIf="(dpSubjects | async)?.length">
     <div mat-subheader>DP subjects</div>
     <ng-container *ngFor="let dpSubject of dpSubjects | async">
       <mat-list-item
@@ -17,10 +17,10 @@
   </ng-container>
 
   <mat-divider
-    *ngIf="(dpSubjects | async).length && (mypSubjects | async).length"
+    *ngIf="(dpSubjects | async)?.length && (mypSubjects | async)?.length"
   ></mat-divider>
 
-  <ng-container *ngIf="(mypSubjects | async).length">
+  <ng-container *ngIf="(mypSubjects | async)?.length">
     <div mat-subheader>MYP subjects</div>
     <ng-container *ngFor="let mypSubject of mypSubjects | async">
       <mat-list-item
@@ -38,10 +38,10 @@
   </ng-container>
 
   <mat-divider
-    *ngIf="(mypSubjects | async).length && (otherSubjects | async).length"
+    *ngIf="(mypSubjects | async)?.length && (otherSubjects | async)?.length"
   ></mat-divider>
 
-  <ng-container *ngIf="(otherSubjects | async).length">
+  <ng-container *ngIf="(otherSubjects | async)?.length">
     <div mat-subheader>Others</div>
     <ng-container *ngFor="let otherSubject of otherSubjects | async">
       <mat-list-item
