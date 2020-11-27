@@ -7,6 +7,8 @@ import { take } from 'rxjs/operators';
 import { ListService } from 'src/app/services/list.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Observable } from 'rxjs';
+import { Subject } from 'src/app/interfaces/subject';
+import { SubjectService } from 'src/app/services/subject.service';
 
 @Component({
   selector: 'app-lesson-card',
@@ -15,6 +17,8 @@ import { Observable } from 'rxjs';
 })
 export class LessonCardComponent implements OnInit {
   @Input() lesson: Lesson;
+
+  subject: Observable<Subject>;
 
   creater: User;
 
@@ -25,7 +29,8 @@ export class LessonCardComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private userService: UserService,
-    private listService: ListService
+    private listService: ListService,
+    private subjectService: SubjectService
   ) {}
 
   ngOnInit(): void {
@@ -44,6 +49,8 @@ export class LessonCardComponent implements OnInit {
     this.listItemIds = this.listService.getListItemIds(
       this.authService.user.uid
     );
+
+    this.subject = this.subjectService.getSubject(this.lesson?.subjectId);
   }
 
   addToList() {
