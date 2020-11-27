@@ -13,8 +13,10 @@ export class LessonService {
     private fns: AngularFireFunctions
   ) {}
 
-  createLesson(lesson: Omit<Lesson, 'date'>) {
-    this.db.doc(`lessons/${lesson.id}`).set({
+  createLesson(lesson: Omit<Lesson, 'id' | 'date'>) {
+    const id = this.db.createId();
+    this.db.doc(`lessons/${id}`).set({
+      id,
       ...lesson,
       date: firestore.Timestamp.now(),
     });
