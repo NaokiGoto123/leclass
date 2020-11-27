@@ -1,10 +1,7 @@
 import { Component, OnInit, HostListener, NgZone } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { LessonService } from 'src/app/services/lesson.service';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthService } from 'src/app/services/auth.service';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { AngularFireStorage } from '@angular/fire/storage';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LessonGetService } from 'src/app/services/lesson-get.service';
 import { Lesson } from 'src/app/interfaces/lesson';
@@ -22,7 +19,6 @@ import { Location } from '@angular/common';
   styleUrls: ['./create-lesson.component.scss'],
 })
 export class CreateLessonComponent implements OnInit {
-  uniqueId = this.db.createId();
   lesson: Lesson;
   titleMaxLength = 70;
   form = this.fb.group({
@@ -39,13 +35,8 @@ export class CreateLessonComponent implements OnInit {
   isComplete: boolean;
   subjects: Subject[] = [];
 
-  imageChangedEvent: any = '';
-  croppedImage: any = '';
-
   constructor(
     private fb: FormBuilder,
-    private db: AngularFirestore,
-    private storage: AngularFireStorage,
     private authService: AuthService,
     private lessonService: LessonService,
     private router: Router,
@@ -92,7 +83,6 @@ export class CreateLessonComponent implements OnInit {
       .subscribe((lesson: Lesson) => {
         if (lesson) {
           this.form.patchValue(lesson);
-          this.croppedImage = lesson.thumbnail;
           this.lesson = lesson;
         }
       });
@@ -112,36 +102,21 @@ export class CreateLessonComponent implements OnInit {
     return this.form.get('title');
   }
 
-  fileChangeEvent(event: any): void {
-    this.imageChangedEvent = event;
-  }
-  imageCropped(event: ImageCroppedEvent) {
-    this.croppedImage = event.base64;
-  }
-  loadImageFailed() {
-    this.snackBar.open('Failed to load image');
-  }
-
   async submit() {
-    this.snackBar.open('Saving in process');
-
+    this.isComplete = true;
+    this.snackBar.open('Saving in progress');
+    this.router.navigateByUrl('/');
     if (this.lesson) {
       await this.updateLesson();
     } else {
       await this.createLesson();
     }
-
-    this.isComplete = true;
-    this.snackBar.open('Successfully saved');
-    this.router.navigateByUrl('/');
+    this.snackBar.open('Successfully saved!');
   }
 
   private async createLesson() {
-    const photoURL = await this.upload(this.croppedImage);
     this.lessonService.createLesson({
-      id: this.uniqueId,
       title: this.form.value.title,
-      thumbnail: photoURL,
       content: this.form.value.content,
       loomLink: this.form.value.loomLink,
       createrId: this.authService.user.uid,
@@ -161,13 +136,6 @@ export class CreateLessonComponent implements OnInit {
       number: this.form.value.number,
       isPublic: this.form.value.isPublic,
     });
-  }
-
-  async upload(base64: string): Promise<string> {
-    const time: number = new Date().getTime();
-    const ref = this.storage.ref(`lessons/${this.uniqueId}/images/${time}`);
-    const result = await ref.putString(base64, 'data_url');
-    return result.ref.getDownloadURL();
   }
 
   openDialog() {

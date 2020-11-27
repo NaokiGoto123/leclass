@@ -8,8 +8,6 @@
   <p class="container__create-title" *ngIf="!lesson">Create lesson</p>
   <p class="container__update-title" *ngIf="lesson">Update lesson</p>
   <form class="form" [formGroup]="form">
-    <img class="thumbnail" *ngIf="lesson" [src]="croppedImage" />
-
     <mat-form-field class="form__field" appearance="outline">
       <mat-label>Title</mat-label>
       <input
@@ -56,33 +54,6 @@
         autocomplete="off"
       />
     </mat-form-field>
-
-    <ng-container *ngIf="!lesson">
-      <mat-form-field class="form__field" appearance="outline">
-        <mat-label>Upload a thumbnail</mat-label>
-        <ngx-mat-file-input
-          (change)="fileChangeEvent($event)"
-          required
-        ></ngx-mat-file-input>
-      </mat-form-field>
-
-      <div class="cropper-container" *ngIf="croppedImage || imageChangedEvent">
-        <ng-container *ngIf="imageChangedEvent">
-          <image-cropper
-            class="cropper-container__cropper"
-            [imageChangedEvent]="imageChangedEvent"
-            [maintainAspectRatio]="true"
-            [aspectRatio]="2 / 1"
-            format="png"
-            (imageCropped)="imageCropped($event)"
-            (loadImageFailed)="loadImageFailed()"
-          >
-          </image-cropper>
-        </ng-container>
-
-        <img class="cropper-container__cropped-image" [src]="croppedImage" />
-      </div>
-    </ng-container>
 
     <div class="editor-container">
       <quill-editor

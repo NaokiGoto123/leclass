@@ -27,34 +27,8 @@
   }
 }
 
-.thumbnail {
-  width: 70%;
-  margin: 0 auto 20px auto;
-}
-
-.upload-video-button {
-  margin: 0 0 20px 0;
-}
-
 .uploading-spinner {
   margin: 0 auto;
-}
-
-.cropper-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  &__cropper {
-    width: 50%;
-    margin: 0 0 20px 0;
-  }
-  &__cropped-image {
-    width: 50%;
-    margin: 0 0 20px 0;
-    border: 0.1px solid white;
-  }
 }
 
 .editor-container {
