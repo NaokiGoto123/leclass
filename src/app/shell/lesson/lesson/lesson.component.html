@@ -59,15 +59,15 @@
   <div class="creater">
     <img
       class="creater__account-image"
-      src="{{ creater?.photoURL }}"
+      src="{{ (creater | async)?.photoURL }}"
       routerLink="/account"
-      [queryParams]="{ id: creater?.uid }"
+      [queryParams]="{ id: (creater | async)?.uid }"
     />
     <a
       class="creater__name"
       routerLink="/account"
-      [queryParams]="{ id: creater?.uid }"
-      >{{ creater?.displayName }}</a
+      [queryParams]="{ id: (creater | async)?.uid }"
+      >{{ (creater | async)?.displayName }}</a
     >
   </div>
   <mat-divider></mat-divider>
