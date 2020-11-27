@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ListService } from 'src/app/services/list.service';
 import { switchMap, take, map } from 'rxjs/operators';
 import { Title, Meta } from '@angular/platform-browser';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -24,7 +24,7 @@ export class LessonComponent implements OnInit, OnDestroy {
 
   embededLink: SafeResourceUrl;
 
-  creater: User;
+  creater: Observable<User>;
 
   listItemIds: string[];
 
@@ -53,15 +53,13 @@ export class LessonComponent implements OnInit, OnDestroy {
             this.router.navigateByUrl('404');
           }
           this.lesson = lesson;
-          this.embededLink = this.domSanitizer.bypassSecurityTrustResourceUrl(
-            'https://www.loom.com/embed/' +
-              lesson?.loomLink.match('(?<=share/).*$')[0]
-          );
-          this.userService
-            .getUser(lesson.createrId)
-            .subscribe((creater: User) => {
-              this.creater = creater;
-            });
+          if (lesson?.loomLink) {
+            this.embededLink = this.domSanitizer.bypassSecurityTrustResourceUrl(
+              'https://www.loom.com/embed/' +
+                lesson?.loomLink.match('(?<=share/).*$')[0]
+            );
+          }
+          this.creater = this.userService.getUser(lesson.createrId);
           return lesson;
         })
       )
